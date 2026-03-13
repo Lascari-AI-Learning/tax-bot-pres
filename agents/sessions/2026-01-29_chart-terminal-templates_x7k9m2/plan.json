@@ -1,0 +1,651 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-01-29_chart-terminal-templates_x7k9m2",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-01-29T12:10:00Z",
+  "updated_at": "2026-01-29T12:20:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Chart component + full-featured chart slide with v-click progression",
+      "goal": "Install chart.js/vue-chartjs deps, copy Chart.vue into components/, create the chart slide template with v-click progression through bar → line → doughnut chart types, create template docs, and verify the slide renders in dev server. Full chart pipeline in one checkpoint.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "to_add/jason_to_add/Chart.vue", "status": "exists", "description": "Pre-built Chart.js component supporting bar/line/doughnut" },
+            { "path": "to_add/jason_to_add/README.md", "status": "exists", "description": "Component documentation with props and usage" },
+            { "path": "package.json", "status": "exists", "description": "Project dependencies (no chart.js yet)" }
+          ]
+        },
+        "ending": {
+          "files": [
+            { "path": "components/Chart.vue", "status": "new", "description": "Chart component in auto-import location" },
+            { "path": "slide-templates/chart/slide.md", "status": "new", "description": "Chart template with v-click progression through 3 chart types" },
+            { "path": "slide-templates/chart/description.md", "status": "new", "description": "Chart template documentation" },
+            { "path": "package.json", "status": "modified", "description": "Added chart.js ^4.5.1 and vue-chartjs ^5.3.3" }
+          ]
+        }
+      },
+      "testing_strategy": {
+        "approach": "Dev server visual verification",
+        "verification_steps": [
+          "Run pnpm install to install chart.js and vue-chartjs",
+          "Run npm run dev and verify no build errors",
+          "Navigate to chart demo slide and verify bar chart renders",
+          "Click through to verify line and doughnut charts appear via v-click"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Install dependencies and integrate Chart component",
+          "objective": "Add chart.js and vue-chartjs to package.json dependencies, run install, and copy Chart.vue from to_add/jason_to_add/ into components/ where Slidev auto-imports it.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Add chart.js and vue-chartjs to package.json",
+              "file_path": "package.json",
+              "description": "Add chart.js ^4.5.1 and vue-chartjs ^5.3.3 as project dependencies so the Chart component can import from them. These are runtime deps needed for rendering charts.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "package.json",
+                    "lines": "all",
+                    "purpose": "Understand current dependency structure to add new deps correctly"
+                  },
+                  {
+                    "file": "to_add/jason_to_add/Chart.vue",
+                    "lines": "1-16",
+                    "purpose": "Verify the exact imports needed (chart.js and vue-chartjs)"
+                  }
+                ],
+                "related_files": ["pnpm-lock.yaml"]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.1.1",
+                  "command": "UPDATE package.json: ADD 'chart.js': '^4.5.1' and 'vue-chartjs': '^5.3.3' to dependencies object",
+                  "file": "package.json",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.1.1.2",
+                  "command": "RUN pnpm install to install the new dependencies",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.1.2",
+              "title": "Copy Chart.vue into components/",
+              "file_path": "components/Chart.vue",
+              "description": "Copy the pre-built Chart.vue from to_add/jason_to_add/ into components/ where Slidev auto-imports it. The component is ready to use as-is — no modifications needed.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "to_add/jason_to_add/Chart.vue",
+                    "lines": "all",
+                    "purpose": "The source component to copy"
+                  },
+                  {
+                    "file": "to_add/jason_to_add/README.md",
+                    "lines": "150-225",
+                    "purpose": "Understand Chart component props and usage"
+                  }
+                ],
+                "related_files": ["components/"]
+              },
+              "depends_on": ["1.1.1"],
+              "actions": [
+                {
+                  "id": "1.1.2.1",
+                  "command": "CREATE components/Chart.vue: MIRROR to_add/jason_to_add/Chart.vue exactly (copy file contents)",
+                  "file": "components/Chart.vue",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "Create chart slide template with v-click progression",
+          "objective": "Create slide-templates/chart/ with slide.md (Handlebars template showing 3 chart types via v-click: bar → line → doughnut) and description.md (usage documentation).",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.2.1",
+              "title": "Create chart template slide.md with v-click chart type progression",
+              "file_path": "slide-templates/chart/slide.md",
+              "description": "Create a Handlebars template that renders a slide with a title and three Chart components appearing via v-click: click 1 shows a bar chart, click 2 shows a line chart, click 3 shows a doughnut chart. Each chart uses the same labels/datasets but different 'type' prop. Template variables: title (slide heading), labels (shared x-axis labels), datasets (shared data), height (optional chart height). Use $clicks-based v-if for progressive reveal, similar to column-cards template pattern.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/column-cards/slide.md",
+                    "lines": "all",
+                    "purpose": "Reference for Handlebars template structure with v-click progression pattern"
+                  },
+                  {
+                    "file": "to_add/jason_to_add/Chart.vue",
+                    "lines": "42-48",
+                    "purpose": "Chart component props: type, labels, datasets, title, height"
+                  },
+                  {
+                    "file": "to_add/jason_to_add/README.md",
+                    "lines": "150-225",
+                    "purpose": "Chart component usage examples"
+                  }
+                ],
+                "related_files": ["components/Chart.vue"]
+              },
+              "depends_on": ["1.1.2"],
+              "actions": [
+                {
+                  "id": "1.2.1.1",
+                  "command": "CREATE slide-templates/chart/slide.md: Slidev frontmatter (theme: ../, layout: default, clicks: 3) + title div + grid of 3 Chart components with v-if='$clicks >= N' for bar (click 1), line (click 2), doughnut (click 3). USE Handlebars {{title}}, {{labels}}, {{datasets}} variables. MIRROR column-cards/slide.md pattern for v-click structure.",
+                  "file": "slide-templates/chart/slide.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.2.2",
+              "title": "Create chart template description.md",
+              "file_path": "slide-templates/chart/description.md",
+              "description": "Create documentation for the chart template following the same structure as column-cards/description.md. Include: Purpose, When to Use, Template Variables table (title, labels, datasets, height), Usage Example (npm run generate:slide command), Visual Features, and Notes sections.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/column-cards/description.md",
+                    "lines": "all",
+                    "purpose": "Reference for description.md structure and format"
+                  },
+                  {
+                    "file": "slide-templates/chart/slide.md",
+                    "lines": "all",
+                    "purpose": "The template this doc describes — need to know the variables used"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["1.2.1"],
+              "actions": [
+                {
+                  "id": "1.2.2.1",
+                  "command": "CREATE slide-templates/chart/description.md: MIRROR column-cards/description.md structure. Include Purpose (data visualization with v-click chart type progression), When to Use, Template Variables (title, labels, datasets, height), Usage Example with npm run generate:slide command, Visual Features, Notes.",
+                  "file": "slide-templates/chart/description.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "title": "Generate and verify demo chart slide",
+          "objective": "Generate a demo chart slide using the template, rebuild the slide index, and verify the chart renders correctly with v-click progression in the dev server.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.3.1",
+              "title": "Generate demo chart slide and rebuild index",
+              "file_path": null,
+              "description": "Run npm run generate:slide with the chart template to create a demo slide under slides/ (e.g., slides/09-chart-demo/index.md). Then run npm run build:slides to regenerate the main index.md. Finally run npm run dev and verify the chart slide renders all three chart types with v-click progression.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/chart/description.md",
+                    "lines": "all",
+                    "purpose": "Get the generate:slide command syntax and required variables"
+                  },
+                  {
+                    "file": "slide-templates/chart/slide.md",
+                    "lines": "all",
+                    "purpose": "Understand what variables need to be passed"
+                  }
+                ],
+                "related_files": ["scripts/generate-slide.ts", "scripts/build.ts"]
+              },
+              "depends_on": ["1.2.2"],
+              "actions": [
+                {
+                  "id": "1.3.1.1",
+                  "command": "RUN npm run generate:slide -- --template=chart --name=09-chart-demo with appropriate variable values for title, labels, and datasets",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.1.2",
+                  "command": "RUN npm run build:slides to regenerate index.md with the new slide",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.1.3",
+                  "command": "RUN npm run dev and VERIFY chart slide renders bar/line/doughnut charts with v-click progression",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Terminal component with macOS chrome + working terminal slide end-to-end",
+      "goal": "Copy Terminal.vue into components/, update the header from VS Code style to macOS traffic-light window chrome (red/yellow/green dots), create the terminal slide template (slide.md + description.md), and generate a demo slide that renders static terminal output with syntax highlighting. Proves the terminal pipeline works end-to-end.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "to_add/jason_to_add/Terminal.vue", "status": "exists", "description": "Pre-built Terminal component with VS Code-style header" },
+            { "path": "to_add/jason_to_add/README.md", "status": "exists", "description": "Component documentation" }
+          ]
+        },
+        "ending": {
+          "files": [
+            { "path": "components/Terminal.vue", "status": "new", "description": "Terminal component with macOS traffic-light window chrome" },
+            { "path": "slide-templates/terminal/slide.md", "status": "new", "description": "Terminal slide template for static commands" },
+            { "path": "slide-templates/terminal/description.md", "status": "new", "description": "Terminal template documentation" }
+          ]
+        }
+      },
+      "testing_strategy": {
+        "approach": "Dev server visual verification",
+        "verification_steps": [
+          "Run npm run dev and verify terminal slide renders",
+          "Verify macOS traffic light dots (red/yellow/green) appear in header",
+          "Verify syntax highlighting works for bash commands",
+          "Verify copy-to-clipboard works"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Integrate Terminal component with macOS window chrome",
+          "objective": "Copy Terminal.vue from to_add/jason_to_add/ into components/, then update the header from VS Code style to macOS traffic-light window chrome (red/yellow/green dots + centered title). Keep all existing functionality intact.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Copy Terminal.vue and update to macOS window chrome",
+              "file_path": "components/Terminal.vue",
+              "description": "Copy Terminal.vue from to_add/jason_to_add/ into components/. Then update the terminal header section: replace the VS Code-style header (plain text label with uppercase styling) with macOS-style window chrome featuring three traffic-light dots on the left (red #FF5F56, yellow #FFBD2E, green #27C93F as small circles) and the title centered in the header bar. Keep all other functionality intact: Shiki syntax highlighting, copy-to-clipboard, multi-line support, shell type support.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "to_add/jason_to_add/Terminal.vue",
+                    "lines": "all",
+                    "purpose": "The source component — understand full structure, especially the header section (lines 163-169) that needs to be replaced with macOS chrome"
+                  },
+                  {
+                    "file": "to_add/jason_to_add/README.md",
+                    "lines": "299-358",
+                    "purpose": "Terminal component props and features documentation"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.1.1.1",
+                  "command": "CREATE components/Terminal.vue: MIRROR to_add/jason_to_add/Terminal.vue as starting point",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "2.1.1.2",
+                  "command": "UPDATE components/Terminal.vue: REPLACE the Terminal Header div (VS Code-style with text-xs font-bold uppercase) with macOS window chrome: a flex container with 3 traffic-light circle divs (w-3 h-3 rounded-full) colored #FF5F56 (red), #FFBD2E (yellow), #27C93F (green) on the left, and centered title text. Keep the same overall header styling (px-4 py-2, border-b, bg-gray-50/dark bg).",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Create terminal slide template",
+          "objective": "Create slide-templates/terminal/ with slide.md (Handlebars template for displaying terminal commands with output) and description.md (usage documentation with all variables and examples).",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.2.1",
+              "title": "Create terminal template slide.md",
+              "file_path": "slide-templates/terminal/slide.md",
+              "description": "Create a Handlebars template that renders a slide with a title and a Terminal component. Template variables: title (slide heading), terminal_title (terminal window title), lines (JSON array of {command, output} objects), shell (bash/zsh/powershell/cmd, default bash), prompt (default $), height (optional). The template should render the Terminal component with :lines bound to the lines data.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/column-cards/slide.md",
+                    "lines": "all",
+                    "purpose": "Reference for Handlebars template structure and frontmatter pattern"
+                  },
+                  {
+                    "file": "components/Terminal.vue",
+                    "lines": "11-24",
+                    "purpose": "Terminal component props to know what to bind in template"
+                  }
+                ],
+                "related_files": ["components/Terminal.vue"]
+              },
+              "depends_on": ["2.1.1"],
+              "actions": [
+                {
+                  "id": "2.2.1.1",
+                  "command": "CREATE slide-templates/terminal/slide.md: Slidev frontmatter (theme: ../, layout: default) + title div + Terminal component with :lines, :title, :shell, :prompt, :height props bound to Handlebars variables. USE column-cards/slide.md as structural reference.",
+                  "file": "slide-templates/terminal/slide.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.2.2",
+              "title": "Create terminal template description.md",
+              "file_path": "slide-templates/terminal/description.md",
+              "description": "Create documentation for the terminal template following column-cards/description.md structure. Include: Purpose, When to Use, Template Variables table (title, terminal_title, lines, shell, prompt, height), Lines Structure (command, output, prompt fields), Usage Example, Visual Features (macOS chrome, syntax highlighting, copy-to-clipboard), Notes.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/column-cards/description.md",
+                    "lines": "all",
+                    "purpose": "Reference for description.md structure and format"
+                  },
+                  {
+                    "file": "slide-templates/terminal/slide.md",
+                    "lines": "all",
+                    "purpose": "The template this doc describes"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["2.2.1"],
+              "actions": [
+                {
+                  "id": "2.2.2.1",
+                  "command": "CREATE slide-templates/terminal/description.md: MIRROR column-cards/description.md structure. Include Purpose (terminal/CLI output display), When to Use, Template Variables, Lines Structure, Usage Example with npm run generate:slide command, Visual Features (macOS chrome, Shiki highlighting, copy), Notes.",
+                  "file": "slide-templates/terminal/description.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "title": "Generate and verify demo terminal slide",
+          "objective": "Generate a demo terminal slide using the template, rebuild the slide index, and verify the terminal renders correctly with macOS chrome and syntax highlighting in the dev server.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.3.1",
+              "title": "Generate demo terminal slide and verify",
+              "file_path": null,
+              "description": "Run npm run generate:slide with the terminal template to create a demo slide under slides/ (e.g., slides/10-terminal-demo/index.md). Then run npm run build:slides. Finally run npm run dev and verify: macOS traffic lights visible, commands syntax-highlighted, copy button works on hover.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/terminal/description.md",
+                    "lines": "all",
+                    "purpose": "Get the generate:slide command syntax and required variables"
+                  },
+                  {
+                    "file": "slide-templates/terminal/slide.md",
+                    "lines": "all",
+                    "purpose": "Understand what variables need to be passed"
+                  }
+                ],
+                "related_files": ["scripts/generate-slide.ts", "scripts/build.ts"]
+              },
+              "depends_on": ["2.2.2"],
+              "actions": [
+                {
+                  "id": "2.3.1.1",
+                  "command": "RUN npm run generate:slide -- --template=terminal --name=10-terminal-demo with sample commands (e.g., npm install, npm run dev with outputs)",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "2.3.1.2",
+                  "command": "RUN npm run build:slides to regenerate index.md",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "2.3.1.3",
+                  "command": "RUN npm run dev and VERIFY terminal slide renders with macOS chrome, syntax highlighting, and copy-to-clipboard",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Terminal typing animation + v-click per command",
+      "goal": "Add animated typing mode to Terminal.vue: new 'animated' boolean prop. When animated=true, v-click triggers each command to type character-by-character (~50ms/char), brief pause (~300ms), then output appears instantly. Blinking cursor visible during typing. Update terminal slide template to support animated mode. Both static and animated modes work correctly.",
+      "prerequisites": [2],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "components/Terminal.vue", "status": "exists", "description": "Static terminal with macOS chrome from CP2" },
+            { "path": "slide-templates/terminal/slide.md", "status": "exists", "description": "Terminal template from CP2" }
+          ]
+        },
+        "ending": {
+          "files": [
+            { "path": "components/Terminal.vue", "status": "modified", "description": "Terminal with animated typing mode (animated prop)" },
+            { "path": "slide-templates/terminal/slide.md", "status": "modified", "description": "Template supporting animated variable" }
+          ]
+        }
+      },
+      "testing_strategy": {
+        "approach": "Dev server visual verification",
+        "verification_steps": [
+          "Run npm run dev and navigate to terminal demo slide",
+          "Verify v-click triggers typing animation for each command",
+          "Verify blinking cursor appears during typing",
+          "Verify output appears after typing animation completes",
+          "Verify static mode still works without animated prop"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Add animated typing mode to Terminal.vue",
+          "objective": "Add 'animated' boolean prop to Terminal.vue. When animated=true, each command types character-by-character with blinking cursor, then output appears after a brief pause. v-click controls progression between commands.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Add animated prop and typing animation logic to Terminal.vue",
+              "file_path": "components/Terminal.vue",
+              "description": "Add 'animated' boolean prop (default false) to Terminal.vue. When animated=true, implement typing animation: (1) Each terminal line is hidden until activated (via internal state, triggered by v-click or prop change). (2) When a line activates: command text types character-by-character at ~50ms/char using setInterval. (3) A blinking cursor (CSS @keyframes, thin vertical bar) appears at the current typing position. (4) After command finishes typing: ~300ms pause, then output appears instantly. (5) Cursor moves to next line's prompt position. When animated=false: existing static rendering behavior is completely unchanged. Implementation approach: add reactive state (visibleLines count, currentCharIndex, isTyping, showOutput map), typing functions using setInterval, and conditional template rendering based on animated mode.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/Terminal.vue",
+                    "lines": "all",
+                    "purpose": "The current Terminal component — understand full structure, props, template, and existing rendering logic to add animation alongside it"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "3.1.1.1",
+                  "command": "UPDATE components/Terminal.vue: ADD prop 'animated' Boolean with default false to the defineProps",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.2",
+                  "command": "UPDATE components/Terminal.vue: ADD reactive state refs for animation: visibleLines (number, starts at 0), currentCharIndex (number), isTyping (boolean), showOutputMap (Map<number, boolean>)",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.3",
+                  "command": "UPDATE components/Terminal.vue: ADD FUNCTION startTyping(lineIndex: number) that uses setInterval at ~50ms to increment currentCharIndex, showing one more character of the command each tick. When done, calls onTypingComplete.",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.4",
+                  "command": "UPDATE components/Terminal.vue: ADD FUNCTION onTypingComplete(lineIndex: number) that waits ~300ms via setTimeout, then sets showOutputMap.set(lineIndex, true) to reveal output instantly.",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.5",
+                  "command": "UPDATE components/Terminal.vue: ADD FUNCTION activateNextLine() that increments visibleLines and calls startTyping for the new line. This is the function v-click or external trigger calls.",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.6",
+                  "command": "UPDATE components/Terminal.vue template: ADD conditional rendering — when animated=true, only show lines up to visibleLines count, show partial command text (substring 0 to currentCharIndex) for the currently typing line, show blinking cursor span after partial text, show output only when showOutputMap has true for that line. When animated=false, keep existing static template unchanged.",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.7",
+                  "command": "UPDATE components/Terminal.vue styles: ADD CSS @keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: 0 } } and .cursor class with animation: blink 1s step-end infinite, display: inline-block, width: 2px, height: 1em, background: #fff, vertical-align: text-bottom",
+                  "file": "components/Terminal.vue",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Update terminal template for animated mode",
+          "objective": "Update slide-templates/terminal/slide.md and description.md to support the new animated variable, allowing template users to generate animated terminal slides.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.2.1",
+              "title": "Update terminal slide.md template with animated option",
+              "file_path": "slide-templates/terminal/slide.md",
+              "description": "Update the terminal slide template to support an 'animated' Handlebars variable. When animated is true, add :animated='true' to the Terminal component props. Use Handlebars {{#if animated}} conditional.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/terminal/slide.md",
+                    "lines": "all",
+                    "purpose": "The existing template to update"
+                  }
+                ],
+                "related_files": ["components/Terminal.vue"]
+              },
+              "depends_on": ["3.1.1"],
+              "actions": [
+                {
+                  "id": "3.2.1.1",
+                  "command": "UPDATE slide-templates/terminal/slide.md: ADD {{#if animated}}:animated='true'{{/if}} to the Terminal component props in the template",
+                  "file": "slide-templates/terminal/slide.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.2.2",
+              "title": "Update terminal description.md with animated documentation",
+              "file_path": "slide-templates/terminal/description.md",
+              "description": "Update the terminal template documentation to include the animated variable in the Template Variables table, add an animated usage example, and describe the animation behavior in Visual Features.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/terminal/description.md",
+                    "lines": "all",
+                    "purpose": "The existing documentation to update"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["3.2.1"],
+              "actions": [
+                {
+                  "id": "3.2.2.1",
+                  "command": "UPDATE slide-templates/terminal/description.md: ADD 'animated' variable to Template Variables table (boolean, default false, enables typing animation). ADD animated usage example. ADD animation behavior description to Visual Features section.",
+                  "file": "slide-templates/terminal/description.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "Verify both static and animated modes",
+          "objective": "Run the dev server and verify that both static terminal mode (no animation) and animated terminal mode (typing animation with v-click) work correctly.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.3.1",
+              "title": "Verify animated and static terminal modes end-to-end",
+              "file_path": null,
+              "description": "Run npm run dev and test both terminal modes: (1) Static mode — existing terminal demo slide should render all commands immediately with no animation. (2) Animated mode — create or update a slide with :animated='true' and verify: v-click triggers typing, blinking cursor appears during typing, output appears after typing completes, multiple commands work sequentially.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/Terminal.vue",
+                    "lines": "all",
+                    "purpose": "Verify the animated prop and typing logic are implemented"
+                  }
+                ],
+                "related_files": ["slide-templates/terminal/slide.md"]
+              },
+              "depends_on": ["3.2.2"],
+              "actions": [
+                {
+                  "id": "3.3.1.1",
+                  "command": "RUN npm run dev and VERIFY static terminal mode still works (no animation, all commands visible immediately)",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "3.3.1.2",
+                  "command": "VERIFY animated terminal mode: typing animation at ~50ms/char, blinking cursor, ~300ms pause, instant output reveal, v-click progression between commands",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

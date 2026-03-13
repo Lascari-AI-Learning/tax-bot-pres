@@ -1,0 +1,85 @@
+{
+  "session_id": "2026-02-03_presentation-session-workflow_p7x2m4",
+  "created_at": "2026-02-03T10:00:00Z",
+  "updated_at": "2026-02-03T10:45:00Z",
+  "topic": "Presentation Session Workflow",
+  "description": "Adapting the agent-session flow to be specifically tailored for creating presentations in Slidev or PowerPoint, based on lessons learned from the agent-skills-presentation session",
+
+  "granularity": "feature",
+  "parent_session": null,
+  "prior_session": "2025-01-07_agent-skills-presentation_k8m3x9",
+
+  "current_phase": "plan",
+  "phases": {
+    "spec": {
+      "status": "finalized",
+      "started_at": "2026-02-03T10:00:00Z",
+      "finalized_at": "2026-02-03T10:45:00Z"
+    },
+    "plan": {
+      "status": "finalized",
+      "started_at": "2026-02-03T11:00:00Z",
+      "finalized_at": "2026-02-03T12:30:00Z"
+    },
+    "build": {
+      "status": "complete",
+      "started_at": "2026-02-03T14:00:00Z",
+      "completed_at": "2026-02-03T16:00:00Z"
+    }
+  },
+
+  "goals": {
+    "high_level": ["Streamlined presentation workflow that matches the linear nature of slide creation vs. adaptive coding"],
+    "mid_level": [
+      "SPEC: Interview focused purely on key idea - no research",
+      "PLAN: Output as file tree showing slide structure (the storyboard)",
+      "BUILD: Two modes - full draft (entire presentation) or single slide (iterate on one)"
+    ]
+  },
+
+  "open_questions": [],
+
+  "key_decisions": [
+    {
+      "decision": "Simplify the workflow to match presentation linearity",
+      "rationale": "Presentations are more predictable than code - once you know what each slide should do, it's mostly template application. The generic agent-session is overkill.",
+      "made_at": "2026-02-03T10:05:00Z"
+    },
+    {
+      "decision": "No research capabilities in SPEC",
+      "rationale": "Keep it simple - SPEC just captures the key idea. External data/reports provided manually by user when needed.",
+      "made_at": "2026-02-03T10:10:00Z"
+    },
+    {
+      "decision": "PLAN is pseudo-structured free-form file tree with optional template",
+      "rationale": "Primary purpose is bird's eye view of what you're saying. Template helps BUILD but user may not know which templates are available.",
+      "made_at": "2026-02-03T10:15:00Z"
+    },
+    {
+      "decision": "Slidev only",
+      "rationale": "No PowerPoint support - built for Slidev template system in this repo.",
+      "made_at": "2026-02-03T10:20:00Z"
+    },
+    {
+      "decision": "Two BUILD modes: full draft and single slide",
+      "rationale": "Full draft generates entire presentation. Single slide mode for iterating on specific slides.",
+      "made_at": "2026-02-03T10:20:00Z"
+    },
+    {
+      "decision": "SPEC questions are pseudo-structured",
+      "rationale": "Core questions as guide (audience, takeaway, time, non-goals) but flows naturally, adapts to conversation.",
+      "made_at": "2026-02-03T10:35:00Z"
+    }
+  ],
+
+  "plan_state": {
+    "status": "complete",
+    "checkpoints_total": 5,
+    "checkpoints_detailed": 5,
+    "current_checkpoint": null,
+    "current_task_group": null,
+    "current_task": null,
+    "checkpoints_completed": [1, 2, 3, 4, 5],
+    "last_updated": "2026-02-03T16:00:00Z"
+  }
+}

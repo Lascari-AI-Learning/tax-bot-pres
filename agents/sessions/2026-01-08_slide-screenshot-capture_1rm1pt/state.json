@@ -1,0 +1,91 @@
+{
+  "session_id": "2026-01-08_slide-screenshot-capture_1rm1pt",
+  "topic": "Slidev Template Workflow Commands",
+  "description": "Workflow-style slash commands using Playwright MCP for managing Slidev templates: sync-all, sync-template, add-template",
+  "current_phase": "build",
+  "phases": {
+    "spec": {
+      "status": "finalized",
+      "started_at": "2026-01-08T09:00:00Z",
+      "finalized_at": "2026-01-18T00:00:00Z",
+      "revised_at": "2026-01-18T00:00:00Z"
+    },
+    "plan": {
+      "status": "finalized",
+      "started_at": "2026-01-18T14:00:00Z",
+      "finalized_at": "2026-01-18T14:30:00Z"
+    },
+    "build": {
+      "status": "complete",
+      "started_at": "2026-01-18T14:07:00Z",
+      "completed_at": "2026-01-18T23:20:00Z"
+    }
+  },
+  "prior_session": null,
+  "open_questions": [],
+  "key_decisions": [
+    {
+      "decision": "Use Playwright MCP",
+      "rationale": "Works better than Firecrawl, runs locally, no API key needed.",
+      "date": "2026-01-18"
+    },
+    {
+      "decision": "Workflow-style commands",
+      "rationale": "Prompts guide agents through dynamic iteration; more flexible than rigid scripts.",
+      "date": "2026-01-18"
+    },
+    {
+      "decision": "Three separate commands",
+      "rationale": "Single-purpose commands (sync-all, sync-template, add-template) are clearer than one command with many flags.",
+      "date": "2026-01-18"
+    },
+    {
+      "decision": "No validate command",
+      "rationale": "Keep it simple with three commands; validation can be part of sync.",
+      "date": "2026-01-18"
+    },
+    {
+      "decision": "Interactive add-template",
+      "rationale": "Prompt for name, purpose, layout, animation pattern during creation.",
+      "date": "2026-01-18"
+    },
+    {
+      "decision": "Use explicit metadata for click counts",
+      "rationale": "clicks field in templates.json - simpler than auto-discovery.",
+      "date": "2026-01-08"
+    },
+    {
+      "decision": "Screenshots in subfolder with sequential naming",
+      "rationale": "Store in screenshots/ subfolder using click-0.png, click-1.png pattern. Keeps template folder clean.",
+      "date": "2026-01-08"
+    }
+  ],
+  "goals": {
+    "high_level": [
+      "Enable agents to understand slide storytelling through progressive screenshots showing layout, styling, and click-state progression",
+      "Self-maintaining template system - agents can sync screenshots and add new templates",
+      "Workflow-driven commands that guide agents through dynamic iteration"
+    ],
+    "mid_level": [
+      "/slidev:sync-all - iterate through templates.json, capture all screenshots",
+      "/slidev:sync-template - capture screenshots for a specific template",
+      "/slidev:add-template - full workflow for adding new templates",
+      "Slidev skill documenting structure and conventions"
+    ],
+    "detailed": [
+      "Template folders should have: description.md, example.md, slide.md, and screenshots/",
+      "Commands use Playwright MCP (browser_navigate, browser_take_screenshot)",
+      "URL pattern: /{parseInt(order)+1}?clicks={n}"
+    ]
+  },
+  "updated_at": "2026-01-18T14:40:00Z",
+  "plan_state": {
+    "status": "complete",
+    "checkpoints_total": 4,
+    "checkpoints_detailed": 4,
+    "checkpoints_completed": [1, 2, 3, 4],
+    "current_checkpoint": null,
+    "current_task": null,
+    "last_updated": "2026-01-18T23:20:00Z"
+  }
+}

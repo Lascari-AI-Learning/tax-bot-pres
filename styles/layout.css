@@ -1,0 +1,253 @@
+/* Scientific Theme Color Palette */
+
+:root {
+  /* Core Colors */
+  --canvas-ivory: #F0EEE6;
+  --anchor-ink: #141413;
+  --element-slate: #656B6B;
+  
+  /* Accent Colors */
+  --pulse-red: #D1533B;
+  --forge-orange: #EE8028;
+  --dark-orange: #CE5918;
+  --aqua-glass: #4A8F9B;
+  --deep-teal: #4A9195;
+  --teal-frame: #ADC9C5;
+  
+  /* Support Colors (reuse core colors) */
+  --diagram-shadow: var(--anchor-ink);
+  --focus-gray: var(--element-slate);
+  
+  /* Base color mappings */
+  --background: var(--canvas-ivory);
+  --foreground: var(--anchor-ink);
+  --primary: var(--deep-teal);
+  --secondary: var(--forge-orange);
+  --accent: var(--pulse-red);
+  --muted: var(--focus-gray);
+  --highlight: var(--aqua-glass);
+  --subtle: var(--teal-frame);
+  
+  /* Semantic mappings for existing variables */
+  --cyan: var(--aqua-glass);
+  --green: var(--deep-teal);
+  --orange: var(--forge-orange);
+  --pink: var(--teal-frame);
+  --purple: var(--deep-teal);
+  --red: var(--pulse-red);
+  --yellow: var(--dark-orange);
+  --comment: var(--focus-gray);
+  --current-line: #E8E2D9; /* Slightly darker ivory */
+}
+
+/* ℹ️ #app increases the specificity of .dark selector from upstream layout styles  */
+#app {
+  #slide-content {
+
+    --at-apply: text-$foreground bg-$background !important;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      --at-apply: text-$foreground;
+    }
+
+    strong {
+      --at-apply: text-$orange;
+    }
+
+    em {
+      --at-apply: text-$yellow;
+    }
+
+    a {
+      --at-apply: text-$cyan;
+    }
+
+    ul,
+    ol {
+      li::marker {
+        --at-apply: text-$cyan;
+      }
+    }
+
+    blockquote {
+      --at-apply: bg-transparent text-$yellow border-none;
+
+      /* ℹ️ "font-italic" isn't working */
+      font-style: italic;
+    }
+
+    kbd {
+      --at-apply: text-$green;
+    }
+
+    /* ℹ️ Update background color of code. We made it slightly different from slide bg */
+    .slidev-code.shiki {
+      background: #FAFAF8 !important; /* Slightly off-white */
+    }
+
+    :not(pre)>code {
+      --at-apply: bg-transparent text-$green;
+    }
+  }
+
+  /* Layout: Cover, Intro */
+  .slidev-layout.cover,
+  .slidev-layout.intro {
+    --at-apply: h-full grid;
+
+    h1 {
+      --at-apply: text-6xl leading-20 text-$foreground;
+    }
+
+    h1+p {
+      --at-apply: -mt-2 text-$comment mb-4;
+    }
+
+    p+h2,
+    ul+h2,
+    table+h2 {
+      --at-apply: mt-10;
+    }
+  }
+
+  /* Layout: Face */
+  .slidev-layout.fact {
+    --at-apply: text-center grid h-full;
+
+    h1 {
+      --at-apply: text-8xl font-700;
+    }
+
+    h1+p {
+      --at-apply: font-700 text-2xl;
+    }
+  }
+
+  /* Layout: Statement */
+  .slidev-layout.statement {
+    --at-apply: text-center grid h-full;
+
+    h1 {
+      --at-apply: text-6xl font-700;
+    }
+  }
+
+  /* Layout: Section */
+  .slidev-layout.section {
+    h1 {
+      --at-apply: text-6xl font-500 leading-20;
+    }
+  }
+
+  /* Layout: Face */
+  .slidev-layout.fact {
+    --at-apply: text-center grid h-full;
+
+    h1 {
+      --at-apply: text-8xl font-700;
+    }
+
+    h1+p {
+      --at-apply: font-700 text-2xl;
+    }
+  }
+
+  /* Layout: Quote */
+  .slidev-layout.quote {
+    --at-apply: grid h-full;
+
+    h1+p {
+      --at-apply: mt-2;
+    }
+  }
+
+  /* Layout: Author */
+  .slidev-layout.author {
+    img {
+      --at-apply: rounded-full mx-auto;
+    }
+
+    h1 {
+      --at-apply: text-3xl font-600 mb-0 next-[p]-mt-2;
+    }
+
+    h1+p {
+      --at-apply: max-w-40ch mx-auto;
+    }
+
+    footer {
+      --at-apply: pt-16 text-sm flex justify-center items-center;
+
+      a {
+        --at-apply: ms-2 me-6;
+      }
+
+      a:not(:hover) {
+        color: inherit !important;
+      }
+    }
+  }
+}
+/* Utility Classes for Theme Colors */
+/* Core Colors */
+.text-canvas-ivory { color: var(--canvas-ivory); }
+.text-anchor-ink { color: var(--anchor-ink); }
+.text-element-slate { color: var(--element-slate); }
+
+/* Accent Colors */
+.text-pulse-red { color: var(--pulse-red); }
+.text-forge-orange { color: var(--forge-orange); }
+.text-dark-orange { color: var(--dark-orange); }
+.text-aqua-glass { color: var(--aqua-glass); }
+.text-deep-teal { color: var(--deep-teal); }
+.text-teal-frame { color: var(--teal-frame); }
+
+/* Background utilities */
+.bg-canvas-ivory { background-color: var(--canvas-ivory); }
+.bg-anchor-ink { background-color: var(--anchor-ink); }
+.bg-element-slate { background-color: var(--element-slate); }
+.bg-pulse-red { background-color: var(--pulse-red); }
+.bg-forge-orange { background-color: var(--forge-orange); }
+.bg-dark-orange { background-color: var(--dark-orange); }
+.bg-aqua-glass { background-color: var(--aqua-glass); }
+.bg-deep-teal { background-color: var(--deep-teal); }
+.bg-teal-frame { background-color: var(--teal-frame); }
+
+/* Border utilities */
+.border-canvas-ivory { border-color: var(--canvas-ivory); }
+.border-anchor-ink { border-color: var(--anchor-ink); }
+.border-element-slate { border-color: var(--element-slate); }
+.border-pulse-red { border-color: var(--pulse-red); }
+.border-forge-orange { border-color: var(--forge-orange); }
+.border-dark-orange { border-color: var(--dark-orange); }
+.border-aqua-glass { border-color: var(--aqua-glass); }
+.border-deep-teal { border-color: var(--deep-teal); }
+.border-teal-frame { border-color: var(--teal-frame); }
+
+/* Hover states */
+.hover\:text-pulse-red:hover { color: var(--pulse-red); }
+.hover\:text-forge-orange:hover { color: var(--forge-orange); }
+.hover\:text-dark-orange:hover { color: var(--dark-orange); }
+.hover\:text-aqua-glass:hover { color: var(--aqua-glass); }
+.hover\:text-deep-teal:hover { color: var(--deep-teal); }
+
+.hover\:bg-pulse-red:hover { background-color: var(--pulse-red); }
+.hover\:bg-forge-orange:hover { background-color: var(--forge-orange); }
+.hover\:bg-dark-orange:hover { background-color: var(--dark-orange); }
+.hover\:bg-aqua-glass:hover { background-color: var(--aqua-glass); }
+.hover\:bg-deep-teal:hover { background-color: var(--deep-teal); }
+
+/* Force light theme only */
+.dark {
+  --background: var(--canvas-ivory);
+  --foreground: var(--anchor-ink);
+  
+  .slidev-code.shiki {
+    background: #FAFAF8 !important; /* Same as light theme */
+  }
+}

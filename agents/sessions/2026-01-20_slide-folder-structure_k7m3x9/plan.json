@@ -1,0 +1,573 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-01-20_slide-folder-structure_k7m3x9",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-01-29T00:00:00Z",
+  "updated_at": "2026-01-29T00:00:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Single Slide Migration + Build Script",
+      "goal": "Migrate one slide (00-title) to folder structure and update build.ts to discover slides from folders (index.md). Verify the presentation renders with npm run dev.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "slides/00-title.md", "status": "exists", "description": "Flat title slide markdown" },
+            { "path": "scripts/build.ts", "status": "exists", "description": "Build script that globs *.md in slides/" }
+          ],
+          "tree": "slides/\n├── 00-title.md\nscripts/\n├── build.ts"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/00-title/index.md", "status": "new", "description": "Title slide in folder structure" },
+            { "path": "scripts/build.ts", "status": "modified", "description": "Build script discovers folders with index.md" }
+          ],
+          "tree": "slides/\n├── 00-title/\n│   └── index.md\nscripts/\n├── build.ts"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Manual verification via dev server",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev -- verify presentation loads and title slide renders"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Create folder structure for title slide",
+          "objective": "Move 00-title.md into slides/00-title/index.md, preserving content exactly",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Move title slide to folder structure",
+              "file_path": "slides/00-title/index.md",
+              "description": "Create the directory slides/00-title/ and move the content of slides/00-title.md into slides/00-title/index.md. Then delete the original flat file slides/00-title.md. This is the first slide being migrated to the new folder-based architecture where each slide is a folder with index.md as the entry point.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slides/00-title.md",
+                    "lines": "all",
+                    "purpose": "Read the full content of the title slide to move into the new folder structure"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.1.1",
+                  "command": "MOVE slides/00-title.md to slides/00-title/index.md: Create directory slides/00-title/, copy content exactly, delete original slides/00-title.md",
+                  "file": "slides/00-title/index.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "Update build script for folder discovery",
+          "objective": "Modify scripts/build.ts to discover slides from folder/index.md pattern instead of flat *.md files",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.2.1",
+              "title": "Update build.ts glob pattern and src path generation",
+              "file_path": "scripts/build.ts",
+              "description": "Update scripts/build.ts to discover slides from folder structure. Currently it globs '*.md' in the slides directory and generates 'src: ./slides/<file>' references. Change it to glob '*/index.md' to find folders containing index.md, then generate 'src: ./slides/<folder>/index.md' references. The sort order should use the folder name (e.g., '00-title') for ordering, same as before.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "scripts/build.ts",
+                    "lines": "all",
+                    "purpose": "Understand current glob pattern and src generation logic to update for folder-based discovery"
+                  }
+                ],
+                "related_files": [
+                  "index.md"
+                ]
+              },
+              "depends_on": ["1.1.1"],
+              "actions": [
+                {
+                  "id": "1.2.1.1",
+                  "command": "UPDATE scripts/build.ts: REPLACE glob pattern '*.md' with '*/index.md' to discover folder-based slides",
+                  "file": "scripts/build.ts",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.2.1.2",
+                  "command": "UPDATE scripts/build.ts: UPDATE src path generation to output './slides/<folder>/index.md' format, extracting folder name from glob result for sorting",
+                  "file": "scripts/build.ts",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "title": "Verify end-to-end rendering",
+          "objective": "Run build:slides and dev to confirm the title slide renders correctly from folder structure",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.3.1",
+              "title": "Verify build and rendering",
+              "file_path": null,
+              "description": "Run 'npm run build:slides' to regenerate index.md from the new folder structure. Verify the generated index.md contains the correct src path (./slides/00-title/index.md). This validates the entire pipeline: folder structure → build script discovery → correct index.md output.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "index.md",
+                    "lines": "all",
+                    "purpose": "Verify the generated index.md contains correct folder-based src paths"
+                  }
+                ],
+                "related_files": [
+                  "scripts/build.ts",
+                  "slides/00-title/index.md"
+                ]
+              },
+              "depends_on": ["1.2.1"],
+              "actions": [
+                {
+                  "id": "1.3.1.1",
+                  "command": "VERIFY: Run 'npm run build:slides' and confirm it succeeds",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.1.2",
+                  "command": "VERIFY: Check index.md contains 'src: ./slides/00-title/index.md'",
+                  "file": "index.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Complete Slide Migration",
+      "goal": "Migrate all 8 remaining slides to folder structure. Verify full presentation renders correctly with npm run dev and npm run build.",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "slides/01-column-cards.md", "status": "exists", "description": "Flat column-cards slide" },
+            { "path": "slides/02-about-me.md", "status": "exists", "description": "Flat about-me slide" },
+            { "path": "slides/03-icon-list-content.md", "status": "exists", "description": "Flat icon-list-content slide" },
+            { "path": "slides/04-continuum-diagram.md", "status": "exists", "description": "Flat continuum-diagram slide" },
+            { "path": "slides/05-extremes-to-middle.md", "status": "exists", "description": "Flat extremes-to-middle slide" },
+            { "path": "slides/06-continuum-middle-ground.md", "status": "exists", "description": "Flat continuum-middle-ground slide" },
+            { "path": "slides/07-three-to-one-takeaway.md", "status": "exists", "description": "Flat three-to-one-takeaway slide" },
+            { "path": "slides/99-conclusion-lets-connect.md", "status": "exists", "description": "Flat conclusion slide" }
+          ],
+          "tree": "slides/\n├── 00-title/\n│   └── index.md\n├── 01-column-cards.md\n├── 02-about-me.md\n├── ...\n└── 99-conclusion-lets-connect.md"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/01-column-cards/index.md", "status": "new", "description": "Folder-based column-cards slide" },
+            { "path": "slides/02-about-me/index.md", "status": "new", "description": "Folder-based about-me slide" },
+            { "path": "slides/03-icon-list-content/index.md", "status": "new", "description": "Folder-based icon-list-content slide" },
+            { "path": "slides/04-continuum-diagram/index.md", "status": "new", "description": "Folder-based continuum-diagram slide" },
+            { "path": "slides/05-extremes-to-middle/index.md", "status": "new", "description": "Folder-based extremes-to-middle slide" },
+            { "path": "slides/06-continuum-middle-ground/index.md", "status": "new", "description": "Folder-based continuum-middle-ground slide" },
+            { "path": "slides/07-three-to-one-takeaway/index.md", "status": "new", "description": "Folder-based three-to-one-takeaway slide" },
+            { "path": "slides/99-conclusion-lets-connect/index.md", "status": "new", "description": "Folder-based conclusion slide" }
+          ],
+          "tree": "slides/\n├── 00-title/\n│   └── index.md\n├── 01-column-cards/\n│   └── index.md\n├── ...\n└── 99-conclusion-lets-connect/\n    └── index.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Full presentation verification",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev -- verify all slides render correctly",
+          "npm run build -- verify production build succeeds"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Migrate all remaining slides to folders",
+          "objective": "Move 8 remaining flat .md slides into folder/index.md structure",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Migrate slides 01-07 and 99 to folder structure",
+              "file_path": "slides/",
+              "description": "For each of the 8 remaining flat slide files, create a folder with the same name (minus .md extension) and move the content into index.md within that folder. Then delete the original flat files. This follows the exact same pattern established in CP1 task 1.1.1 for the title slide. The 8 slides to migrate are: 01-column-cards, 02-about-me, 03-icon-list-content, 04-continuum-diagram, 05-extremes-to-middle, 06-continuum-middle-ground, 07-three-to-one-takeaway, 99-conclusion-lets-connect.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/01-column-cards.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/02-about-me.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/03-icon-list-content.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/04-continuum-diagram.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/05-extremes-to-middle.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/06-continuum-middle-ground.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/07-three-to-one-takeaway.md", "lines": "all", "purpose": "Content to move into folder" },
+                  { "file": "slides/99-conclusion-lets-connect.md", "lines": "all", "purpose": "Content to move into folder" }
+                ],
+                "related_files": [
+                  "slides/00-title/index.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "2.1.1.1", "command": "MOVE slides/01-column-cards.md to slides/01-column-cards/index.md: Create dir, copy content, delete original", "file": "slides/01-column-cards/index.md", "status": "pending" },
+                { "id": "2.1.1.2", "command": "MOVE slides/02-about-me.md to slides/02-about-me/index.md: Create dir, copy content, delete original", "file": "slides/02-about-me/index.md", "status": "pending" },
+                { "id": "2.1.1.3", "command": "MOVE slides/03-icon-list-content.md to slides/03-icon-list-content/index.md: Create dir, copy content, delete original", "file": "slides/03-icon-list-content/index.md", "status": "pending" },
+                { "id": "2.1.1.4", "command": "MOVE slides/04-continuum-diagram.md to slides/04-continuum-diagram/index.md: Create dir, copy content, delete original", "file": "slides/04-continuum-diagram/index.md", "status": "pending" },
+                { "id": "2.1.1.5", "command": "MOVE slides/05-extremes-to-middle.md to slides/05-extremes-to-middle/index.md: Create dir, copy content, delete original", "file": "slides/05-extremes-to-middle/index.md", "status": "pending" },
+                { "id": "2.1.1.6", "command": "MOVE slides/06-continuum-middle-ground.md to slides/06-continuum-middle-ground/index.md: Create dir, copy content, delete original", "file": "slides/06-continuum-middle-ground/index.md", "status": "pending" },
+                { "id": "2.1.1.7", "command": "MOVE slides/07-three-to-one-takeaway.md to slides/07-three-to-one-takeaway/index.md: Create dir, copy content, delete original", "file": "slides/07-three-to-one-takeaway/index.md", "status": "pending" },
+                { "id": "2.1.1.8", "command": "MOVE slides/99-conclusion-lets-connect.md to slides/99-conclusion-lets-connect/index.md: Create dir, copy content, delete original", "file": "slides/99-conclusion-lets-connect/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Verify full presentation",
+          "objective": "Run build:slides, dev, and build to confirm all slides render correctly",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.2.1",
+              "title": "Verify full presentation renders",
+              "file_path": null,
+              "description": "Run npm run build:slides to regenerate index.md. Verify the generated index.md contains all 9 slides referenced with folder-based paths. Run npm run build to verify production build succeeds. This validates the complete migration is working end-to-end.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "index.md", "lines": "all", "purpose": "Verify all 9 slides referenced with folder paths" }
+                ],
+                "related_files": [
+                  "scripts/build.ts"
+                ]
+              },
+              "depends_on": ["2.1.1"],
+              "actions": [
+                { "id": "2.2.1.1", "command": "VERIFY: Run 'npm run build:slides' and confirm success", "file": null, "status": "pending" },
+                { "id": "2.2.1.2", "command": "VERIFY: Check index.md contains all 9 slides with folder-based src paths (./slides/XX-name/index.md)", "file": "index.md", "status": "pending" },
+                { "id": "2.2.1.3", "command": "VERIFY: Run 'npm run build' and confirm production build succeeds", "file": null, "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Template Generation System Update",
+      "goal": "Update generate-slide.ts to output slides as folders (slides/XX-name/index.md instead of slides/XX-name.md). Verify npm run generate:slide creates correct structure.",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "scripts/generate-slide.ts", "status": "exists", "description": "Generates slides as flat files (slides/name.md)" }
+          ],
+          "tree": "scripts/\n├── generate-slide.ts"
+        },
+        "ending": {
+          "files": [
+            { "path": "scripts/generate-slide.ts", "status": "modified", "description": "Generates slides as folders (slides/name/index.md)" }
+          ],
+          "tree": "scripts/\n├── generate-slide.ts"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Generate a test slide and verify folder output",
+        "verification_steps": [
+          "npm run generate:slide -- --template=title --name=99-test --title='Test' --subtitle='Test'",
+          "Verify slides/99-test/index.md was created",
+          "Clean up test slide"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Update generate-slide.ts output path",
+          "objective": "Change output from slides/name.md to slides/name/index.md, creating the directory first",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Update output path logic in generate-slide.ts",
+              "file_path": "scripts/generate-slide.ts",
+              "description": "Update the generate-slide.ts script to output slides as folders instead of flat files. Currently the script writes to slides/<name>.md (line 122: const outputFile = path.join(slidesDir, `${config.name}.md`)). Change this to write to slides/<name>/index.md instead. Also add directory creation (fs.mkdir with recursive:true) before writing the file, since the folder won't exist yet.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "scripts/generate-slide.ts",
+                    "lines": "100-153",
+                    "purpose": "Understand the main() function, specifically the outputFile path construction (line 122) and file writing (line 142)"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "3.1.1.1",
+                  "command": "UPDATE scripts/generate-slide.ts: REPLACE outputFile path from `path.join(slidesDir, `${config.name}.md`)` to `path.join(slidesDir, config.name, 'index.md')`",
+                  "file": "scripts/generate-slide.ts",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.1.1.2",
+                  "command": "ADD scripts/generate-slide.ts: INSERT `await fs.mkdir(path.join(slidesDir, config.name), { recursive: true })` BEFORE the writeFile call to create the slide folder",
+                  "file": "scripts/generate-slide.ts",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Verify template generation",
+          "objective": "Test that generate:slide creates folder-based slide structure",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.2.1",
+              "title": "Test generate:slide creates folder output",
+              "file_path": null,
+              "description": "Run the generate:slide command with the title template to verify it creates a folder-based slide (slides/98-test/index.md) instead of a flat file. Then clean up the test slide.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [
+                  "scripts/generate-slide.ts"
+                ]
+              },
+              "depends_on": ["3.1.1"],
+              "actions": [
+                {
+                  "id": "3.2.1.1",
+                  "command": "VERIFY: Run 'npm run generate:slide -- --template=title --name=98-test --title=Test --subtitle=Test' and confirm slides/98-test/index.md is created",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "3.2.1.2",
+                  "command": "DELETE slides/98-test/ directory to clean up test slide",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Slidev Skill & Documentation Update",
+      "goal": "Update .claude/skills/slidev/ and CLAUDE.md to reflect the new folder-based slide structure, conventions, and workflows.",
+      "prerequisites": [1, 2, 3],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/skills/slidev/SKILL.md", "status": "exists", "description": "Slidev skill documentation" },
+            { "path": ".claude/skills/slidev/references/templates.md", "status": "exists", "description": "Template reference docs" },
+            { "path": "CLAUDE.md", "status": "exists", "description": "Project instructions for Claude Code" }
+          ],
+          "tree": ".claude/skills/slidev/\n├── SKILL.md\n├── references/\n│   ├── templates.md\n│   └── playwright-workflow.md\nCLAUDE.md"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/skills/slidev/SKILL.md", "status": "modified", "description": "Updated with folder-based structure conventions" },
+            { "path": ".claude/skills/slidev/references/templates.md", "status": "modified", "description": "Updated template references for folder output" },
+            { "path": "CLAUDE.md", "status": "modified", "description": "Updated architecture docs for folder structure" }
+          ],
+          "tree": ".claude/skills/slidev/\n├── SKILL.md\n├── references/\n│   ├── templates.md\n│   └── playwright-workflow.md\nCLAUDE.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Documentation review",
+        "verification_steps": [
+          "Review all updated docs reference folder structure correctly",
+          "Verify no references to old flat-file structure remain"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "4.1",
+          "title": "Update Slidev skill docs",
+          "objective": "Update .claude/skills/slidev/ documentation to reflect folder-based slide structure",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.1.1",
+              "title": "Update SKILL.md conventions section",
+              "file_path": ".claude/skills/slidev/SKILL.md",
+              "description": "Update the Slidev skill documentation to reflect the new folder-based slide structure. The Naming conventions section (line 107) currently references flat files like '01-about-me.md'. Change these to folder-based references like '01-about-me/index.md'. Also add a new section documenting the slide folder convention: each slide is a folder with index.md as entry point, optional assets/ subfolder, and room for future complexity (components, code files).",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/slidev/SKILL.md",
+                    "lines": "100-122",
+                    "purpose": "Understand current Conventions and Folder Structure sections to update for folder-based slides"
+                  }
+                ],
+                "related_files": [
+                  "agents/sessions/2026-01-20_slide-folder-structure_k7m3x9/spec.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "4.1.1.1",
+                  "command": "UPDATE .claude/skills/slidev/SKILL.md: UPDATE Naming section line 107 - Change slide file reference from '01-about-me.md, 02-introduction.md' to '01-about-me/index.md, 02-introduction/index.md' folder pattern",
+                  "file": ".claude/skills/slidev/SKILL.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.1.1.2",
+                  "command": "ADD .claude/skills/slidev/SKILL.md: ADD new 'Slide Folder Structure' section AFTER Naming section documenting: each slide = folder with index.md entry point, optional assets/ for images/videos, permissive structure for future complexity (Vue components, code files)",
+                  "file": ".claude/skills/slidev/SKILL.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.1.2",
+              "title": "Update templates.md reference",
+              "file_path": ".claude/skills/slidev/references/templates.md",
+              "description": "Review and update templates.md to ensure any references to slide files reflect the new folder-based structure. This file primarily documents slide-templates/ (which doesn't change), but may reference slides/ flat files that need updating.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/slidev/references/templates.md",
+                    "lines": "all",
+                    "purpose": "Check for any references to flat slide files that need updating to folder paths"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "4.1.2.1",
+                  "command": "UPDATE .claude/skills/slidev/references/templates.md: UPDATE any references to flat slide files (slides/*.md) to folder-based paths (slides/*/index.md) if present",
+                  "file": ".claude/skills/slidev/references/templates.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "title": "Update CLAUDE.md",
+          "objective": "Update project instructions to reflect folder-based slide architecture",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.2.1",
+              "title": "Update CLAUDE.md architecture and workflow sections",
+              "file_path": "CLAUDE.md",
+              "description": "Update CLAUDE.md to reflect the new folder-based slide structure throughout. Key areas: (1) Slide System description - change from 'markdown files in slides/' to 'folders in slides/ with index.md entry points', (2) Key Directories - update slides/ description, (3) Slide Template System - update template output description to reference folder creation, (4) Development Workflow - update steps to reflect folder-based generation. Also update any examples showing flat file patterns.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "CLAUDE.md",
+                    "lines": "all",
+                    "purpose": "Identify all references to flat slide files that need updating to folder structure"
+                  }
+                ],
+                "related_files": [
+                  "agents/sessions/2026-01-20_slide-folder-structure_k7m3x9/spec.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "4.2.1.1",
+                  "command": "UPDATE CLAUDE.md: UPDATE 'Slide System' description - change from 'stored as markdown files' to 'stored as folders with index.md entry points'",
+                  "file": "CLAUDE.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.2.1.2",
+                  "command": "UPDATE CLAUDE.md: UPDATE 'Key Directories' slides/ description to reflect folder-based structure with index.md and optional assets/",
+                  "file": "CLAUDE.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.2.1.3",
+                  "command": "UPDATE CLAUDE.md: UPDATE Slide Template System section to note generate:slide creates folders (slides/XX-name/index.md)",
+                  "file": "CLAUDE.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.2.1.4",
+                  "command": "UPDATE CLAUDE.md: UPDATE Development Workflow steps to reference folder-based slide generation and editing",
+                  "file": "CLAUDE.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "title": "Verify no stale references",
+          "objective": "Confirm no documentation still references old flat-file slide pattern",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.3.1",
+              "title": "Search for old flat-file patterns in docs",
+              "file_path": null,
+              "description": "Grep across documentation files (.md) for patterns like 'slides/*.md', '01-about-me.md', or other flat-file references that should now be folder-based. Fix any remaining stale references.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [
+                  "CLAUDE.md",
+                  ".claude/skills/slidev/SKILL.md",
+                  ".claude/skills/slidev/references/templates.md"
+                ]
+              },
+              "depends_on": ["4.1.1", "4.1.2", "4.2.1"],
+              "actions": [
+                {
+                  "id": "4.3.1.1",
+                  "command": "VERIFY: Grep for flat-file slide references (e.g., 'slides/*.md', '01-about-me.md' pattern) across CLAUDE.md and .claude/skills/slidev/ to ensure none remain",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

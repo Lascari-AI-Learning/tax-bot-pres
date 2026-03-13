@@ -1,0 +1,53 @@
+{
+  "session_id": "2026-01-29_how-skills-work-flow-redesign_q3v7k8",
+  "created_at": "2026-01-29T21:00:00Z",
+  "updated_at": "2026-01-29T21:00:00Z",
+  "topic": "Design updated How Skills Work flow",
+  "description": "Redesign the How Skills Work slide flow - rethinking the scene structure, animation approach, and content progression",
+
+  "granularity": "feature",
+  "prior_session": "2026-01-29_agent-view-walkthrough-slide_p4w8n3",
+
+  "current_phase": "spec",
+  "phases": {
+    "spec": {
+      "status": "draft",
+      "started_at": "2026-01-29T21:00:00Z",
+      "finalized_at": null
+    },
+    "plan": {
+      "status": null,
+      "started_at": null,
+      "finalized_at": null
+    },
+    "build": {
+      "status": null,
+      "started_at": null,
+      "completed_at": null
+    }
+  },
+
+  "goals": {
+    "high_level": [],
+    "mid_level": []
+  },
+
+  "open_questions": [
+    "What specifically feels wrong or needs improvement about the current flow?",
+    "Should this remain one slide or be split into multiple slides?",
+    "What's the ideal number of click steps?",
+    "Should the visual style change (currently uses colored borders, grid layouts)?"
+  ],
+
+  "key_decisions": [],
+
+  "plan_state": {
+    "status": "not_started",
+    "current_checkpoint": null,
+    "current_tranche": null,
+    "current_task": null,
+    "checkpoints_completed": [],
+    "last_updated": null,
+    "summary": null
+  }
+}

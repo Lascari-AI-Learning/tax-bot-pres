@@ -1,0 +1,1159 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-01-08_slide-screenshot-capture_1rm1pt",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-01-18T14:00:00Z",
+  "updated_at": "2026-01-18T14:30:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Single Template Screenshot Capture",
+      "goal": "Create /slidev:sync-template command that captures screenshots for one template - proving the end-to-end workflow with Playwright MCP",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "templates.json", "status": "exists", "description": "Slide entries with clicks metadata" },
+            { "path": "slide-templates/*/", "status": "exists", "description": "Template folders without screenshots (or old screenshots)" }
+          ],
+          "tree": ".claude/commands/slidev/ (does not exist)\n.claude/skills/slidev/ (does not exist)"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/commands/slidev/sync-template.md", "status": "new", "description": "Command for syncing single template" },
+            { "path": "slide-templates/{template}/screenshots/click-{n}.png", "status": "new", "description": "Screenshot files for tested template" }
+          ],
+          "tree": ".claude/commands/slidev/\n└── sync-template.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Manual execution of command on one template",
+        "verification_steps": [
+          "Run /slidev:sync-template --template=title",
+          "Verify screenshots appear in slide-templates/title/screenshots/",
+          "Verify click-0.png exists (title has clicks=0)"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Create Command Structure",
+          "objective": "Set up the slidev command directory and create the sync-template command file with proper frontmatter",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Create slidev commands directory",
+              "file_path": ".claude/commands/slidev/",
+              "description": "Create the slidev namespace directory for commands. This establishes the location for all slidev-related workflow commands.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/git/commit.md", "lines": "1-10", "purpose": "Reference existing command structure and frontmatter pattern" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.1.1",
+                  "command": "CREATE .claude/commands/slidev/ directory",
+                  "file": ".claude/commands/slidev/",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.1.2",
+              "title": "Create sync-template.md command file",
+              "file_path": ".claude/commands/slidev/sync-template.md",
+              "description": "Create the command file with frontmatter specifying allowed-tools (Read, mcp__playwright__*), description, and arguments. Include placeholder workflow header.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/git/commit.md", "lines": "1-30", "purpose": "Reference command frontmatter structure" }
+                ],
+                "related_files": [".claude/commands/slidev/"]
+              },
+              "depends_on": ["1.1.1"],
+              "actions": [
+                {
+                  "id": "1.1.2.1",
+                  "command": "CREATE .claude/commands/slidev/sync-template.md with frontmatter: allowed-tools=Read,mcp__playwright__*, description='Capture screenshots for a specific slide template', arguments='--template=<name>'",
+                  "file": ".claude/commands/slidev/sync-template.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "Implement Screenshot Workflow",
+          "objective": "Write the workflow prompt that guides agents through reading templates.json, calculating URLs, and using Playwright MCP to capture screenshots",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.2.1",
+              "title": "Write workflow introduction and context",
+              "file_path": ".claude/commands/slidev/sync-template.md",
+              "description": "Add workflow overview section explaining what the command does, required inputs (--template argument), and high-level steps.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "116-140", "purpose": "Reference the sync-template workflow specification" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-template.md"]
+              },
+              "depends_on": ["1.1.2"],
+              "actions": [
+                {
+                  "id": "1.2.1.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-template.md: ADD section '# Sync Template Screenshots' with purpose and required input documentation",
+                  "file": ".claude/commands/slidev/sync-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.2.2",
+              "title": "Write template lookup logic",
+              "file_path": ".claude/commands/slidev/sync-template.md",
+              "description": "Add instructions for reading templates.json, finding the entry matching the --template argument, extracting order and clicks fields, with error handling if template not found.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "1-15", "purpose": "Understand the structure of template entries" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-template.md"]
+              },
+              "depends_on": ["1.2.1"],
+              "actions": [
+                {
+                  "id": "1.2.2.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-template.md: ADD section '## Step 1: Find Template' with instructions to read templates.json, find matching entry, extract order/clicks",
+                  "file": ".claude/commands/slidev/sync-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.2.3",
+              "title": "Write URL calculation logic",
+              "file_path": ".claude/commands/slidev/sync-template.md",
+              "description": "Add instructions for calculating slide URL from order field. Formula: slide_number = parseInt(order) + 1. Base URL pattern with click query parameter.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "79-85", "purpose": "Reference the URL pattern specification" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-template.md"]
+              },
+              "depends_on": ["1.2.2"],
+              "actions": [
+                {
+                  "id": "1.2.3.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-template.md: ADD section '## Step 2: Calculate URL' with formula slide_number=parseInt(order)+1, base URL https://lascari-ai-learning.github.io/SlidevTemplate/{slide_number}, click pattern ?clicks={n}",
+                  "file": ".claude/commands/slidev/sync-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.2.4",
+              "title": "Write screenshot capture loop",
+              "file_path": ".claude/commands/slidev/sync-template.md",
+              "description": "Add instructions for iterating through click states (0 to clicks value) and capturing screenshots using Playwright MCP tools: browser_navigate and browser_take_screenshot.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/skills/browser-mcp/references/tools.md", "lines": "all", "purpose": "Reference Playwright MCP tool signatures" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-template.md"]
+              },
+              "depends_on": ["1.2.3"],
+              "actions": [
+                {
+                  "id": "1.2.4.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-template.md: ADD section '## Step 3: Capture Screenshots' with loop for n=0 to clicks, browser_navigate to URL, browser_take_screenshot with filename",
+                  "file": ".claude/commands/slidev/sync-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.2.5",
+              "title": "Write file save instructions",
+              "file_path": ".claude/commands/slidev/sync-template.md",
+              "description": "Add instructions for saving screenshots to slide-templates/{template}/screenshots/click-{n}.png, creating the screenshots directory if needed, and completion summary.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "98-107", "purpose": "Reference the file structure specification" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-template.md"]
+              },
+              "depends_on": ["1.2.4"],
+              "actions": [
+                {
+                  "id": "1.2.5.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-template.md: ADD section '## Step 4: Save Screenshots' with directory path slide-templates/{template}/screenshots/, filename pattern click-{n}.png, mkdir instruction",
+                  "file": ".claude/commands/slidev/sync-template.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "title": "Test and Validate",
+          "objective": "Execute the sync-template command on test templates and verify screenshots are captured correctly",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.3.1",
+              "title": "Execute sync-template on title template",
+              "file_path": null,
+              "description": "Run /slidev:sync-template --template=title and observe the workflow execution. Title template has clicks=0, so only click-0.png should be created.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "3", "purpose": "Verify title has clicks=0" },
+                  { "file": ".claude/commands/slidev/sync-template.md", "lines": "all", "purpose": "Understand the workflow being tested" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["1.2.5"],
+              "actions": [
+                {
+                  "id": "1.3.1.1",
+                  "command": "RUN /slidev:sync-template --template=title",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.1.2",
+                  "command": "VERIFY Playwright MCP tools invoked correctly (browser_navigate, browser_take_screenshot)",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.3.2",
+              "title": "Verify screenshots created",
+              "file_path": "slide-templates/title/screenshots/",
+              "description": "Confirm the screenshots directory was created and click-0.png exists with correct content showing the title slide.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": ["slide-templates/title/"]
+              },
+              "depends_on": ["1.3.1"],
+              "actions": [
+                {
+                  "id": "1.3.2.1",
+                  "command": "CHECK slide-templates/title/screenshots/ directory exists",
+                  "file": "slide-templates/title/screenshots/",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.2.2",
+                  "command": "VERIFY click-0.png file exists and shows title slide correctly",
+                  "file": "slide-templates/title/screenshots/click-0.png",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.3.3",
+              "title": "Test on template with multiple clicks",
+              "file_path": "slide-templates/intro-what-well-cover/screenshots/",
+              "description": "Run /slidev:sync-template --template=intro-what-well-cover (clicks=3) and verify click-0.png through click-3.png are created showing progressive reveal states.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "4", "purpose": "Verify intro-what-well-cover has clicks=3" }
+                ],
+                "related_files": ["slide-templates/intro-what-well-cover/"]
+              },
+              "depends_on": ["1.3.2"],
+              "actions": [
+                {
+                  "id": "1.3.3.1",
+                  "command": "RUN /slidev:sync-template --template=intro-what-well-cover",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.3.2",
+                  "command": "VERIFY click-0.png, click-1.png, click-2.png, click-3.png exist in slide-templates/intro-what-well-cover/screenshots/",
+                  "file": "slide-templates/intro-what-well-cover/screenshots/",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.3.3.3",
+                  "command": "VERIFY each screenshot shows progressive reveal states",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Sync All Templates Command",
+      "goal": "Create /slidev:sync-all command that iterates through templates.json and captures all screenshots",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/commands/slidev/sync-template.md", "status": "exists", "description": "Working single-template command" }
+          ],
+          "tree": ".claude/commands/slidev/\n└── sync-template.md"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/commands/slidev/sync-all.md", "status": "new", "description": "Command for syncing all templates" },
+            { "path": "slide-templates/*/screenshots/", "status": "updated", "description": "Screenshots for all templates" }
+          ],
+          "tree": ".claude/commands/slidev/\n├── sync-all.md\n└── sync-template.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Execute sync-all and verify all template screenshots",
+        "verification_steps": [
+          "Run /slidev:sync-all",
+          "Verify screenshots exist for all 9 templates in templates.json",
+          "Verify click count matches the clicks field for each template"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Create sync-all Command File",
+          "objective": "Create the command file with frontmatter and workflow structure",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Create sync-all.md command file",
+              "file_path": ".claude/commands/slidev/sync-all.md",
+              "description": "Create the command file with frontmatter specifying allowed-tools (Read, mcp__playwright__*) and description for syncing all templates.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/sync-template.md", "lines": "1-10", "purpose": "Reference existing command frontmatter pattern" }
+                ],
+                "related_files": [".claude/commands/slidev/"]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.1.1.1",
+                  "command": "CREATE .claude/commands/slidev/sync-all.md with frontmatter: allowed-tools=Read,mcp__playwright__*, description='Capture screenshots for all slide templates'",
+                  "file": ".claude/commands/slidev/sync-all.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Implement Iteration Workflow",
+          "objective": "Write workflow that loops through all templates in templates.json and captures screenshots for each",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.2.1",
+              "title": "Write workflow overview",
+              "file_path": ".claude/commands/slidev/sync-all.md",
+              "description": "Add workflow purpose explaining sync-all captures screenshots for ALL templates in templates.json.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "116-128", "purpose": "Reference the sync-all workflow specification" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-all.md"]
+              },
+              "depends_on": ["2.1.1"],
+              "actions": [
+                {
+                  "id": "2.2.1.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-all.md: ADD section '# Sync All Template Screenshots' with purpose documentation",
+                  "file": ".claude/commands/slidev/sync-all.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.2.2",
+              "title": "Write template iteration logic",
+              "file_path": ".claude/commands/slidev/sync-all.md",
+              "description": "Add instructions for reading templates.json and iterating through each slide entry.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "1-15", "purpose": "Understand the structure of template entries" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-all.md"]
+              },
+              "depends_on": ["2.2.1"],
+              "actions": [
+                {
+                  "id": "2.2.2.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-all.md: ADD section '## Step 1: Load Templates' with instructions to read templates.json and get slides array",
+                  "file": ".claude/commands/slidev/sync-all.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.2.3",
+              "title": "Write per-template capture logic",
+              "file_path": ".claude/commands/slidev/sync-all.md",
+              "description": "Add instructions for capturing screenshots for each template using the same pattern as sync-template.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/sync-template.md", "lines": "all", "purpose": "Reference the capture workflow to reuse" }
+                ],
+                "related_files": [".claude/commands/slidev/sync-all.md"]
+              },
+              "depends_on": ["2.2.2"],
+              "actions": [
+                {
+                  "id": "2.2.3.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-all.md: ADD section '## Step 2: Iterate and Capture' with for-each loop over slides, URL calculation, screenshot capture for each click state",
+                  "file": ".claude/commands/slidev/sync-all.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.2.4",
+              "title": "Write completion summary",
+              "file_path": ".claude/commands/slidev/sync-all.md",
+              "description": "Add instructions for reporting total templates synced and screenshot counts.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [".claude/commands/slidev/sync-all.md"]
+              },
+              "depends_on": ["2.2.3"],
+              "actions": [
+                {
+                  "id": "2.2.4.1",
+                  "command": "UPDATE .claude/commands/slidev/sync-all.md: ADD section '## Step 3: Report Summary' with total templates synced, total screenshots captured",
+                  "file": ".claude/commands/slidev/sync-all.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "title": "Test and Validate",
+          "objective": "Run sync-all and verify all 9 templates have correct screenshots",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.3.1",
+              "title": "Execute sync-all command",
+              "file_path": null,
+              "description": "Run /slidev:sync-all and observe iteration through all templates.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/sync-all.md", "lines": "all", "purpose": "Understand the workflow being tested" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["2.2.4"],
+              "actions": [
+                {
+                  "id": "2.3.1.1",
+                  "command": "RUN /slidev:sync-all",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.3.2",
+              "title": "Verify all templates have screenshots",
+              "file_path": "slide-templates/*/screenshots/",
+              "description": "Confirm all 9 templates have correct number of screenshots matching their clicks field.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "1-15", "purpose": "Reference expected click counts for each template" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["2.3.1"],
+              "actions": [
+                {
+                  "id": "2.3.2.1",
+                  "command": "VERIFY all 9 templates have screenshots directory with correct click count: title(0), intro-what-well-cover(3), about-me(0), icon-list-content(2), continuum-diagram(4), extremes-to-middle(2), continuum-middle-ground(3), three-to-one-takeaway(4), conclusion-lets-connect(0)",
+                  "file": "slide-templates/*/screenshots/",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Add Template Command",
+      "goal": "Create /slidev:add-template command with interactive prompts for creating new templates",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/commands/slidev/sync-template.md", "status": "exists", "description": "Working single-template command" },
+            { "path": "templates.json", "status": "exists", "description": "Current template entries" }
+          ],
+          "tree": ".claude/commands/slidev/\n├── sync-all.md\n└── sync-template.md"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/commands/slidev/add-template.md", "status": "new", "description": "Interactive command for adding templates" }
+          ],
+          "tree": ".claude/commands/slidev/\n├── add-template.md\n├── sync-all.md\n└── sync-template.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Execute add-template workflow and verify structure created",
+        "verification_steps": [
+          "Run /slidev:add-template (interactive)",
+          "Verify new folder created in slide-templates/",
+          "Verify description.md, slide.md, example.md created",
+          "Verify templates.json updated with new entry"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Create add-template Command File",
+          "objective": "Create the command file with frontmatter and workflow header",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Create add-template.md command file",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Create command file with frontmatter specifying allowed-tools (AskUserQuestion, Write, Edit, Read, mcp__playwright__*) for interactive template creation workflow.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/sync-template.md", "lines": "1-10", "purpose": "Reference existing command frontmatter pattern" }
+                ],
+                "related_files": [".claude/commands/slidev/"]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "3.1.1.1",
+                  "command": "CREATE .claude/commands/slidev/add-template.md with frontmatter: allowed-tools=AskUserQuestion,Write,Edit,Read,mcp__playwright__*, description='Interactive workflow for adding new slide templates'",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Implement Interactive Prompts",
+          "objective": "Write workflow sections for prompting user for template details",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.2.1",
+              "title": "Write prompt for template name",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add AskUserQuestion section for kebab-case template identifier (e.g., 'two-column-compare').",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "143-157", "purpose": "Reference add-template workflow specification" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.1.1"],
+              "actions": [
+                {
+                  "id": "3.2.1.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 1: Template Name' with AskUserQuestion for kebab-case identifier",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.2.2",
+              "title": "Write prompt for template purpose",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add AskUserQuestion section for what kind of content the template presents.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.2.1"],
+              "actions": [
+                {
+                  "id": "3.2.2.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 2: Template Purpose' with AskUserQuestion for content type description",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.2.3",
+              "title": "Write prompt for layout structure",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add AskUserQuestion section for columns, sections, visual elements.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.2.2"],
+              "actions": [
+                {
+                  "id": "3.2.3.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 3: Layout Structure' with AskUserQuestion for columns/sections/elements",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.2.4",
+              "title": "Write prompt for animation pattern",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add AskUserQuestion section for v-click reveal strategy.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.2.3"],
+              "actions": [
+                {
+                  "id": "3.2.4.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 4: Animation Pattern' with AskUserQuestion for v-click strategy",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "Implement File Creation",
+          "objective": "Write workflow for creating template folder structure",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.3.1",
+              "title": "Write folder creation instructions",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions for creating slide-templates/{name}/ folder and screenshots/ subdirectory.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "98-107", "purpose": "Reference template folder structure" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.2.4"],
+              "actions": [
+                {
+                  "id": "3.3.1.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 5: Create Folder Structure' with mkdir instructions for template folder",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.3.2",
+              "title": "Write description.md generation",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions for generating description.md from user inputs (purpose, layout, usage examples).",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slide-templates/continuum-diagram/description.md", "lines": "1-50", "purpose": "Reference existing description.md structure" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.3.1"],
+              "actions": [
+                {
+                  "id": "3.3.2.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 6: Generate description.md' with template for documentation file",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.3.3",
+              "title": "Write slide.md generation",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions for generating slide.md template with {{placeholder}} variables based on layout structure.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slide-templates/continuum-diagram/slide.md", "lines": "all", "purpose": "Reference existing slide.md structure with placeholders" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.3.2"],
+              "actions": [
+                {
+                  "id": "3.3.3.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 7: Generate slide.md' with template structure and placeholder syntax",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.3.4",
+              "title": "Write example.md generation",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions for generating example.md with sample content and v-click annotations.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slide-templates/continuum-diagram/example.md", "lines": "all", "purpose": "Reference existing example.md structure" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.3.3"],
+              "actions": [
+                {
+                  "id": "3.3.4.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 8: Generate example.md' with sample content including v-click annotations",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "title": "Implement Templates.json Update",
+          "objective": "Write workflow for adding entry to templates.json and triggering screenshot capture",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.4.1",
+              "title": "Write v-click analysis instructions",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions for counting v-click elements in example.md to determine clicks field value.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.3.4"],
+              "actions": [
+                {
+                  "id": "3.4.1.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 9: Analyze Click Count' with instructions to count v-click elements",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.4.2",
+              "title": "Write templates.json update instructions",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions for adding new entry to templates.json with order, template, source, clicks fields.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "1-15", "purpose": "Reference templates.json structure for new entry" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.4.1"],
+              "actions": [
+                {
+                  "id": "3.4.2.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 10: Update templates.json' with instructions to add new slide entry",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.4.3",
+              "title": "Write deployment reminder",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add reminder to run build/deploy before screenshot capture so the live URL is updated.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.4.2"],
+              "actions": [
+                {
+                  "id": "3.4.3.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 11: Deploy' with reminder to build and deploy for live URL",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.4.4",
+              "title": "Write screenshot capture trigger",
+              "file_path": ".claude/commands/slidev/add-template.md",
+              "description": "Add instructions to invoke sync-template workflow after deployment to capture screenshots.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/sync-template.md", "lines": "all", "purpose": "Reference sync-template command to invoke" }
+                ],
+                "related_files": [".claude/commands/slidev/add-template.md"]
+              },
+              "depends_on": ["3.4.3"],
+              "actions": [
+                {
+                  "id": "3.4.4.1",
+                  "command": "UPDATE .claude/commands/slidev/add-template.md: ADD section '## Step 12: Capture Screenshots' with instructions to run sync-template for new template",
+                  "file": ".claude/commands/slidev/add-template.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.5",
+          "title": "Test and Validate",
+          "objective": "Run add-template workflow and verify full structure created",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.5.1",
+              "title": "Execute add-template workflow",
+              "file_path": null,
+              "description": "Run /slidev:add-template and complete interactive prompts to create a test template.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/add-template.md", "lines": "all", "purpose": "Understand the workflow being tested" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["3.4.4"],
+              "actions": [
+                {
+                  "id": "3.5.1.1",
+                  "command": "RUN /slidev:add-template and complete prompts for test template",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.5.2",
+              "title": "Verify template structure created",
+              "file_path": "slide-templates/{new-template}/",
+              "description": "Confirm new template folder created with description.md, slide.md, example.md, and templates.json updated.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": []
+              },
+              "depends_on": ["3.5.1"],
+              "actions": [
+                {
+                  "id": "3.5.2.1",
+                  "command": "VERIFY slide-templates/{new-template}/ contains description.md, slide.md, example.md",
+                  "file": "slide-templates/{new-template}/",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.5.2.2",
+                  "command": "VERIFY templates.json contains new entry with correct order, template, source, clicks",
+                  "file": "templates.json",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Slidev Skill Documentation",
+      "goal": "Create comprehensive skill documentation that agents can reference for template conventions",
+      "prerequisites": [1, 2, 3],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/commands/slidev/", "status": "exists", "description": "All three commands complete" }
+          ],
+          "tree": ".claude/commands/slidev/\n├── add-template.md\n├── sync-all.md\n└── sync-template.md"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/skills/slidev/SKILL.md", "status": "new", "description": "Main skill documentation" },
+            { "path": ".claude/skills/slidev/references/templates.md", "status": "new", "description": "Template structure reference" },
+            { "path": ".claude/skills/slidev/references/playwright-workflow.md", "status": "new", "description": "Playwright MCP usage patterns" }
+          ],
+          "tree": ".claude/skills/slidev/\n├── SKILL.md\n└── references/\n    ├── playwright-workflow.md\n    └── templates.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Review documentation completeness and accuracy",
+        "verification_steps": [
+          "Verify SKILL.md covers template structure conventions",
+          "Verify references document Playwright MCP usage",
+          "Verify all commands are documented with usage examples"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "4.1",
+          "title": "Create Skill Directory Structure",
+          "objective": "Set up .claude/skills/slidev/ directory with references folder",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.1.1",
+              "title": "Create slidev skill directory",
+              "file_path": ".claude/skills/slidev/",
+              "description": "Create the slidev skill directory and references subdirectory.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/skills/git/SKILL.md", "lines": "1-30", "purpose": "Reference existing skill structure" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "4.1.1.1",
+                  "command": "CREATE .claude/skills/slidev/ directory",
+                  "file": ".claude/skills/slidev/",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.1.1.2",
+                  "command": "CREATE .claude/skills/slidev/references/ directory",
+                  "file": ".claude/skills/slidev/references/",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "title": "Create Main Skill Documentation",
+          "objective": "Write SKILL.md with overview, commands, and conventions",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.2.1",
+              "title": "Write SKILL.md overview section",
+              "file_path": ".claude/skills/slidev/SKILL.md",
+              "description": "Create SKILL.md with overview explaining the Slidev template system and its purpose.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/skills/git/SKILL.md", "lines": "all", "purpose": "Reference existing skill documentation format" }
+                ],
+                "related_files": [".claude/skills/slidev/"]
+              },
+              "depends_on": ["4.1.1"],
+              "actions": [
+                {
+                  "id": "4.2.1.1",
+                  "command": "CREATE .claude/skills/slidev/SKILL.md with overview section explaining template system purpose",
+                  "file": ".claude/skills/slidev/SKILL.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.2.2",
+              "title": "Write commands documentation",
+              "file_path": ".claude/skills/slidev/SKILL.md",
+              "description": "Add documentation for /slidev:sync-all, /slidev:sync-template, and /slidev:add-template commands with usage examples.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/commands/slidev/sync-all.md", "lines": "all", "purpose": "Reference command details" },
+                  { "file": ".claude/commands/slidev/sync-template.md", "lines": "all", "purpose": "Reference command details" },
+                  { "file": ".claude/commands/slidev/add-template.md", "lines": "all", "purpose": "Reference command details" }
+                ],
+                "related_files": [".claude/skills/slidev/SKILL.md"]
+              },
+              "depends_on": ["4.2.1"],
+              "actions": [
+                {
+                  "id": "4.2.2.1",
+                  "command": "UPDATE .claude/skills/slidev/SKILL.md: ADD section '## Commands' with documentation for all three commands",
+                  "file": ".claude/skills/slidev/SKILL.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.2.3",
+              "title": "Write conventions documentation",
+              "file_path": ".claude/skills/slidev/SKILL.md",
+              "description": "Add documentation for template naming conventions, folder structure, and URL patterns.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-01-08_slide-screenshot-capture_1rm1pt/spec.md", "lines": "79-107", "purpose": "Reference structure conventions" }
+                ],
+                "related_files": [".claude/skills/slidev/SKILL.md"]
+              },
+              "depends_on": ["4.2.2"],
+              "actions": [
+                {
+                  "id": "4.2.3.1",
+                  "command": "UPDATE .claude/skills/slidev/SKILL.md: ADD section '## Conventions' with naming, folder structure, URL patterns",
+                  "file": ".claude/skills/slidev/SKILL.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "title": "Create Reference Documentation",
+          "objective": "Write templates.md and playwright-workflow.md reference files",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.3.1",
+              "title": "Write templates.md reference",
+              "file_path": ".claude/skills/slidev/references/templates.md",
+              "description": "Create templates.md documenting template folder structure, file purposes, and templates.json schema.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "templates.json", "lines": "all", "purpose": "Reference templates.json structure" },
+                  { "file": "slide-templates/continuum-diagram/", "lines": null, "purpose": "Reference example template structure" }
+                ],
+                "related_files": [".claude/skills/slidev/references/"]
+              },
+              "depends_on": ["4.1.1"],
+              "actions": [
+                {
+                  "id": "4.3.1.1",
+                  "command": "CREATE .claude/skills/slidev/references/templates.md with template folder structure documentation",
+                  "file": ".claude/skills/slidev/references/templates.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.3.2",
+              "title": "Write playwright-workflow.md reference",
+              "file_path": ".claude/skills/slidev/references/playwright-workflow.md",
+              "description": "Create playwright-workflow.md documenting Playwright MCP tools used for screenshot capture (browser_navigate, browser_take_screenshot).",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/skills/browser-mcp/references/tools.md", "lines": "all", "purpose": "Reference Playwright MCP tools" }
+                ],
+                "related_files": [".claude/skills/slidev/references/"]
+              },
+              "depends_on": ["4.1.1"],
+              "actions": [
+                {
+                  "id": "4.3.2.1",
+                  "command": "CREATE .claude/skills/slidev/references/playwright-workflow.md with Playwright MCP usage patterns for screenshot capture",
+                  "file": ".claude/skills/slidev/references/playwright-workflow.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "title": "Review and Validate",
+          "objective": "Verify documentation is complete and accurate",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.4.1",
+              "title": "Review documentation completeness",
+              "file_path": null,
+              "description": "Review all skill documentation files to ensure completeness and accuracy.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": ".claude/skills/slidev/SKILL.md", "lines": "all", "purpose": "Review main documentation" },
+                  { "file": ".claude/skills/slidev/references/templates.md", "lines": "all", "purpose": "Review templates reference" },
+                  { "file": ".claude/skills/slidev/references/playwright-workflow.md", "lines": "all", "purpose": "Review playwright reference" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["4.2.3", "4.3.1", "4.3.2"],
+              "actions": [
+                {
+                  "id": "4.4.1.1",
+                  "command": "VERIFY SKILL.md covers all commands with usage examples",
+                  "file": ".claude/skills/slidev/SKILL.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.4.1.2",
+                  "command": "VERIFY templates.md documents folder structure and templates.json schema",
+                  "file": ".claude/skills/slidev/references/templates.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "4.4.1.3",
+                  "command": "VERIFY playwright-workflow.md documents MCP tool usage patterns",
+                  "file": ".claude/skills/slidev/references/playwright-workflow.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

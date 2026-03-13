@@ -1,0 +1,43 @@
+{
+  "name": "slidev",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build ./index.md",
+    "build:slides": "node scripts/build.ts",
+    "dev": "slidev ./index.md --open",
+    "export": "slidev export",
+    "generate:slide": "tsx scripts/generate-slide.ts",
+    "generate:showcase": "tsx scripts/generate-showcase.ts && npm run build:slides",
+    "list:templates": "ls -la slide-templates/",
+    "template:help": "echo 'Usage: npm run generate:slide -- --template=<template-name> --name=<slide-name> [--variable=value ...]'"
+  },
+  "dependencies": {
+    "@iconify-json/vscode-icons": "^1.2.40",
+    "@slidev/cli": "^51.8.1",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "^0.25.0",
+    "@slidev/types": "^51.8.2",
+    "chart.js": "^4.5.1",
+    "globby": "^14.1.0",
+    "lucide-vue-next": "^0.532.0",
+    "markdown-it": "^14.1.0",
+    "vue": "^3.5.16",
+    "vue-chartjs": "^5.3.3"
+  },
+  "slidev": {
+    "colorSchema": "light",
+    "highlighter": "shiki",
+    "defaults": {
+      "fonts": {
+        "sans": "Styrene",
+        "mono": "Fira Code"
+      },
+      "highlighter": "shiki"
+    }
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "tsx": "^4.21.0"
+  }
+}

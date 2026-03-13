@@ -1,0 +1,13 @@
+{
+  "slides": [
+    { "order": "00", "template": "title", "source": "slide.md", "clicks": 0 },
+    { "order": "01", "template": "column-cards", "source": "example.md", "clicks": 3 },
+    { "order": "02", "template": "about-me", "source": "slide.md", "clicks": 0 },
+    { "order": "03", "template": "icon-list-content", "source": "example.md", "clicks": 2 },
+    { "order": "04", "template": "continuum-diagram", "source": "example.md", "clicks": 4 },
+    { "order": "05", "template": "extremes-to-middle", "source": "example.md", "clicks": 2 },
+    { "order": "06", "template": "continuum-middle-ground", "source": "example.md", "clicks": 3 },
+    { "order": "07", "template": "three-to-one-takeaway", "source": "example.md", "clicks": 4 },
+    { "order": "99", "template": "conclusion-lets-connect", "source": "example.md", "clicks": 0 }
+  ]
+}

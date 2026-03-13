@@ -1,0 +1,615 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-02-03_presentation-session-workflow_p7x2m4",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-02-03T11:00:00Z",
+  "updated_at": "2026-02-03T12:30:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Create Presentation-Session Skill Structure",
+      "goal": "Establish the basic skill folder structure and SKILL.md entry point for the presentation-session workflow. Create minimal SPEC phase that can interview a user about a presentation topic.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/skills/agent-session/SKILL.md", "status": "exists", "description": "Generic agent-session skill to reference" }
+          ],
+          "tree": ".claude/skills/\n├── agent-session/\n├── slidev/\n└── (other skills)"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/SKILL.md", "status": "new", "description": "Main skill entry point" },
+            { "path": ".claude/skills/presentation-session/spec/OVERVIEW.md", "status": "new", "description": "Spec phase instructions" }
+          ],
+          "tree": ".claude/skills/\n├── presentation-session/\n│   ├── SKILL.md\n│   └── spec/\n│       └── OVERVIEW.md\n├── agent-session/\n└── slidev/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Manual verification of skill structure and content",
+        "verification_steps": [
+          "Verify .claude/skills/presentation-session/SKILL.md exists",
+          "Verify .claude/skills/presentation-session/spec/OVERVIEW.md exists",
+          "Check that SKILL.md references spec phase correctly"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Create Skill Foundation",
+          "objective": "Create the presentation-session skill folder and main SKILL.md entry point",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Create SKILL.md entry point",
+              "file_path": ".claude/skills/presentation-session/SKILL.md",
+              "description": "Create the main skill entry point with frontmatter and basic structure. This is a presentation-specific workflow (SPEC → PLAN → BUILD) optimized for linear slide creation rather than adaptive code implementation.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/agent-session/SKILL.md",
+                    "lines": "all",
+                    "purpose": "Reference the generic agent-session structure and adapt for presentations"
+                  }
+                ],
+                "related_files": [
+                  ".claude/skills/slidev/SKILL.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.1.1",
+                  "command": "CREATE .claude/skills/presentation-session/SKILL.md with frontmatter (name: presentation-session, description: Presentation workflow for Slidev) and basic SPEC → PLAN → BUILD overview",
+                  "file": ".claude/skills/presentation-session/SKILL.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "Create SPEC Phase",
+          "objective": "Create the spec/OVERVIEW.md with interview-focused workflow for presentations",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.2.1",
+              "title": "Create spec/OVERVIEW.md",
+              "file_path": ".claude/skills/presentation-session/spec/OVERVIEW.md",
+              "description": "Create the SPEC phase documentation. Focus on pseudo-structured interview for capturing: (1) key idea/takeaway, (2) audience, (3) time constraints, (4) non-goals. No research - external data provided manually. Flow naturally, adapt to conversation.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/agent-session/spec/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference generic spec phase and simplify for presentations"
+                  },
+                  {
+                    "file": "agents/sessions/2026-02-03_presentation-session-workflow_p7x2m4/spec.md",
+                    "lines": "38-72",
+                    "purpose": "Reference the spec's detailed goals for SPEC phase requirements"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["1.1.1"],
+              "actions": [
+                {
+                  "id": "1.2.1.1",
+                  "command": "CREATE .claude/skills/presentation-session/spec/OVERVIEW.md with presentation-focused interview workflow. Core questions: (1) What's the one thing audience should remember? (2) Who is the audience? (3) How much time? (4) What are you NOT covering? Flow naturally, not rigid.",
+                  "file": ".claude/skills/presentation-session/spec/OVERVIEW.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.2.2",
+              "title": "Create spec template",
+              "file_path": ".claude/skills/presentation-session/spec/templates/presentation-spec.md",
+              "description": "Create a presentation-specific spec template that captures: overview, key message, audience, time, non-goals, and context. Simpler than generic spec - focused on presentation essentials.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/agent-session/spec/templates/spec.md",
+                    "lines": "all",
+                    "purpose": "Reference generic spec template and adapt for presentations"
+                  }
+                ],
+                "related_files": [
+                  ".claude/skills/presentation-session/spec/OVERVIEW.md"
+                ]
+              },
+              "depends_on": ["1.2.1"],
+              "actions": [
+                {
+                  "id": "1.2.2.1",
+                  "command": "CREATE .claude/skills/presentation-session/spec/templates/presentation-spec.md with sections: Overview, Key Message, Audience, Time/Format, Non-Goals, Context, Key Decisions",
+                  "file": ".claude/skills/presentation-session/spec/templates/presentation-spec.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Implement PLAN Phase with File Tree Storyboard",
+      "goal": "Create the PLAN phase that outputs a pseudo-structured file tree storyboard showing each slide and its content. The file tree IS the storyboard - bird's eye view of the presentation.",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/SKILL.md", "status": "exists", "description": "From checkpoint 1" },
+            { "path": ".claude/skills/presentation-session/spec/OVERVIEW.md", "status": "exists", "description": "From checkpoint 1" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md\n└── spec/\n    └── OVERVIEW.md"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/plan/OVERVIEW.md", "status": "new", "description": "Plan phase instructions" },
+            { "path": ".claude/skills/presentation-session/plan/templates/storyboard.md", "status": "new", "description": "File tree storyboard template" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md\n├── spec/\n│   └── OVERVIEW.md\n└── plan/\n    ├── OVERVIEW.md\n    └── templates/\n        └── storyboard.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Manual verification of plan phase structure",
+        "verification_steps": [
+          "Verify plan/OVERVIEW.md exists and documents file tree output format",
+          "Verify storyboard template shows pseudo-structured format",
+          "Check that SKILL.md references plan phase"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Create Plan Phase Documentation",
+          "objective": "Create plan/OVERVIEW.md explaining the file tree storyboard approach",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Create plan/OVERVIEW.md",
+              "file_path": ".claude/skills/presentation-session/plan/OVERVIEW.md",
+              "description": "Create the PLAN phase documentation. Explain the file tree storyboard approach: go through slide by slide, output shows each slide folder and what it should contain. Template specification is OPTIONAL - helps BUILD but user may not know templates. Primary purpose: bird's eye view of what you're saying.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/agent-session/plan/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference generic plan phase and adapt for presentations (much simpler)"
+                  },
+                  {
+                    "file": "agents/sessions/2026-02-03_presentation-session-workflow_p7x2m4/spec.md",
+                    "lines": "46-58",
+                    "purpose": "Reference the spec's detailed goals for PLAN file tree format"
+                  }
+                ],
+                "related_files": [
+                  ".claude/skills/slidev/SKILL.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.1.1.1",
+                  "command": "CREATE .claude/skills/presentation-session/plan/OVERVIEW.md with file tree storyboard workflow. Explain: (1) Go slide by slide, (2) Output is file tree showing each slide + content, (3) Template is optional, (4) Primary purpose is bird's eye view",
+                  "file": ".claude/skills/presentation-session/plan/OVERVIEW.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Create Storyboard Template",
+          "objective": "Create the file tree storyboard template with optional template hints",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.2.1",
+              "title": "Create storyboard template",
+              "file_path": ".claude/skills/presentation-session/plan/templates/storyboard.md",
+              "description": "Create an example storyboard template showing the pseudo-structured file tree format. Include: numbered slide folders, key content/message for each slide, optional template hints (e.g., template: column-cards). This is what PLAN outputs - the visual outline.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/slidev/SKILL.md",
+                    "lines": "106-140",
+                    "purpose": "Reference actual slide folder structure conventions"
+                  },
+                  {
+                    "file": "slide-templates/column-cards/description.md",
+                    "lines": "all",
+                    "purpose": "Example template description to understand template hint format"
+                  }
+                ],
+                "related_files": [
+                  ".claude/skills/presentation-session/plan/OVERVIEW.md"
+                ]
+              },
+              "depends_on": ["2.1.1"],
+              "actions": [
+                {
+                  "id": "2.2.1.1",
+                  "command": "CREATE .claude/skills/presentation-session/plan/templates/storyboard.md showing example file tree format with slide folders, content descriptions, and optional template hints",
+                  "file": ".claude/skills/presentation-session/plan/templates/storyboard.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Implement BUILD Phase with Dual Modes",
+      "goal": "Create the BUILD phase with two modes: full-draft (generate entire presentation) and single-slide (iterate on specific slide). Single-slide supports targeting by folder name, slide number, or conversational description.",
+      "prerequisites": [2],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/SKILL.md", "status": "exists", "description": "From checkpoint 1" },
+            { "path": ".claude/skills/presentation-session/spec/OVERVIEW.md", "status": "exists", "description": "From checkpoint 1" },
+            { "path": ".claude/skills/presentation-session/plan/OVERVIEW.md", "status": "exists", "description": "From checkpoint 2" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md\n├── spec/\n│   └── OVERVIEW.md\n└── plan/\n    ├── OVERVIEW.md\n    └── templates/"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/build/OVERVIEW.md", "status": "new", "description": "Build phase instructions with both modes" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md\n├── spec/\n│   └── OVERVIEW.md\n├── plan/\n│   ├── OVERVIEW.md\n│   └── templates/\n└── build/\n    └── OVERVIEW.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Manual verification of build phase structure",
+        "verification_steps": [
+          "Verify build/OVERVIEW.md documents both full-draft and single-slide modes",
+          "Verify single-slide targeting methods are documented (folder name, number, conversational)",
+          "Check that build mode reads spec/plan for context"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Create Build Phase Documentation",
+          "objective": "Create build/OVERVIEW.md explaining dual modes and slide targeting",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Create build/OVERVIEW.md",
+              "file_path": ".claude/skills/presentation-session/build/OVERVIEW.md",
+              "description": "Create the BUILD phase documentation with two modes: (1) Full-draft mode - generate entire presentation from storyboard, (2) Single-slide mode - hone in on specific slide to iterate/refine. Single-slide targeting supports: folder name (03-the-question), slide number (slide 3), or conversational description. BUILD always reads spec/plan for context - understands overall narrative even when working on one slide.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/agent-session/build/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference generic build phase and adapt for presentations (much simpler)"
+                  },
+                  {
+                    "file": "agents/sessions/2026-02-03_presentation-session-workflow_p7x2m4/spec.md",
+                    "lines": "60-70",
+                    "purpose": "Reference the spec's detailed goals for BUILD phase requirements"
+                  },
+                  {
+                    "file": ".claude/skills/slidev/SKILL.md",
+                    "lines": "all",
+                    "purpose": "Reference slidev conventions for actual slide generation"
+                  }
+                ],
+                "related_files": [
+                  "CLAUDE.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "3.1.1.1",
+                  "command": "CREATE .claude/skills/presentation-session/build/OVERVIEW.md with dual modes: (1) Full-draft - generate all slides, (2) Single-slide - target by folder name, number, or description. Both modes read spec/plan for context.",
+                  "file": ".claude/skills/presentation-session/build/OVERVIEW.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Create Skill Commands and Integration",
+      "goal": "Create the slash commands that invoke each phase and wire them into the settings.json. Ensure commands can be invoked and the skill is discoverable.",
+      "prerequisites": [3],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/", "status": "exists", "description": "Complete skill structure from checkpoints 1-3" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md\n├── spec/\n├── plan/\n└── build/"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/commands/presentation-session/spec.md", "status": "new", "description": "Spec phase command" },
+            { "path": ".claude/commands/presentation-session/plan.md", "status": "new", "description": "Plan phase command" },
+            { "path": ".claude/commands/presentation-session/build.md", "status": "new", "description": "Full draft build command" },
+            { "path": ".claude/commands/presentation-session/slide.md", "status": "new", "description": "Single slide build command" }
+          ],
+          "tree": ".claude/commands/presentation-session/\n├── spec.md\n├── plan.md\n├── build.md\n└── slide.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Verify command files exist and settings.json is updated",
+        "verification_steps": [
+          "Verify all command files exist in .claude/commands/presentation-session/",
+          "Verify commands reference the skill correctly",
+          "Check that commands follow the existing command patterns in the repo"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "4.1",
+          "title": "Create Command Files",
+          "objective": "Create the slash command files for spec, plan, build, and slide modes",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.1.1",
+              "title": "Create spec command",
+              "file_path": ".claude/commands/presentation-session/spec.md",
+              "description": "Create the /presentation-session:spec command. This invokes the SPEC phase interview workflow. Support: new session (with topic), resume session (by ID), or finalize. SIMPLER than agent-session - pseudo-structured interview for presentations only.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/commands/agent-session/spec.md",
+                    "lines": "all",
+                    "purpose": "Reference generic spec command and simplify for presentations"
+                  },
+                  {
+                    "file": ".claude/skills/presentation-session/spec/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference the presentation-session spec phase instructions"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "4.1.1.1",
+                  "command": "CREATE .claude/commands/presentation-session/spec.md with frontmatter and simplified interview workflow for presentations",
+                  "file": ".claude/commands/presentation-session/spec.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.1.2",
+              "title": "Create plan command",
+              "file_path": ".claude/commands/presentation-session/plan.md",
+              "description": "Create the /presentation-session:plan command. This invokes the PLAN phase to output a file tree storyboard. Goes slide by slide to build the visual outline. SIMPLER than agent-session - no checkpoints/IDK, just file tree output.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/commands/agent-session/plan.md",
+                    "lines": "all",
+                    "purpose": "Reference generic plan command and simplify for presentations"
+                  },
+                  {
+                    "file": ".claude/skills/presentation-session/plan/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference the presentation-session plan phase instructions"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["4.1.1"],
+              "actions": [
+                {
+                  "id": "4.1.2.1",
+                  "command": "CREATE .claude/commands/presentation-session/plan.md with frontmatter and file tree storyboard workflow",
+                  "file": ".claude/commands/presentation-session/plan.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.1.3",
+              "title": "Create build command",
+              "file_path": ".claude/commands/presentation-session/build.md",
+              "description": "Create the /presentation-session:build command. This invokes the BUILD phase in full-draft mode - generates entire presentation from the storyboard. Reads spec/plan for context, generates all slides using slidev conventions.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/commands/agent-session/build.md",
+                    "lines": "all",
+                    "purpose": "Reference generic build command and simplify for presentations"
+                  },
+                  {
+                    "file": ".claude/skills/presentation-session/build/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference the presentation-session build phase instructions"
+                  }
+                ],
+                "related_files": [
+                  ".claude/skills/slidev/SKILL.md"
+                ]
+              },
+              "depends_on": ["4.1.2"],
+              "actions": [
+                {
+                  "id": "4.1.3.1",
+                  "command": "CREATE .claude/commands/presentation-session/build.md with frontmatter and full-draft generation workflow",
+                  "file": ".claude/commands/presentation-session/build.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "4.1.4",
+              "title": "Create slide command",
+              "file_path": ".claude/commands/presentation-session/slide.md",
+              "description": "Create the /presentation-session:slide command. This invokes single-slide mode - target a specific slide to iterate/refine. Supports: folder name (03-the-question), slide number (slide 3), or conversational description. Reads spec/plan for narrative context.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/presentation-session/build/OVERVIEW.md",
+                    "lines": "all",
+                    "purpose": "Reference the single-slide targeting documentation"
+                  },
+                  {
+                    "file": ".claude/skills/slidev/SKILL.md",
+                    "lines": "all",
+                    "purpose": "Reference slidev conventions for slide generation"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["4.1.3"],
+              "actions": [
+                {
+                  "id": "4.1.4.1",
+                  "command": "CREATE .claude/commands/presentation-session/slide.md with frontmatter and single-slide targeting workflow (folder name, number, or description)",
+                  "file": ".claude/commands/presentation-session/slide.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Polish and Documentation",
+      "goal": "Update SKILL.md with complete documentation, add examples, and ensure the workflow is self-documenting. Cross-reference with slidev skill for template information.",
+      "prerequisites": [4],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/", "status": "exists", "description": "Complete skill from checkpoints 1-4" },
+            { "path": ".claude/commands/presentation-session/", "status": "exists", "description": "Commands from checkpoint 4" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md\n├── spec/\n├── plan/\n└── build/"
+        },
+        "ending": {
+          "files": [
+            { "path": ".claude/skills/presentation-session/SKILL.md", "status": "modified", "description": "Complete documentation with examples" },
+            { "path": ".claude/skills/presentation-session/references/", "status": "new", "description": "Reference documentation" }
+          ],
+          "tree": ".claude/skills/presentation-session/\n├── SKILL.md (enhanced)\n├── spec/\n├── plan/\n├── build/\n└── references/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Review documentation completeness",
+        "verification_steps": [
+          "Verify SKILL.md has complete command table",
+          "Verify workflow diagram is included",
+          "Check cross-references to slidev skill"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "5.1",
+          "title": "Complete SKILL.md Documentation",
+          "objective": "Update SKILL.md with complete command table, workflow diagram, and cross-references",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "5.1.1",
+              "title": "Enhance SKILL.md with complete documentation",
+              "file_path": ".claude/skills/presentation-session/SKILL.md",
+              "description": "Update the SKILL.md created in Checkpoint 1 with: (1) Complete command table showing all 4 commands, (2) ASCII workflow diagram showing SPEC → PLAN → BUILD flow, (3) Session directory structure, (4) Cross-reference to slidev skill for template information, (5) When to use this skill vs agent-session",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": ".claude/skills/presentation-session/SKILL.md",
+                    "lines": "all",
+                    "purpose": "Read existing SKILL.md from Checkpoint 1 to enhance"
+                  },
+                  {
+                    "file": ".claude/skills/agent-session/SKILL.md",
+                    "lines": "all",
+                    "purpose": "Reference agent-session SKILL.md structure for consistency"
+                  },
+                  {
+                    "file": ".claude/skills/slidev/SKILL.md",
+                    "lines": "all",
+                    "purpose": "Reference slidev skill for cross-reference section"
+                  }
+                ],
+                "related_files": [
+                  ".claude/commands/presentation-session/spec.md",
+                  ".claude/commands/presentation-session/plan.md",
+                  ".claude/commands/presentation-session/build.md",
+                  ".claude/commands/presentation-session/slide.md"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "5.1.1.1",
+                  "command": "UPDATE .claude/skills/presentation-session/SKILL.md: ADD command table with all 4 commands",
+                  "file": ".claude/skills/presentation-session/SKILL.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "5.1.1.2",
+                  "command": "UPDATE .claude/skills/presentation-session/SKILL.md: ADD ASCII workflow diagram (SPEC → PLAN → BUILD)",
+                  "file": ".claude/skills/presentation-session/SKILL.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "5.1.1.3",
+                  "command": "UPDATE .claude/skills/presentation-session/SKILL.md: ADD session directory structure",
+                  "file": ".claude/skills/presentation-session/SKILL.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "5.1.1.4",
+                  "command": "UPDATE .claude/skills/presentation-session/SKILL.md: ADD cross-reference to slidev skill for templates",
+                  "file": ".claude/skills/presentation-session/SKILL.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "5.1.1.5",
+                  "command": "UPDATE .claude/skills/presentation-session/SKILL.md: ADD 'When to Use' section distinguishing from agent-session",
+                  "file": ".claude/skills/presentation-session/SKILL.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

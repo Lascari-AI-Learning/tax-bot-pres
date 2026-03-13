@@ -1,0 +1,243 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-01-29_agent-view-walkthrough-slide_p4w8n3",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-01-29T12:10:00Z",
+  "updated_at": "2026-01-29T12:20:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Move AgentView component and install dependency",
+      "goal": "Move AgentView.vue into components/AgentView/ as a first-class Slidev component and ensure the markdown-it dependency is available. Verify the component loads in Slidev without errors.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "to_add/agent_view/AgentView.vue", "status": "exists", "description": "AgentView component in staging area" },
+            { "path": "package.json", "status": "exists", "description": "Project dependencies (missing markdown-it)" }
+          ],
+          "tree": "components/\n├── Chart.vue\n├── Terminal.vue\n└── FileTree/\n    ├── FileExplorer.vue\n    └── FileTreeItem.vue\nto_add/agent_view/\n├── AgentView.vue\n└── 08-how-skills-work.md"
+        },
+        "ending": {
+          "files": [
+            { "path": "components/AgentView/AgentView.vue", "status": "new", "description": "AgentView component in components directory" },
+            { "path": "package.json", "status": "modified", "description": "markdown-it added as dependency" }
+          ],
+          "tree": "components/\n├── AgentView/\n│   └── AgentView.vue\n├── Chart.vue\n├── Terminal.vue\n└── FileTree/\n    ├── FileExplorer.vue\n    └── FileTreeItem.vue"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Start dev server and verify component loads without console errors",
+        "verification_steps": [
+          "npm run dev (check for compilation errors)",
+          "Verify markdown-it resolves in the component import"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Install markdown-it dependency",
+          "objective": "Add markdown-it to project dependencies so AgentView can render markdown content",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Add markdown-it package",
+              "file_path": "package.json",
+              "description": "AgentView.vue imports markdown-it for rendering markdown content within agent events. This dependency is not currently in package.json. Install it via pnpm along with its TypeScript types.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "package.json", "lines": "all", "purpose": "Check current dependencies" },
+                  { "file": "to_add/agent_view/AgentView.vue", "lines": "1-10", "purpose": "Confirm markdown-it import statement" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "1.1.1.1", "command": "RUN pnpm add markdown-it", "file": "package.json", "status": "pending" },
+                { "id": "1.1.1.2", "command": "RUN pnpm add -D @types/markdown-it", "file": "package.json", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "Move AgentView to components directory",
+          "objective": "Move AgentView.vue from to_add/agent_view/ into components/AgentView/ to follow existing component organization pattern",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.2.1",
+              "title": "Move AgentView.vue to components/AgentView/",
+              "file_path": "components/AgentView/AgentView.vue",
+              "description": "Move the AgentView.vue component from to_add/agent_view/ into components/AgentView/ to match the project's component organization pattern (e.g., components/FileTree/). Slidev auto-imports components from the components/ directory.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "to_add/agent_view/AgentView.vue", "lines": "all", "purpose": "Source file to move" },
+                  { "file": "components/FileTree/FileExplorer.vue", "lines": "1-5", "purpose": "Verify component organization pattern" }
+                ],
+                "related_files": ["components/Chart.vue", "components/Terminal.vue"]
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "1.2.1.1", "command": "CREATE components/AgentView/ directory", "file": "components/AgentView/", "status": "pending" },
+                { "id": "1.2.1.2", "command": "MOVE to_add/agent_view/AgentView.vue to components/AgentView/AgentView.vue", "file": "components/AgentView/AgentView.vue", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Create agent walkthrough demo slide with AgentView",
+      "goal": "Create a new numbered slide (12-agent-walkthrough) that imports and uses the AgentView component with the skills/PDF extraction scenario events. Verify it renders and v-click stepping works.",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "components/AgentView/AgentView.vue", "status": "exists", "description": "AgentView component (from CP1)" }
+          ],
+          "tree": "slides/\n├── 00-title/\n├── ...\n└── 11-terminal-demo/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/12-agent-walkthrough/index.md", "status": "new", "description": "AgentView demo slide with skills scenario" }
+          ],
+          "tree": "slides/\n├── 00-title/\n├── ...\n├── 11-terminal-demo/\n└── 12-agent-walkthrough/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Visual verification in dev server with click-through navigation",
+        "verification_steps": [
+          "npm run dev and navigate to the agent-walkthrough slide",
+          "Click through each event step to verify v-click progression",
+          "Verify all event types render correctly (thought, tool-call, tool-result, assistant, files-read)"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Create the agent-walkthrough slide",
+          "objective": "Create slides/12-agent-walkthrough/index.md with proper Slidev frontmatter and an AgentView component populated with the skills/PDF extraction scenario events, using stepByStep mode for v-click progression.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Create slides/12-agent-walkthrough/index.md with AgentView and skills events",
+              "file_path": "slides/12-agent-walkthrough/index.md",
+              "description": "Create a new Slidev slide that uses the AgentView component to display a skills/PDF extraction walkthrough. The slide should use frontmatter (theme: ../, layout: default, clicks: 8), pass query='Extract tables from invoice.pdf', stepByStep=true, height=420, and define ~8 events: (1) thought: recognizing pdf-processing skill, (2) files-read: Read SKILL.md, (3) tool-result: SKILL.md contents, (4) files-read: Read advanced-extraction.md, (5) tool-result: extraction instructions, (6) tool-call: Bash python scripts/extract.py, (7) tool-result: extraction output, (8) assistant: summary of extracted tables.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "components/AgentView/AgentView.vue", "lines": "all", "purpose": "Understand props interface (events, query, stepByStep, height) and AgentEvent type definition" },
+                  { "file": "slides/11-terminal-demo/index.md", "lines": "all", "purpose": "Reference for Slidev frontmatter pattern and component usage in slides" }
+                ],
+                "related_files": ["to_add/agent_view/08-how-skills-work.md"]
+              },
+              "depends_on": ["1.2.1"],
+              "actions": [
+                { "id": "2.1.1.1", "command": "CREATE slides/12-agent-walkthrough/ directory", "file": "slides/12-agent-walkthrough/", "status": "pending" },
+                { "id": "2.1.1.2", "command": "CREATE slides/12-agent-walkthrough/index.md: ADD frontmatter (theme: ../, layout: default, clicks: 8), ADD AgentView component with query='Extract tables from invoice.pdf' stepByStep=true height=420, ADD events array with 8 skills/PDF extraction events covering thought, files-read, tool-result, tool-call, assistant types. USE components/AgentView/AgentView.vue props interface as reference. USE slides/11-terminal-demo/index.md as slide structure reference.", "file": "slides/12-agent-walkthrough/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Move How Skills Work slide into deck and rebuild",
+      "goal": "Move the existing 08-how-skills-work.md from to_add/ into a new slide folder (13-how-skills-work), adapt frontmatter, run build:slides to regenerate index.md, and verify both slides render in the deck.",
+      "prerequisites": [2],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "to_add/agent_view/08-how-skills-work.md", "status": "exists", "description": "How Skills Work slide in staging" },
+            { "path": "slides/12-agent-walkthrough/index.md", "status": "exists", "description": "AgentView demo slide (from CP2)" }
+          ],
+          "tree": "slides/\n├── 00-title/\n├── ...\n├── 11-terminal-demo/\n└── 12-agent-walkthrough/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/13-how-skills-work/index.md", "status": "new", "description": "How Skills Work slide in deck" },
+            { "path": "index.md", "status": "modified", "description": "Regenerated slide index" }
+          ],
+          "tree": "slides/\n├── 00-title/\n├── ...\n├── 11-terminal-demo/\n├── 12-agent-walkthrough/\n└── 13-how-skills-work/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Dev server verification of both slides and overall deck navigation",
+        "verification_steps": [
+          "npm run build:slides (regenerate index.md)",
+          "npm run dev and navigate through full deck",
+          "Verify How Skills Work slide renders with all click steps",
+          "Verify AgentView slide still renders correctly",
+          "Confirm both slides are accessible in deck navigation"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Move How Skills Work slide into slides directory",
+          "objective": "Copy 08-how-skills-work.md from to_add/ into slides/13-how-skills-work/index.md",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Move 08-how-skills-work.md to slides/13-how-skills-work/index.md",
+              "file_path": "slides/13-how-skills-work/index.md",
+              "description": "Move to_add/agent_view/08-how-skills-work.md into slides/13-how-skills-work/index.md. The frontmatter already has 'theme: ../' and 'layout: default' which is the correct pattern for slides in the slides/ directory. No frontmatter changes needed. The slide uses v-if='$clicks >= N' pattern for progressive reveal across 8 scenes showing how skills work.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "to_add/agent_view/08-how-skills-work.md", "lines": "all", "purpose": "Source file to move — verify frontmatter and content" },
+                  { "file": "slides/11-terminal-demo/index.md", "lines": "1-5", "purpose": "Verify frontmatter pattern matches" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "3.1.1.1", "command": "CREATE slides/13-how-skills-work/ directory", "file": "slides/13-how-skills-work/", "status": "pending" },
+                { "id": "3.1.1.2", "command": "MOVE to_add/agent_view/08-how-skills-work.md to slides/13-how-skills-work/index.md", "file": "slides/13-how-skills-work/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Rebuild slide index",
+          "objective": "Run build:slides to regenerate index.md, ensuring both new slides (12-agent-walkthrough and 13-how-skills-work) appear in the deck",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.2.1",
+              "title": "Run build:slides to regenerate index.md",
+              "file_path": "index.md",
+              "description": "Run 'npm run build:slides' to regenerate the root index.md file. The build script (scripts/build.ts) discovers all */index.md files in the slides/ directory in numerical order and generates the master index.md. This will pick up both slides/12-agent-walkthrough/ and slides/13-how-skills-work/.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "scripts/build.ts", "lines": "1-20", "purpose": "Understand how the build script discovers and orders slides" }
+                ],
+                "related_files": ["index.md", "slides/12-agent-walkthrough/index.md", "slides/13-how-skills-work/index.md"]
+              },
+              "depends_on": ["3.1.1"],
+              "actions": [
+                { "id": "3.2.1.1", "command": "RUN npm run build:slides", "file": "index.md", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

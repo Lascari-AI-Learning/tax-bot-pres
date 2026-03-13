@@ -1,0 +1,72 @@
+{
+  "session_id": "2026-01-29_agent-view-walkthrough-slide_p4w8n3",
+  "current_phase": "build",
+  "topic": "Add agent view / walkthrough slide",
+  "description": "Move AgentView to components/, create a demo slide with skills scenario, and move How Skills Work slide into deck for side-by-side comparison",
+  "created_at": "2026-01-29T12:00:00Z",
+  "updated_at": "2026-01-29T12:05:00Z",
+  "prior_session": null,
+  "phases": {
+    "spec": {
+      "status": "finalized",
+      "started_at": "2026-01-29T12:00:00Z",
+      "finalized_at": "2026-01-29T12:05:00Z"
+    },
+    "plan": {
+      "status": "in_progress",
+      "started_at": "2026-01-29T12:10:00Z",
+      "finalized_at": "2026-01-29T12:20:00Z"
+    },
+    "build": {
+      "status": "completed",
+      "started_at": "2026-01-29T20:37:00Z",
+      "completed_at": "2026-01-29T20:44:00Z"
+    }
+  },
+  "open_questions": [],
+  "key_decisions": [
+    {
+      "decision": "Not a strict template",
+      "rationale": "Agent walkthroughs are niche and complex - they don't fit a simple variable-based template pattern."
+    },
+    {
+      "decision": "Compare side by side",
+      "rationale": "Both slides in the deck using the same skills story, different visual approaches."
+    },
+    {
+      "decision": "Move component to components/",
+      "rationale": "Make AgentView a first-class Slidev component alongside FileTree, Terminal, etc."
+    },
+    {
+      "decision": "Skills scenario for demo events",
+      "rationale": "Same PDF extraction story as How Skills Work, enabling direct visual comparison."
+    },
+    {
+      "decision": "Layout TBD after visual evaluation",
+      "rationale": "User hasn't seen AgentView rendered yet - layout decisions deferred."
+    }
+  ],
+  "plan_state": {
+    "status": "finalized",
+    "checkpoints_total": 3,
+    "checkpoints_detailed": 3,
+    "current_checkpoint": null,
+    "current_task": null,
+    "checkpoints_completed": [1, 2, 3],
+    "last_updated": "2026-01-29T20:44:00Z"
+  },
+  "goals": {
+    "high_level": [
+      "Get AgentView working as a Slidev slide to evaluate rendered output",
+      "Enable direct visual comparison between AgentView and manual HTML scene approaches",
+      "Provide reference implementation for future agent walkthrough slides"
+    ],
+    "mid_level": [
+      "Move AgentView.vue to components/AgentView/",
+      "Create agent walkthrough demo slide with skills/PDF extraction events",
+      "Move How Skills Work slide from to_add/ into slides/",
+      "Ensure both slides render correctly in Slidev",
+      "Run build:slides to regenerate index.md"
+    ]
+  }
+}

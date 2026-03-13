@@ -1,0 +1,73 @@
+@import 'prism-theme-vars/base.css';
+@import 'codemirror-theme-vars/base.css';
+@import 'prism-theme-vars/to-codemirror.css';
+
+:root {
+  --prism-font-family: var(--slidev-code-font-family);
+}
+
+html:not(.dark) {
+  --prism-foreground: #2C3E3B; /* Dark Charcoal */
+  --prism-background: #FAFAF8; /* Slightly off-white */
+  --prism-comment: #4D4D4D; /* Atom Lines Gray */
+  --prism-string: #3B8B8F; /* Microscope Teal */
+  --prism-literal: #6CB0B2; /* Beaker Teal */
+  --prism-number: #E87529; /* Graduation Orange */
+  --prism-keyword: #D4483D; /* Atom Red */
+  --prism-function: #D4483D; /* Atom Red */
+  --prism-boolean: #E87529; /* Graduation Orange */
+  --prism-constant: #E87529; /* Graduation Orange */
+  --prism-deleted: #D4483D; /* Atom Red */
+  --prism-class: #3B8B8F; /* Microscope Teal */
+  --prism-builtin: #6CB0B2; /* Beaker Teal */
+  --prism-property: #E87529; /* Graduation Orange */
+  --prism-namespace: #8AB8B8; /* Beaker Outline */
+  --prism-punctuation: #4D4D4D; /* Atom Lines Gray */
+  --prism-decorator: #8AB8B8; /* Beaker Outline */
+  --prism-regex: #E87529; /* Graduation Orange */
+  --prism-json-property: #3B8B8F; /* Microscope Teal */
+}
+
+html.dark {
+  /* Use same colors as light theme */
+  --prism-foreground: #2C3E3B; /* Dark Charcoal */
+  --prism-background: #FAFAF8; /* Slightly off-white */
+  --prism-comment: #4D4D4D; /* Atom Lines Gray */
+  --prism-string: #3B8B8F; /* Microscope Teal */
+  --prism-literal: #6CB0B2; /* Beaker Teal */
+  --prism-number: #E87529; /* Graduation Orange */
+  --prism-keyword: #D4483D; /* Atom Red */
+  --prism-function: #D4483D; /* Atom Red */
+  --prism-boolean: #E87529; /* Graduation Orange */
+  --prism-constant: #E87529; /* Graduation Orange */
+  --prism-deleted: #D4483D; /* Atom Red */
+  --prism-class: #3B8B8F; /* Microscope Teal */
+  --prism-builtin: #6CB0B2; /* Beaker Teal */
+  --prism-property: #E87529; /* Graduation Orange */
+  --prism-namespace: #8AB8B8; /* Beaker Outline */
+  --prism-punctuation: #4D4D4D; /* Atom Lines Gray */
+  --prism-decorator: #8AB8B8; /* Beaker Outline */
+  --prism-regex: #E87529; /* Graduation Orange */
+  --prism-json-property: #3B8B8F; /* Microscope Teal */
+}
+
+pre[class*='language-'] {
+  @apply p-2;
+}
+
+:not(pre)>code {
+  font-size: 0.9em;
+  background: var(--prism-background);
+  @apply font-light py-0.5 rounded;
+}
+
+
+:not(pre)>code:before,
+:not(pre)>code:after {
+  content: '`';
+  opacity: 0.50;
+}
+
+:not(pre)>code:before {
+  margin-right: -0.08em;
+}

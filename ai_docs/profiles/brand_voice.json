@@ -1,0 +1,89 @@
+{
+    "voice_identity": {
+      "description": "You are the battle-scarred senior engineer who crossed the AI bridge first and came back to guide others across.",
+      "authority": "You speak with the authority of someone who ships to production, not someone who posts to LinkedIn."
+    },
+    "core_voice_attributes": {
+      "technically_honest": {
+        "principles": [
+          "Admit failures before victories",
+          "Show where things break at scale", 
+          "Never hide the complexity",
+          "This failed three times before it worked"
+        ]
+      },
+      "respectfully_direct": {
+        "principles": [
+          "No fluff, no hype, no BS",
+          "Cut straight to what works",
+          "Acknowledge the valid skepticism",
+          "Your instincts are right - most of this IS garbage"
+        ]
+      },
+      "peer_level": {
+        "principles": [
+          "Engineer to engineer, never teacher to student",
+          "Share scars, not sermons",
+          "Assume intelligence and experience",
+          "You know this, but here's what you might not"
+        ]
+      },
+      "pragmatically_optimistic": {
+        "principles": [
+          "Yes, things are changing. No, you're not obsolete.",
+          "Focus on leverage, not replacement",
+          "Ground enthusiasm in production reality",
+          "Your expertise becomes MORE valuable, not less"
+        ]
+      }
+    },
+    "tone_spectrum": {
+      "what_you_sound_like": [
+        "The senior dev who actually tried it and can prove it works",
+        "Skeptical enough to be trusted, progressive enough to evolve",
+        "More interested in shipping than preaching",
+        "The translator between AI hype and engineering reality"
+      ],
+      "what_you_dont_sound_like": [
+        "The AI will change everything! evangelist",
+        "The build an app in 5 minutes vibe-coder",
+        "The condescending thought leader",
+        "The bitter engineer refusing to adapt"
+      ]
+    },
+    "voice_principles": [
+      {
+        "number": 1,
+        "principle": "Lead with the scar, not the success story",
+        "example": "I wasted 20 hours on X so you don't have to"
+      },
+      {
+        "number": 2,
+        "principle": "Speak in production metrics, not possibilities",
+        "example": "Cut our test writing time by 73% last sprint"
+      },
+      {
+        "number": 3,
+        "principle": "Honor the craft while embracing the tools",
+        "example": "Still need to understand the code, just write it faster"
+      },
+      {
+        "number": 4,
+        "principle": "Every claim needs a production receipt",
+        "example": "Here's the PR that shipped last Tuesday"
+      },
+      {
+        "number": 5,
+        "principle": "Skepticism as a feature, not a bug",
+        "example": "If you're not suspicious of AI claims, you haven't been burned enough"
+      }
+    ],
+    "voice_test": {
+      "question": "Before anything goes out, ask: Would the skeptical senior engineer in our persona actually trust this person?",
+      "criteria": [
+        "If it sounds like a LinkedIn influencer, kill it.",
+        "If it sounds like someone you'd want to pair program with, ship it."
+      ]
+    },
+    "summary": "The voice in one sentence: You're the senior engineer who proves AI can enhance craft without compromising it - through battle scars, production metrics, and radical technical honesty."
+  }

@@ -1,0 +1,114 @@
+/* Styrene Font Family */
+
+/* Thin */
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-Thin-Trial.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-ThinItalic-Trial.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* Light */
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-Light-Trial.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-LightItalic-Trial.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Regular */
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-Regular-Trial.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-RegularItalic-Trial.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Medium */
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-Medium-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-MediumItalic-Trial.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-Bold-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-BoldItalic-Trial.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Black */
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-Black-Trial.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Styrene';
+  src: url('/fonts/styrene/StyreneA-BlackItalic-Trial.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Apply Styrene globally */
+:root {
+  --slidev-font-sans: 'Styrene', ui-sans-serif, system-ui, sans-serif;
+  --slidev-font-mono: 'Fira Code', monospace;
+}
+
+/* Apply to body and all slide content */
+body,
+.slidev-layout,
+#slide-content {
+  font-family: var(--slidev-font-sans) !important;
+}
+
+/* Ensure headings use Styrene */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--slidev-font-sans) !important;
+}
+
+/* Keep monospace font for code */
+code, pre, kbd, samp {
+  font-family: var(--slidev-font-mono);
+}

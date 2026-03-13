@@ -1,0 +1,52 @@
+{
+  "core": {
+    "canvas_ivory": {
+      "hex": "#F0EEE6",
+      "description": "Primary background. Clean, calm, and neutral—anchors the composition."
+    },
+    "anchor_ink": {
+      "hex": "141413",
+      "description": "Main text and element outline. Provides intellectual gravity and balance."
+    },
+    "element_slate": {
+      "hex": "#656B6B",
+      "description": "Secondary dark for diagrams or supportive text—cool and assertive."
+    }
+  },
+  "accent": {
+    "pulse_red": {
+      "hex": "#D1533B",
+      "description": "Core energy. Highlights atomic center or urgent signals—use with intent."
+    },
+    "forge_orange": {
+      "hex": "#EE8028",
+      "description": "Momentum and growth. Used for tools of transformation, like the cap."
+    },
+    "dark_orange": {
+      "hex": "#CE5918",
+      "description": "Momentum and growth. Used for tools of transformation, like the cap."
+    },
+    "aqua_glass": {
+      "hex": "#4A8F9B",
+      "description": "Fluid intelligence. Use for flow indicators, UI feedback, or system activity."
+    },
+    "deep_teal": {
+      "hex": "#4A9195",
+      "description": "Structural intelligence. Used in interface mechanics, machines, and logical devices."
+    },
+    "teal_frame": {
+      "hex": "#ADC9C5",
+      "description": "Neutral vessel tone. Used for object outlines, non-dominant interaction frames."
+    }
+  },
+  "support": {
+    "diagram_shadow": {
+      "hex": "#141413",
+      "description": "Shared with core ink. Reused for internal borders, shadows, and logical emphasis."
+    },
+    "focus_gray": {
+      "hex": "#656B6B",
+      "description": "Shared with element slate. Use for metadata, subdued captions, or inactive states."
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "IdentityBackground": {
+    "Name": "Ford Lascari",
+    "ProfessionalTitle": "Independent Generative-AI Consultant & Full-Stack Developer",
+    "BiographicalSketch": "Ford is a 27-year-old technologist based in Austin, Texas who left agency work to pursue an independent path building production-grade generative-AI systems. After three years of full-time experimentation—often bouncing between short contracts to maximize exposure—he now blends deep hands-on engineering with strategic guidance for clients. His hallmark is turning nebulous business needs into validated, deployable AI products while continuously refining both human and machine workflows.",
+    "PrimaryDomain": "Applied Artificial Intelligence (LLMs, agentic & RAG systems), Software Engineering, Automation Strategy"
+  },
+  "ExpertiseAchievements": {
+    "KeyAreasOfExpertise": [
+      "LLM-powered system architecture and deployment",
+      "Agentic workflows with structured outputs for reliability and speed",
+      "Rapid multi-domain prototyping driven by comprehensive AI-tool mastery",
+      "Data pipelines & event-driven back-ends (FastAPI, Celery, Redis)",
+      "Strategic translation of business problems into AI solutions"
+    ],
+    "SpecificSkills": [
+      "Python, TypeScript, React/Next.js",
+      "FastAPI, SQLModel, Supabase, Postgres",
+      "Celery orchestration & asynchronous task design",
+      "Prompt engineering / system prompting",
+      "Database schema design & optimization"
+    ],
+    "NotableAchievements": [
+      "Designed and shipped an agentic interviewing platform whose structured-output refactor cut latency ~10× while improving answer coherence",
+      "Built a multi-stage Celery pipeline for AI workflow orchestration across vector search, scoring, and response generation",
+      "Created an automated Twitter/X engagement system using LLM classification that consistently boosts reach and follower growth",
+      "Transitioned from agency contractor to independent consultant, securing and delivering multiple end-to-end AI deployments for startups"
+    ],
+    "UniquePerspective": "Compute is the new labor: validate with many cheap experiments before committing engineering capital, then orchestrate large-scale compute like an architect rather than a bricklayer."
+  },
+  "InterestsPassions": {
+    "Topics": [
+      "Human-AI collaboration and future reasoning frameworks",
+      "Systems thinking and second-order effects",
+      "Self-optimization, psychology, and performance science",
+      "Productivity tooling (Notion, PARA, custom workflows)",
+      "Social-media audience dynamics and content strategy"
+    ],
+    "Hobbies": [
+      "Strength & cycle-based fitness training with his partner",
+      "Raising two Siamese kittens (Rose and a lynx-point brother)",
+      "Iterating personal knowledge-management and automation stacks",
+      "Exploring real-estate design and home optimization"
+    ],
+    "CulturalReferences": [
+      "White-haired anime archetypes and visual motifs",
+      "Contrarian tech/philosophy commentators dissecting AI hype"
+    ]
+  },
+  "CoreValuesBeliefs": {
+    "Values": [
+      "Authenticity and full ownership of outcomes",
+      "Clarity through structured systems and documentation",
+      "Ethical, value-driven AI over hype cycles",
+      "Continuous growth via disciplined experimentation"
+    ],
+    "Motivations": [
+      "Empowering developers and businesses to amplify capability with AI",
+      "Building resilient systems that scale beyond their creators",
+      "Advancing the craft of orchestrating compute as strategic leverage"
+    ],
+    "ImpliedPurpose": "To accelerate human potential by delivering rigorously validated AI systems that transform ambiguous ideas into reliable, scalable reality."
+  },
+  "UniqueSellingProposition": "Ford fuses battle-tested engineering with a rigorous validation ethos: he runs low-cost experiments to prove value, then architects compute-driven systems that ship fast, scale smoothly, and outlast hype. Clients gain both a technical powerhouse and a strategic thinker who turns uncertainty into robust generative-AI products."
+}

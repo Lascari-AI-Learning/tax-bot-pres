@@ -1,0 +1,74 @@
+{
+  "session_id": "2026-01-20_slide-folder-structure_k7m3x9",
+  "topic": "Slide Folder Structure",
+  "description": "Restructure slides from flat markdown files to folder-based structure with index.md and assets",
+  "current_phase": "build",
+  "granularity": "feature",
+  "prior_session": null,
+  "phases": {
+    "spec": {
+      "status": "finalized",
+      "started_at": "2026-01-20T00:00:00Z",
+      "finalized_at": "2026-01-29T00:00:00Z"
+    },
+    "plan": {
+      "status": "finalized",
+      "started_at": "2026-01-29T00:00:00Z",
+      "finalized_at": "2026-01-29T00:00:00Z"
+    },
+    "build": {
+      "status": "in_progress",
+      "started_at": "2026-01-29T00:00:00Z",
+      "completed_at": "2026-01-29T14:00:00Z"
+    }
+  },
+  "open_questions": [],
+  "key_decisions": [
+    {
+      "decision": "Architecture should be permissive, not prescriptive",
+      "rationale": "User wants to 'set the stage' for future complexity without knowing exact implementation yet. Structure should allow flexibility.",
+      "date": "2026-01-20"
+    },
+    {
+      "decision": "Folder naming keeps 00-name pattern",
+      "rationale": "Allows easy scripting for building top-level index.md - same ordering logic works",
+      "date": "2026-01-20"
+    },
+    {
+      "decision": "Entry point is index.md",
+      "rationale": "React-style convention where index is the main file for a folder. Fallback to slide.md if naming conflicts arise.",
+      "date": "2026-01-20"
+    },
+    {
+      "decision": "Simple slides = just index.md",
+      "rationale": "No boilerplate for simple slides. Complexity expands organically by adding folders/components as needed.",
+      "date": "2026-01-20"
+    },
+    {
+      "decision": "Relative paths for assets",
+      "rationale": "Use ./assets/image.png from index.md - keeps vertical slice self-contained. Avoids needing to reference public/ folder. Build system handles resolution.",
+      "date": "2026-01-20"
+    },
+    {
+      "decision": "Big bang migration",
+      "rationale": "Update all slides, build script, templates, and Slidev skill together. Complete migration, not gradual adoption.",
+      "date": "2026-01-20"
+    }
+  ],
+  "goals": {
+    "high_level": [],
+    "mid_level": [],
+    "detailed": []
+  },
+  "created_at": "2026-01-20T00:00:00Z",
+  "plan_state": {
+    "status": "complete",
+    "checkpoints_total": 4,
+    "checkpoints_detailed": 4,
+    "checkpoints_completed": [1, 2, 3, 4],
+    "current_checkpoint": null,
+    "current_task": null,
+    "last_updated": "2026-01-29T14:00:00Z"
+  },
+  "updated_at": "2026-01-29T00:00:00Z"
+}

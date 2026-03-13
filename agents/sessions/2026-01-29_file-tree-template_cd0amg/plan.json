@@ -1,0 +1,675 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-01-29_file-tree-template_cd0amg",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-01-29T22:18:00Z",
+  "updated_at": "2026-01-29T22:35:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Working File Explorer Slide",
+      "goal": "Move FileExplorer.vue and FileTreeItem.vue into components/, create example file tree data in the slide's assets/filetree/ folder, create a numbered slide (08-file-explorer/index.md) that uses the component, rebuild index.md, and verify it renders end-to-end with npm run dev.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "to_add/filetree/FileExplorer.vue", "status": "exists", "description": "Source file explorer component (298 lines) with glob loading from ../decks/**/*" },
+            { "path": "to_add/filetree/FileTreeItem.vue", "status": "exists", "description": "Source recursive tree item component (84 lines)" }
+          ],
+          "tree": "to_add/filetree/\n├── FileExplorer.vue\n└── FileTreeItem.vue"
+        },
+        "ending": {
+          "files": [
+            { "path": "components/FileExplorer.vue", "status": "new", "description": "File explorer component with glob path updated to ../slides/**/assets/filetree/**/*" },
+            { "path": "components/FileTreeItem.vue", "status": "new", "description": "Tree item child component (unchanged from source)" },
+            { "path": "slides/08-file-explorer/index.md", "status": "new", "description": "Slide using FileExplorer component" },
+            { "path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/main.py", "status": "new", "description": "Example file tree data" },
+            { "path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/models.py", "status": "new", "description": "Example file tree data" },
+            { "path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/routes/api.py", "status": "new", "description": "Example file tree data" },
+            { "path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/requirements.txt", "status": "new", "description": "Example file tree data" },
+            { "path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/README.md", "status": "new", "description": "Example file tree data" }
+          ],
+          "tree": "components/\n├── FileExplorer.vue\n└── FileTreeItem.vue\nslides/08-file-explorer/\n├── index.md\n└── assets/\n    └── filetree/\n        └── my-fastapi-app/\n            ├── main.py\n            ├── models.py\n            ├── routes/\n            │   └── api.py\n            ├── requirements.txt\n            └── README.md"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Manual verification via dev server",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev",
+          "Navigate to the file explorer slide and verify the tree renders with example files",
+          "Click files in the tree and verify syntax-highlighted code appears in the right panel"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Register Components",
+          "objective": "Move FileExplorer.vue and FileTreeItem.vue into components/ and update the glob import path to load from slides/**/assets/filetree/**/*",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Create FileExplorer.vue in components/",
+              "file_path": "components/FileExplorer.vue",
+              "description": "Copy FileExplorer.vue from to_add/filetree/ into components/ (Slidev auto-registers components from this directory). Update the import.meta.glob path from '../decks/**/*' to '../slides/**/assets/filetree/**/*' so it scans file tree data from slide asset folders. Update the tree-building logic to parse the new path structure — the dir prop format will be '<slide-folder>/filetree/<project-name>' and the glob results will contain paths like '../slides/08-file-explorer/assets/filetree/my-fastapi-app/main.py'. The path parsing needs to extract the relative path after the filetree/<project-name>/ segment.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "to_add/filetree/FileExplorer.vue",
+                    "lines": "1-298",
+                    "purpose": "Source component to copy and modify. Contains glob path on line 14, tree-building logic in fileTree computed (lines 33-94), and path parsing that needs updating."
+                  }
+                ],
+                "related_files": [
+                  "to_add/filetree/FileTreeItem.vue"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.1.1",
+                  "command": "CREATE components/FileExplorer.vue: MIRROR to_add/filetree/FileExplorer.vue",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.1.1.2",
+                  "command": "UPDATE components/FileExplorer.vue: REPLACE glob path '../decks/**/*' with '../slides/**/assets/filetree/**/*' on line 14",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.1.1.3",
+                  "command": "UPDATE components/FileExplorer.vue: UPDATE fileTree computed (lines 33-94) to parse new glob path structure. The targetDirFull should match against 'slides/<dir-part>/assets/filetree/<project-part>' pattern. Extract relative file path after the full dir match.",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.1.1.4",
+                  "command": "UPDATE components/FileExplorer.vue: UPDATE FileTreeItem import path from './FileTreeItem.vue' to './FileTreeItem.vue' (stays the same since both are in components/)",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.1.2",
+              "title": "Create FileTreeItem.vue in components/",
+              "file_path": "components/FileTreeItem.vue",
+              "description": "Copy FileTreeItem.vue from to_add/filetree/ into components/. No modifications needed — this component is a pure recursive tree renderer with no path dependencies.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "to_add/filetree/FileTreeItem.vue",
+                    "lines": "1-84",
+                    "purpose": "Source component to copy. Pure recursive tree node renderer with no external dependencies."
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.2.1",
+                  "command": "CREATE components/FileTreeItem.vue: MIRROR to_add/filetree/FileTreeItem.vue exactly (no modifications needed)",
+                  "file": "components/FileTreeItem.vue",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "Create Example File Tree Data",
+          "objective": "Create a realistic example project file structure under slides/08-file-explorer/assets/filetree/ for the FileExplorer component to display.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.2.1",
+              "title": "Create example FastAPI project files",
+              "file_path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/",
+              "description": "Create a small but realistic FastAPI project structure with real Python code. The files should be concise (10-30 lines each) and demonstrate a believable project structure. Files: main.py (FastAPI app setup), models.py (Pydantic models), routes/api.py (API endpoints), requirements.txt (dependencies), README.md (project description).",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.2.1.1",
+                  "command": "CREATE slides/08-file-explorer/assets/filetree/my-fastapi-app/main.py: FastAPI app initialization with uvicorn runner (~15 lines)",
+                  "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/main.py",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.2.1.2",
+                  "command": "CREATE slides/08-file-explorer/assets/filetree/my-fastapi-app/models.py: Pydantic models for User and Item (~20 lines)",
+                  "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/models.py",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.2.1.3",
+                  "command": "CREATE slides/08-file-explorer/assets/filetree/my-fastapi-app/routes/api.py: CRUD API endpoints using models (~25 lines)",
+                  "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/routes/api.py",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.2.1.4",
+                  "command": "CREATE slides/08-file-explorer/assets/filetree/my-fastapi-app/requirements.txt: Python dependencies list (~5 lines)",
+                  "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/requirements.txt",
+                  "status": "pending"
+                },
+                {
+                  "id": "1.2.1.5",
+                  "command": "CREATE slides/08-file-explorer/assets/filetree/my-fastapi-app/README.md: Short project description (~10 lines)",
+                  "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/README.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "title": "Create the Slide",
+          "objective": "Create the file explorer slide markdown and rebuild the presentation index.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.3.1",
+              "title": "Create file explorer slide markdown",
+              "file_path": "slides/08-file-explorer/index.md",
+              "description": "Create the slide markdown file with standard Slidev frontmatter (theme: ../, layout: default) and the FileExplorer component. The component should use dir='08-file-explorer/filetree/my-fastapi-app' to point to the example file tree data in this slide's assets folder.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slides/00-title/index.md",
+                    "lines": "1-24",
+                    "purpose": "Reference for standard Slidev slide frontmatter format"
+                  }
+                ],
+                "related_files": [
+                  "components/FileExplorer.vue"
+                ]
+              },
+              "depends_on": ["1.1.1", "1.2.1"],
+              "actions": [
+                {
+                  "id": "1.3.1.1",
+                  "command": "CREATE slides/08-file-explorer/index.md: Slidev slide with frontmatter (theme: ../, layout: default) and <FileExplorer dir='08-file-explorer/filetree/my-fastapi-app' /> component",
+                  "file": "slides/08-file-explorer/index.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.3.2",
+              "title": "Rebuild presentation index",
+              "file_path": "index.md",
+              "description": "Run npm run build:slides to regenerate the root index.md file, which auto-discovers all slides/*/index.md files and creates src references in numerical order. This adds the new 08-file-explorer slide to the presentation.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "scripts/build.ts",
+                    "lines": "1-28",
+                    "purpose": "Understand the build script that generates index.md from slides/"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["1.3.1"],
+              "actions": [
+                {
+                  "id": "1.3.2.1",
+                  "command": "RUN npm run build:slides",
+                  "file": "index.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Visual Polish",
+      "goal": "Upgrade the styling of FileExplorer.vue and FileTreeItem.vue — better spacing, transitions, color alignment, optional title prop, and slide-optimized height. Make it presentation-ready.",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "components/FileExplorer.vue", "status": "exists", "description": "Working component with basic styling, h-[400px] fixed height" },
+            { "path": "components/FileTreeItem.vue", "status": "exists", "description": "Working tree item with basic styling" },
+            { "path": "slides/08-file-explorer/index.md", "status": "exists", "description": "Slide using FileExplorer without title" }
+          ]
+        },
+        "ending": {
+          "files": [
+            { "path": "components/FileExplorer.vue", "status": "modified", "description": "Polished with title prop, dynamic height, improved colors, smooth transitions" },
+            { "path": "components/FileTreeItem.vue", "status": "modified", "description": "Polished with expand/collapse animation, better spacing, more icons" },
+            { "path": "slides/08-file-explorer/index.md", "status": "modified", "description": "May be updated to demonstrate title prop" }
+          ]
+        }
+      },
+      "testing_strategy": {
+        "approach": "Visual verification via dev server",
+        "verification_steps": [
+          "npm run dev",
+          "Verify improved visual quality on the file explorer slide",
+          "Test with and without title prop",
+          "Verify folder expand/collapse transitions are smooth",
+          "Verify code panel content transitions"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Style FileExplorer.vue",
+          "objective": "Add title prop, dynamic height, improved color scheme, and smooth transitions to the main file explorer component.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Add optional title prop",
+              "file_path": "components/FileExplorer.vue",
+              "description": "Add an optional 'title' string prop to FileExplorer.vue. When provided, render a styled title (text-4xl font-bold, matching other slide templates) above the explorer container. When absent, the explorer should fill the full available slide height. This follows the pattern from other templates like column-cards which have a main_title above content.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "1-10",
+                    "purpose": "Current props definition to extend with title"
+                  },
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "220-277",
+                    "purpose": "Current template structure to add title rendering"
+                  },
+                  {
+                    "file": "slides/01-column-cards/index.md",
+                    "lines": "1-10",
+                    "purpose": "Reference for title styling pattern used in other templates"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.1.1.1",
+                  "command": "UPDATE components/FileExplorer.vue: ADD prop 'title' with type string | undefined (optional)",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "2.1.1.2",
+                  "command": "UPDATE components/FileExplorer.vue: ADD title rendering in template — v-if='title' div with text-4xl font-bold text-center mb-6 BEFORE the explorer container",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.1.2",
+              "title": "Update height to slide-optimized",
+              "file_path": "components/FileExplorer.vue",
+              "description": "Replace the fixed h-[400px] height with dynamic height that fills available slide space. Use h-full or a calc-based approach. The outer container should expand to fill the parent. When a title is present, the explorer should take remaining space below the title.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "220-222",
+                    "purpose": "Current h-[400px] class on the main container div"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["2.1.1"],
+              "actions": [
+                {
+                  "id": "2.1.2.1",
+                  "command": "UPDATE components/FileExplorer.vue: REPLACE h-[400px] with flex-1 or h-full on the main explorer container, WRAP template in a flex flex-col h-full parent",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.1.3",
+              "title": "Improve color scheme",
+              "file_path": "components/FileExplorer.vue",
+              "description": "Update the color scheme of the file explorer to look more polished for presentations. Improve sidebar/code panel contrast. The current dark theme colors (bg-[#1e1e1e], bg-[#252526], bg-[#0d1117]) work but could be refined. Consider aligning with the presentation's overall visual style while keeping the VS Code aesthetic.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "220-298",
+                    "purpose": "Current template and styles with color values to refine"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.1.3.1",
+                  "command": "UPDATE components/FileExplorer.vue: REFACTOR color values in template — improve sidebar bg, code panel bg, border colors, tab header colors for better visual hierarchy and contrast",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.1.4",
+              "title": "Add smooth transitions for code panel",
+              "file_path": "components/FileExplorer.vue",
+              "description": "Add CSS transitions for when the code panel content changes (file selection). Use a fade or crossfade effect so switching between files feels smooth rather than an instant swap.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "258-270",
+                    "purpose": "Current code content rendering section to add transitions"
+                  },
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "279-298",
+                    "purpose": "Current scoped styles to add transition CSS"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.1.4.1",
+                  "command": "UPDATE components/FileExplorer.vue: WRAP code content area with Vue <Transition> component for fade effect on file switch",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "2.1.4.2",
+                  "command": "UPDATE components/FileExplorer.vue: ADD transition CSS classes (fade-enter-active, fade-leave-active, etc.) to scoped styles",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Style FileTreeItem.vue",
+          "objective": "Add expand/collapse animation, improve spacing and hover states, and add more file type icons to the tree item component.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.2.1",
+              "title": "Add expand/collapse transition",
+              "file_path": "components/FileTreeItem.vue",
+              "description": "Add a smooth expand/collapse animation for folder children. When a folder is toggled open or closed, the children should slide in/out rather than appearing/disappearing instantly. Use Vue's <Transition> or CSS height transitions.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileTreeItem.vue",
+                    "lines": "38-68",
+                    "purpose": "Current template with v-if='isExpanded' for folder children rendering"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.2.1.1",
+                  "command": "UPDATE components/FileTreeItem.vue: WRAP folder children div with Vue <Transition> or CSS slide transition for smooth expand/collapse",
+                  "file": "components/FileTreeItem.vue",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.2.2",
+              "title": "Improve spacing and hover states",
+              "file_path": "components/FileTreeItem.vue",
+              "description": "Improve the visual spacing between tree items and enhance hover states for better visual hierarchy. Current padding is functional but could be more generous for presentation readability. Hover states could have smoother transitions.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileTreeItem.vue",
+                    "lines": "38-82",
+                    "purpose": "Current template with padding, hover classes, and spacing"
+                  }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.2.2.1",
+                  "command": "UPDATE components/FileTreeItem.vue: UPDATE padding values for better spacing, ADD transition-colors duration-150 to hover states, REFACTOR selection highlight for smoother feel",
+                  "file": "components/FileTreeItem.vue",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "2.2.3",
+              "title": "Add more file type icons",
+              "file_path": "components/FileTreeItem.vue",
+              "description": "Extend the getFileIcon function to support more file types. Currently supports .py, .md, .ts, .json. Add icons for: .vue, .yaml/.yml, .sh/.bash, .html, .css, .js, .toml, Dockerfile, Makefile, .txt, .env, .gitignore, and other common types using the i-vscode-icons icon set.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "components/FileTreeItem.vue",
+                    "lines": "29-35",
+                    "purpose": "Current getFileIcon function to extend with more file types"
+                  },
+                  {
+                    "file": "components/FileExplorer.vue",
+                    "lines": "139-145",
+                    "purpose": "FileExplorer also has a getFileIcon function that should be kept in sync"
+                  }
+                ],
+                "related_files": [
+                  "components/FileExplorer.vue"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "2.2.3.1",
+                  "command": "UPDATE components/FileTreeItem.vue: ADD file type icon mappings for .vue, .yaml, .yml, .sh, .bash, .html, .css, .js, .jsx, .tsx, .toml, .txt, .env, .gitignore, Dockerfile, Makefile to getFileIcon function",
+                  "file": "components/FileTreeItem.vue",
+                  "status": "pending"
+                },
+                {
+                  "id": "2.2.3.2",
+                  "command": "UPDATE components/FileExplorer.vue: ADD same file type icon mappings to the getFileIcon function in FileExplorer.vue to keep both in sync",
+                  "file": "components/FileExplorer.vue",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Extract Slide Template",
+      "goal": "Create slide-templates/file-explorer/ with slide.md (Handlebars template) and description.md. Verify the template generation works with npm run generate:slide.",
+      "prerequisites": [2],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "slides/08-file-explorer/index.md", "status": "exists", "description": "Working polished slide to use as template basis" },
+            { "path": "components/FileExplorer.vue", "status": "exists", "description": "Polished component with title and dir props" }
+          ]
+        },
+        "ending": {
+          "files": [
+            { "path": "slide-templates/file-explorer/slide.md", "status": "new", "description": "Handlebars template for generating file explorer slides" },
+            { "path": "slide-templates/file-explorer/description.md", "status": "new", "description": "Usage documentation for the file explorer template" }
+          ]
+        }
+      },
+      "testing_strategy": {
+        "approach": "Template generation test",
+        "verification_steps": [
+          "npm run list:templates — verify file-explorer appears in list",
+          "npm run generate:slide -- --template=file-explorer --name=test-fe --dir=08-file-explorer/filetree/my-fastapi-app",
+          "Verify generated slide content matches expected output",
+          "Clean up test slide after verification"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Create Template Files",
+          "objective": "Create the Handlebars template and documentation files for the file explorer slide template.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Create slide.md template",
+              "file_path": "slide-templates/file-explorer/slide.md",
+              "description": "Create the Handlebars template file for generating file explorer slides. Should include standard Slidev frontmatter (theme: ../, layout: default) and the FileExplorer component with {{dir}} variable. Support optional {{title}} variable using {{#if title}} conditional. Follow the same pattern as other templates like slide-templates/column-cards/slide.md.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/column-cards/slide.md",
+                    "lines": "1-37",
+                    "purpose": "Reference template showing Handlebars syntax, frontmatter, and conditional patterns"
+                  },
+                  {
+                    "file": "slides/08-file-explorer/index.md",
+                    "lines": "all",
+                    "purpose": "The working slide to templatize — extract the structure and replace values with Handlebars variables"
+                  }
+                ],
+                "related_files": [
+                  "components/FileExplorer.vue"
+                ]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "3.1.1.1",
+                  "command": "CREATE slide-templates/file-explorer/slide.md: Handlebars template with frontmatter (theme: ../, layout: default), optional {{#if title}} title div, and <FileExplorer dir='{{dir}}' {{#if title}}title='{{title}}'{{/if}} /> component. USE slide-templates/column-cards/slide.md as structural reference.",
+                  "file": "slide-templates/file-explorer/slide.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "3.1.2",
+              "title": "Create description.md documentation",
+              "file_path": "slide-templates/file-explorer/description.md",
+              "description": "Create usage documentation for the file explorer template. Include: purpose, when to use, template variables table (dir required, title optional), usage example with npm run generate:slide command, visual features, data setup instructions (how to create the assets/filetree/ folder structure), and notes. Follow the same format as slide-templates/column-cards/description.md.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "slide-templates/column-cards/description.md",
+                    "lines": "1-83",
+                    "purpose": "Reference documentation showing format, sections, and style to follow"
+                  }
+                ],
+                "related_files": [
+                  "slide-templates/file-explorer/slide.md"
+                ]
+              },
+              "depends_on": ["3.1.1"],
+              "actions": [
+                {
+                  "id": "3.1.2.1",
+                  "command": "CREATE slide-templates/file-explorer/description.md: Template documentation with Purpose, When to Use, Template Variables table, Usage Example, Data Setup instructions, Visual Features, and Notes sections. MIRROR format from slide-templates/column-cards/description.md.",
+                  "file": "slide-templates/file-explorer/description.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Verify Template System",
+          "objective": "Verify the template appears in the template list and can generate a slide correctly.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.2.1",
+              "title": "Verify template registration and generation",
+              "file_path": null,
+              "description": "Run npm run list:templates to confirm the file-explorer template appears in the list. Then run npm run generate:slide with test parameters to verify the template generates a valid slide. Clean up the test slide after verification.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  {
+                    "file": "scripts/generate-slide.ts",
+                    "lines": "1-161",
+                    "purpose": "Understand how the generation script discovers and processes templates"
+                  }
+                ],
+                "related_files": [
+                  "slide-templates/file-explorer/slide.md",
+                  "slide-templates/file-explorer/description.md"
+                ]
+              },
+              "depends_on": ["3.1.1", "3.1.2"],
+              "actions": [
+                {
+                  "id": "3.2.1.1",
+                  "command": "RUN npm run list:templates — VERIFY file-explorer appears",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "3.2.1.2",
+                  "command": "RUN npm run generate:slide -- --template=file-explorer --name=test-fe-gen --dir=08-file-explorer/filetree/my-fastapi-app --title='Test Title'",
+                  "file": null,
+                  "status": "pending"
+                },
+                {
+                  "id": "3.2.1.3",
+                  "command": "VERIFY generated slides/test-fe-gen/index.md contains correct FileExplorer component with dir and title props",
+                  "file": "slides/test-fe-gen/index.md",
+                  "status": "pending"
+                },
+                {
+                  "id": "3.2.1.4",
+                  "command": "DELETE slides/test-fe-gen/ — cleanup test slide",
+                  "file": null,
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
