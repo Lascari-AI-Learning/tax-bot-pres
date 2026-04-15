@@ -53,7 +53,13 @@ onMounted(async () => {
 
   if (!container.value) return;
 
-  const response = await fetch(props.src);
+  const base = import.meta.env.BASE_URL || '/';
+  const resolvedSrc = /^(https?:)?\/\//.test(props.src)
+    ? props.src
+    : props.src.startsWith('/')
+      ? base.replace(/\/$/, '') + props.src
+      : props.src;
+  const response = await fetch(resolvedSrc);
   const text = await response.text();
   const blob = new Blob([text], {type: 'application/javascript'});
   blobUrl = URL.createObjectURL(blob);
