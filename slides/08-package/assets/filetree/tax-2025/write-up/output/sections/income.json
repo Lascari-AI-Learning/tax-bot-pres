@@ -1,0 +1,9 @@
+{
+  "section": "income",
+  "items": [
+    {"source": "Acme Corp", "type": "1099-NEC", "amount": 145000.00},
+    {"source": "Side project", "type": "revenue", "amount": 8200.00},
+    {"source": "Savings", "type": "interest", "amount": 342.00}
+  ],
+  "total": 153542.00
+}

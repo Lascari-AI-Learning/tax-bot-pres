@@ -1,0 +1,94 @@
+{
+  "$schema": "Session state schema for agent-session skill",
+
+  "session_id": "2026-03-13_tax-prep_ox5g4c",
+  "created_at": "2026-03-13T00:00:00Z",
+  "updated_at": "2026-03-13T00:00:00Z",
+  "topic": "Tax Prep",
+  "description": "YouTube video presentation about a tax prep agent built with Claude Code. Slides support specific video segments.",
+
+  "granularity": "feature",
+  "parent_session": null,
+
+  "current_phase": "build",
+  "phases": {
+    "spec": {
+      "status": "finalized",
+      "started_at": "2026-03-13T00:00:00Z",
+      "finalized_at": "2026-03-13T00:00:00Z"
+    },
+    "plan": {
+      "status": "finalized",
+      "started_at": "2026-03-13T00:00:00Z",
+      "finalized_at": "2026-03-13T00:00:00Z"
+    },
+    "build": {
+      "status": "complete",
+      "started_at": "2026-03-13T00:00:00Z",
+      "completed_at": "2026-03-13T00:00:00Z"
+    }
+  },
+
+  "goals": {
+    "high_level": [
+      "Create Slidev slides supporting the YouTube video's slide-based segments",
+      "Clearly communicate system architecture, value proposition, and workflow"
+    ],
+    "mid_level": [
+      "Why It Matters — single slide, three-to-one-takeaway, bespoke > generic message",
+      "Architecture — 6 slides (system overview + 5 phases), Terminal + FileExplorer + AgentView, progressive directory growth",
+      "Key Results — single slide, adaptability + low cost + time savings"
+    ]
+  },
+
+  "open_questions": [],
+
+  "key_decisions": [
+    {
+      "decision": "Slides cover three sections: Why It Matters, Architecture, and Key Results",
+      "rationale": "Other sections are talking head or screen recording — slides would not add value there.",
+      "made_at": "2026-03-13T00:00:00Z"
+    },
+    {
+      "decision": "Architecture diagrams built in-slide with CSS/HTML, not Mermaid",
+      "rationale": "Ford doesn't like Mermaid's visual style. Prefers custom-designed diagrams using Tailwind/CSS.",
+      "made_at": "2026-03-13T00:00:00Z"
+    },
+    {
+      "decision": "Architecture section uses progressive file directory as primary visualization",
+      "rationale": "The file directory IS the data flow. More concrete than abstract flowcharts — shows what actually exists on disk.",
+      "made_at": "2026-03-13T00:00:00Z"
+    },
+    {
+      "decision": "Phase slides use Terminal + FileExplorer + AgentView components",
+      "rationale": "System runs in terminal — slides should simulate the real experience of using it.",
+      "made_at": "2026-03-13T00:00:00Z"
+    },
+    {
+      "decision": "System overview shows actual .claude/ file names, only cpa-tax-prep in detail",
+      "rationale": "pdf and xlsx skills exist but aren't the focus — just list them without expanding.",
+      "made_at": "2026-03-13T00:00:00Z"
+    },
+    {
+      "decision": "Why It Matters uses three-to-one-takeaway template",
+      "rationale": "Three pain points → one takeaway lands the bespoke > generic message. Ties into brand philosophy.",
+      "made_at": "2026-03-13T00:00:00Z"
+    },
+    {
+      "decision": "Key Results template deferred to plan phase",
+      "rationale": "Better to evaluate all available templates during planning rather than committing now.",
+      "made_at": "2026-03-13T00:00:00Z"
+    }
+  ],
+
+  "plan_state": {
+    "status": "finalized",
+    "checkpoints_total": 5,
+    "checkpoints_detailed": 5,
+    "current_checkpoint": null,
+    "current_task_group": null,
+    "current_task": null,
+    "checkpoints_completed": [],
+    "last_updated": "2026-03-13T00:00:00Z"
+  }
+}

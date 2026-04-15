@@ -1,0 +1,8 @@
+2025 CPA Tax Package.xlsx
+
+8-tab Excel workbook:
+Summary | Income | Business Expenses | Personal Deductions
+Home Office | Estimated Taxes | Health Insurance | Retirement
+
+Generated from 2025_tax_data.json
+Validated by validate_xlsx.py ✓

@@ -1,0 +1,707 @@
+{
+  "$schema": "Plan schema for agent-session checkpoint-based planning (v2)",
+
+  "session_id": "2026-03-13_tax-prep_ox5g4c",
+  "spec_reference": "./spec.md",
+  "created_at": "2026-03-13T00:00:00Z",
+  "updated_at": "2026-03-13T00:00:00Z",
+  "status": "complete",
+
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Why It Matters Slide",
+      "goal": "First complete slide using three-to-one-takeaway template. Three pain cards (generic tools miss nuance, multiple accounts/channels, CPAs miss what you don't surface) plus takeaway card (bespoke > generic). Validates full pipeline: template → slide → index.md → dev server.",
+      "prerequisites": [],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "slide-templates/three-to-one-takeaway/slide.md", "status": "exists", "description": "Template with Handlebars placeholders for 3 idea cards + takeaway" },
+            { "path": "slides/07-three-to-one-takeaway/index.md", "status": "exists", "description": "Existing example slide using the template (will serve as reference)" },
+            { "path": "index.md", "status": "exists", "description": "Root slide assembly file" }
+          ],
+          "tree": "slides/\n├── 00-title/\n├── 01-column-cards/\n├── ...\n└── 99-conclusion-lets-connect/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/20-why-it-matters/index.md", "status": "new", "description": "Why It Matters slide with tax-specific content" },
+            { "path": "index.md", "status": "modified", "description": "Updated to include new slide" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n│   └── index.md\n└── 99-conclusion-lets-connect/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Visual verification in dev server",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev — verify slide renders with 4 click states"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "1.1",
+          "title": "Create Why It Matters Slide",
+          "objective": "Create the slide markdown file using three-to-one-takeaway template with tax-specific pain points and bespoke > generic takeaway, then rebuild index.md.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "1.1.1",
+              "title": "Create Why It Matters slide markdown",
+              "file_path": "slides/20-why-it-matters/index.md",
+              "description": "Create the Why It Matters slide using the three-to-one-takeaway template structure. Three pain point cards reveal sequentially (clicks 1-3), then a takeaway card lands the core message (click 4). Content maps spec's pain points to template variables. Uses slides/07-three-to-one-takeaway/index.md as structural reference.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/07-three-to-one-takeaway/index.md", "purpose": "Structural reference — exact HTML/CSS pattern to follow" },
+                  { "file": "slide-templates/three-to-one-takeaway/description.md", "purpose": "Template variable documentation" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "33-46", "purpose": "Why It Matters content requirements and card definitions" }
+                ],
+                "related_files": ["slide-templates/three-to-one-takeaway/slide.md"]
+              },
+              "depends_on": [],
+              "actions": [
+                {
+                  "id": "1.1.1.1",
+                  "command": "CREATE FILE slides/20-why-it-matters/index.md: MIRROR slides/07-three-to-one-takeaway/index.md structure. USE frontmatter: theme ../ layout center clicks 4. MAKE title 'Why It Matters'. MAKE card 1 (blue): lead='Tax software handles general categories fine — income, standard deductions, basic expenses...' action='But it' emphasis='MISSES' result='the situational deductions that actually save you money'. MAKE card 2 (green): lead='Multiple bank accounts, mixed personal and business spending, payments through unexpected channels...' action='Your real financial life is' emphasis='MESSY' result='and no template captures it'. MAKE card 3 (purple): lead='Your CPA is juggling tons of clients. Whatever you don't organize and surface for them...' action='Simply' emphasis='GETS MISSED' result='— and that costs you money'. MAKE takeaway (orange): statement='Generic tools are built for everyone. Built for no one.' preemphasis='This system captures' emphasis='YOUR NUANCE' postemphasis='— your accounts, your edge cases, your exact situation.'",
+                  "file": "slides/20-why-it-matters/index.md",
+                  "status": "pending"
+                }
+              ]
+            },
+            {
+              "id": "1.1.2",
+              "title": "Rebuild index.md with new slide",
+              "file_path": "index.md",
+              "description": "Run npm run build:slides to auto-regenerate the root index.md, which discovers all slides/*/index.md files in numerical order. This adds slides/20-why-it-matters/ to the presentation.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "scripts/build.ts", "purpose": "Understand how build:slides discovers and orders slide files" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["1.1.1"],
+              "actions": [
+                {
+                  "id": "1.1.2.1",
+                  "command": "RUN npm run build:slides to regenerate index.md with new slide included",
+                  "file": "index.md",
+                  "status": "pending"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "System Overview Slide",
+      "goal": "Establish FileExplorer pattern with .claude/ directory visualization. Shows agents, commands, and skill structure. Only cpa-tax-prep expanded in detail; pdf/xlsx just listed.",
+      "prerequisites": [1],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "components/FileTree/FileExplorer.vue", "status": "exists", "description": "FileExplorer Vue component" },
+            { "path": "slides/08-file-explorer/index.md", "status": "exists", "description": "Existing FileExplorer example for reference" },
+            { "path": "slides/08-file-explorer/assets/filetree/my-fastapi-app/", "status": "exists", "description": "Example filetree assets pattern" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n└── 99-conclusion-lets-connect/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/21-system-overview/index.md", "status": "new", "description": "System overview slide with FileExplorer" },
+            { "path": "slides/21-system-overview/assets/filetree/", "status": "new", "description": "Filetree assets for .claude/ directory" },
+            { "path": "index.md", "status": "modified", "description": "Updated to include new slide" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n├── 21-system-overview/\n│   ├── index.md\n│   └── assets/filetree/claude-config/\n│       ├── settings.json\n│       ├── agents/\n│       ├── commands/cpa-tax-prep/\n│       └── skills/cpa-tax-prep/\n└── 99-conclusion-lets-connect/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Visual verification in dev server",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev — verify FileExplorer renders with correct tree and file contents"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "2.1",
+          "title": "Create FileTree Assets",
+          "objective": "Create the file directory structure representing the .claude/ config as real files that the FileExplorer component can render. Each file needs representative content that looks realistic in the file viewer.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.1.1",
+              "title": "Create root config and agent definition files",
+              "file_path": "slides/21-system-overview/assets/filetree/claude-config/",
+              "description": "Create 3 filetree asset files: settings.json (allowedTools, permissions, model prefs ~10 lines), agents/tax-extract.md (model sonnet, extracts ONE source doc ~8-12 lines), agents/tax-package.md (model sonnet, packages ONE finalized file to JSON ~8-12 lines).",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "127-148", "purpose": "Actual .claude/ directory structure to replicate" },
+                  { "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/main.py", "purpose": "Example of filetree asset file content style" },
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "86-139", "purpose": "Extract phase details for tax-extract agent description" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "2.1.1.1", "command": "CREATE FILE slides/21-system-overview/assets/filetree/claude-config/settings.json: JSON with allowedTools, permissions, model preferences. Brief representative content (~10 lines).", "file": "slides/21-system-overview/assets/filetree/claude-config/settings.json", "status": "pending" },
+                { "id": "2.1.1.2", "command": "CREATE FILE slides/21-system-overview/assets/filetree/claude-config/agents/tax-extract.md: Agent definition with model (sonnet), description (extracts ONE source document), instructions summary (~8-12 lines).", "file": "slides/21-system-overview/assets/filetree/claude-config/agents/tax-extract.md", "status": "pending" },
+                { "id": "2.1.1.3", "command": "CREATE FILE slides/21-system-overview/assets/filetree/claude-config/agents/tax-package.md: Agent definition with model (sonnet), description (packages ONE finalized file to JSON), instructions summary (~8-12 lines).", "file": "slides/21-system-overview/assets/filetree/claude-config/agents/tax-package.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "2.1.2",
+              "title": "Create cpa-tax-prep command files",
+              "file_path": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/",
+              "description": "Create 6 command markdown files (initialize, intake, extract, review, package, add-vertical). Each has a brief header + description showing what the command does (~6-10 lines each).",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "purpose": "Phase descriptions for each command" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "127-148", "purpose": "Command file names and annotations" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "2.1.2.1", "command": "CREATE FILE commands/cpa-tax-prep/initialize.md: 'Creates folder scaffold and blank intake.md. User drops source documents into appropriate folders.' (~6-8 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/initialize.md", "status": "pending" },
+                { "id": "2.1.2.2", "command": "CREATE FILE commands/cpa-tax-prep/intake.md: '9-section conversational interview. Pre-reads source docs. STATUS markers for resume support.' (~8-10 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/intake.md", "status": "pending" },
+                { "id": "2.1.2.3", "command": "CREATE FILE commands/cpa-tax-prep/extract.md: 'Spawns parallel tax-extract subagents, one per PDF. Aggregates into raw/ category files.' (~8-10 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/extract.md", "status": "pending" },
+                { "id": "2.1.2.4", "command": "CREATE FILE commands/cpa-tax-prep/review.md: 'Human-in-the-loop review. Walks through extracted data section by section. Flags items.' (~8-10 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/review.md", "status": "pending" },
+                { "id": "2.1.2.5", "command": "CREATE FILE commands/cpa-tax-prep/package.md: 'Parallel tax-package subagents → section JSONs → merge → build_xlsx → validate.' (~8-10 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/package.md", "status": "pending" },
+                { "id": "2.1.2.6", "command": "CREATE FILE commands/cpa-tax-prep/add-vertical.md: 'Utility to add new document types. Interviews for fields, schema, and layout.' (~6 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/commands/cpa-tax-prep/add-vertical.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "2.1.3",
+              "title": "Create skill files (cpa-tax-prep detail + pdf/xlsx stubs)",
+              "file_path": "slides/21-system-overview/assets/filetree/claude-config/skills/",
+              "description": "Create skill files: cpa-tax-prep/SKILL.md (~15-20 lines), references/extraction-schema.md (~10 lines), references/tax-data-schema.md (~12 lines), scripts/merge_sections.py (~15 lines), scripts/build_xlsx.py (~15 lines), pdf/SKILL.md (~3 lines), xlsx/SKILL.md (~3 lines).",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "251-306", "purpose": "Key patterns and data lineage for skill description" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "127-148", "purpose": "Skill structure" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "2.1.3.1", "command": "CREATE FILE skills/cpa-tax-prep/SKILL.md: Skill overview — purpose, 5-phase pipeline, key patterns (parallelism, resume, JSON-first, flagging) (~15-20 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/cpa-tax-prep/SKILL.md", "status": "pending" },
+                { "id": "2.1.3.2", "command": "CREATE FILE skills/cpa-tax-prep/references/extraction-schema.md: YAML front matter fields (source, document_type, period, status) (~10 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/cpa-tax-prep/references/extraction-schema.md", "status": "pending" },
+                { "id": "2.1.3.3", "command": "CREATE FILE skills/cpa-tax-prep/references/tax-data-schema.md: JSON schema showing 8-tab structure (~12 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/cpa-tax-prep/references/tax-data-schema.md", "status": "pending" },
+                { "id": "2.1.3.4", "command": "CREATE FILE skills/cpa-tax-prep/scripts/merge_sections.py: Python stub — imports, main function, merge logic outline (~15 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/cpa-tax-prep/scripts/merge_sections.py", "status": "pending" },
+                { "id": "2.1.3.5", "command": "CREATE FILE skills/cpa-tax-prep/scripts/build_xlsx.py: Python stub — imports (openpyxl), main function, tab creation outline (~15 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/cpa-tax-prep/scripts/build_xlsx.py", "status": "pending" },
+                { "id": "2.1.3.6", "command": "CREATE FILE skills/pdf/SKILL.md: Minimal stub — 'PDF processing skill. Reads and extracts content from PDF documents.' (~3 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/pdf/SKILL.md", "status": "pending" },
+                { "id": "2.1.3.7", "command": "CREATE FILE skills/xlsx/SKILL.md: Minimal stub — 'Spreadsheet skill. Reads, creates, and validates Excel workbooks.' (~3 lines)", "file": "slides/21-system-overview/assets/filetree/claude-config/skills/xlsx/SKILL.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Create System Overview Slide",
+          "objective": "Build the slide markdown with FileExplorer component showing the .claude/ directory, plus heading and brief text establishing this is a Claude Code skill-based system.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "2.2.1",
+              "title": "Create system overview slide with FileExplorer",
+              "file_path": "slides/21-system-overview/index.md",
+              "description": "Create the system overview slide with heading 'How It Works — The System', brief descriptive text, and FileExplorer component (dir='21-system-overview/filetree/claude-config'). Uses slides/08-file-explorer/index.md as structural reference.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/08-file-explorer/index.md", "purpose": "Reference for FileExplorer slide structure" },
+                  { "file": "components/FileTree/FileExplorer.vue", "lines": "1-16", "purpose": "Component props interface" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["2.1.1", "2.1.2", "2.1.3"],
+              "actions": [
+                { "id": "2.2.1.1", "command": "CREATE FILE slides/21-system-overview/index.md: USE frontmatter theme ../ layout center. MAKE heading 'How It Works — The System' (text-3xl text-gray-900). ADD brief text 'A Claude Code skill with agents, commands, and references'. ADD FileExplorer component with dir='21-system-overview/filetree/claude-config'. MIRROR slides/08-file-explorer/index.md layout. USE full height flexbox (h-full).", "file": "slides/21-system-overview/index.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "2.2.2",
+              "title": "Rebuild index.md with system overview slide",
+              "file_path": "index.md",
+              "description": "Run npm run build:slides to regenerate index.md including slides/21-system-overview/.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "scripts/build.ts", "purpose": "Build script reference" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["2.2.1"],
+              "actions": [
+                { "id": "2.2.2.1", "command": "RUN npm run build:slides", "file": "index.md", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Simple Phase Slides (Initialize + Intake + Review)",
+      "goal": "Create three simpler phase slides. Initialize is file-tree-only (no diagram). Intake and Review share a loop diagram pattern (read → ask → update → repeat). Establishes the phase slide layout.",
+      "prerequisites": [2],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "components/Terminal.vue", "status": "exists", "description": "Terminal component for command display" },
+            { "path": "components/AgentView/AgentView.vue", "status": "exists", "description": "AgentView component for agent walkthrough" },
+            { "path": "references/tax-prep/ARCHITECTURE.md", "status": "exists", "description": "Architecture reference for phase details" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n├── 21-system-overview/\n└── 99-conclusion-lets-connect/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/22-initialize/index.md", "status": "new", "description": "Initialize phase slide" },
+            { "path": "slides/22-initialize/assets/filetree/", "status": "new", "description": "Empty scaffold directory" },
+            { "path": "slides/23-intake/index.md", "status": "new", "description": "Intake phase slide with loop diagram" },
+            { "path": "slides/23-intake/assets/filetree/", "status": "new", "description": "Directory with populated intake.md" },
+            { "path": "slides/25-review/index.md", "status": "new", "description": "Review phase slide with loop diagram" },
+            { "path": "slides/25-review/assets/filetree/", "status": "new", "description": "Directory with final/ folder" },
+            { "path": "index.md", "status": "modified", "description": "Updated with 3 new slides" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n├── 21-system-overview/\n├── 22-initialize/\n├── 23-intake/\n├── 25-review/\n└── 99-conclusion-lets-connect/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Visual verification in dev server",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev — verify all 3 phase slides render",
+          "Verify progressive file tree growth across slides",
+          "Verify loop diagrams display correctly on Intake and Review"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "3.1",
+          "title": "Create Phase FileTree Assets",
+          "objective": "Create filetree asset files for three phases showing progressive directory growth: Initialize (empty scaffold), Intake (populated intake.md), Review (extractions/ + raw/ + final/).",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.1.1",
+              "title": "Create Initialize phase filetree assets",
+              "file_path": "slides/22-initialize/assets/filetree/tax-2025/",
+              "description": "Create files for empty scaffold after /cpa-tax-prep:initialize. Shows source-documents/ with README placeholder and write-up/ with blank intake.md template (9 section headers, all STATUS: pending). ~2 files.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "22-42", "purpose": "Initialize phase output structure" },
+                  { "file": "slides/08-file-explorer/assets/filetree/my-fastapi-app/main.py", "purpose": "Example filetree asset content" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "3.1.1.1", "command": "CREATE FILE source-documents/README.md: Drop bank statements, 1099s, insurance docs into subfolders (~5 lines)", "file": "slides/22-initialize/assets/filetree/tax-2025/source-documents/README.md", "status": "pending" },
+                { "id": "3.1.1.2", "command": "CREATE FILE write-up/intake.md: Blank template with 9 section headers (Filer Info, Accounts, Home Office, Health Insurance, Internet/Utilities, Quarterly Taxes, Retirement, Income, Special Considerations) all STATUS: pending (~20 lines)", "file": "slides/22-initialize/assets/filetree/tax-2025/write-up/intake.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "3.1.2",
+              "title": "Create Intake phase filetree assets",
+              "file_path": "slides/23-intake/assets/filetree/tax-2025/",
+              "description": "Create files showing directory after Intake completes. intake.md is populated with 9 sections (brief sample content, all STATUS: complete). Source-documents/ has README noting docs are present. ~2 files.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "46-83", "purpose": "Intake phase details and 9 sections" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "3.1.2.1", "command": "CREATE FILE source-documents/README.md: Same as init but noting docs are present", "file": "slides/23-intake/assets/filetree/tax-2025/source-documents/README.md", "status": "pending" },
+                { "id": "3.1.2.2", "command": "CREATE FILE write-up/intake.md: Populated with 9 sections, sample content per section, all STATUS: complete (~40-50 lines)", "file": "slides/23-intake/assets/filetree/tax-2025/write-up/intake.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "3.1.3",
+              "title": "Create Review phase filetree assets",
+              "file_path": "slides/25-review/assets/filetree/tax-2025/",
+              "description": "Create files showing directory after Review completes. Includes: intake.md (populated), extractions/ with 2 sample files (from Extract phase), raw/ with 3 aggregated category files, and final/ with 3 reviewed copies. Shows full Extract→Review progression. ~9 files.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "86-173", "purpose": "Extract and Review phase file outputs" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "3.1.3.1", "command": "CREATE FILE write-up/intake.md: Populated intake (reuse content from 3.1.2.2)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/intake.md", "status": "pending" },
+                { "id": "3.1.3.2", "command": "CREATE FILE write-up/extractions/business-2025-01.md: YAML front matter (source, type, period, status:complete) + brief extracted transactions (~15 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/extractions/business-2025-01.md", "status": "pending" },
+                { "id": "3.1.3.3", "command": "CREATE FILE write-up/extractions/personal-2025-01.md: Same pattern, personal account (~15 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/extractions/personal-2025-01.md", "status": "pending" },
+                { "id": "3.1.3.4", "command": "CREATE FILE write-up/raw/Income 2025.md: Aggregated income from all extractions (~10 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/raw/Income 2025.md", "status": "pending" },
+                { "id": "3.1.3.5", "command": "CREATE FILE write-up/raw/Expenses Business 2025.md: Aggregated business expenses (~12 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/raw/Expenses Business 2025.md", "status": "pending" },
+                { "id": "3.1.3.6", "command": "CREATE FILE write-up/raw/Personal Deductions 2025.md: Aggregated personal deductions (~10 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/raw/Personal Deductions 2025.md", "status": "pending" },
+                { "id": "3.1.3.7", "command": "CREATE FILE write-up/final/Income 2025.md: Reviewed copy with corrections applied (~10 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/final/Income 2025.md", "status": "pending" },
+                { "id": "3.1.3.8", "command": "CREATE FILE write-up/final/Expenses Business 2025.md: Reviewed copy (~12 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/final/Expenses Business 2025.md", "status": "pending" },
+                { "id": "3.1.3.9", "command": "CREATE FILE write-up/final/Personal Deductions 2025.md: Reviewed copy (~10 lines)", "file": "slides/25-review/assets/filetree/tax-2025/write-up/final/Personal Deductions 2025.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Create Initialize Slide",
+          "objective": "Simplest phase slide — Terminal showing /cpa-tax-prep:initialize command + FileExplorer showing empty scaffold. No diagram needed.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.2.1",
+              "title": "Create Initialize phase slide",
+              "file_path": "slides/22-initialize/index.md",
+              "description": "Simplest phase slide. Layout: heading 'Phase 0 — Initialize', Terminal component showing /cpa-tax-prep:initialize 2025 command with output, FileExplorer showing empty scaffold. Two-column layout: Terminal on left, FileExplorer on right. No diagram needed per spec.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/11-terminal-demo/index.md", "purpose": "Terminal component usage reference" },
+                  { "file": "slides/08-file-explorer/index.md", "purpose": "FileExplorer component usage reference" },
+                  { "file": "components/Terminal.vue", "lines": "1-15", "purpose": "Terminal props interface" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["3.1.1"],
+              "actions": [
+                { "id": "3.2.1.1", "command": "CREATE FILE slides/22-initialize/index.md: USE frontmatter theme ../ layout center. MAKE heading 'Phase 0 — Initialize' (text-3xl text-gray-900). ADD two-column grid (grid-cols-2 gap-4). Left: Terminal lines=[{command:'/cpa-tax-prep:initialize 2025', output:'Creating scaffold...\\n✓ source-documents/ created\\n✓ intake.md template created'}] shell='bash'. Right: FileExplorer dir='22-initialize/filetree/tax-2025'. USE h-full flexbox.", "file": "slides/22-initialize/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "Create Intake Slide",
+          "objective": "Terminal + FileExplorer + CSS loop diagram (read source docs → ask question → user confirms → update intake.md → repeat).",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.3.1",
+              "title": "Create Intake phase slide with loop diagram",
+              "file_path": "slides/23-intake/index.md",
+              "description": "Phase slide with three elements. Heading 'Phase 1 — Intake'. Layout: Terminal (/cpa-tax-prep:intake 2025) and FileExplorer on left, CSS/HTML loop diagram on right showing conversational cycle: Read Source Docs → Ask Question → User Confirms → Update intake.md → Repeat. Diagram uses Tailwind CSS bordered cards with arrows (no Mermaid). Use v-click for progressive reveal.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/22-initialize/index.md", "purpose": "Previous phase slide layout for consistency" },
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "46-83", "purpose": "Intake loop details" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "71-73", "purpose": "Intake diagram spec (simple loop)" }
+                ],
+                "related_files": ["components/Terminal.vue", "components/FileTree/FileExplorer.vue"]
+              },
+              "depends_on": ["3.1.2"],
+              "actions": [
+                { "id": "3.3.1.1", "command": "CREATE FILE slides/23-intake/index.md: USE frontmatter theme ../ layout center clicks [TBD]. MAKE heading 'Phase 1 — Intake'. ADD layout: Terminal+FileExplorer left, loop diagram right. Terminal: lines=[{command:'/cpa-tax-prep:intake 2025', output:'Pre-reading source documents...\\nStarting 9-section interview...'}]. FileExplorer: dir='23-intake/filetree/tax-2025'. Loop diagram: CSS/HTML boxes 'Read Source Docs' → 'Ask Question' → 'User Confirms' → 'Update intake.md' → arrow back. USE Tailwind bg-white border-{color}-600 border-1 rounded-lg for boxes. USE v-click animations.", "file": "slides/23-intake/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "title": "Create Review Slide",
+          "objective": "Terminal + FileExplorer + CSS loop diagram (same pattern as Intake: read section → present → user confirms → update final/ → repeat).",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "3.4.1",
+              "title": "Create Review phase slide with loop diagram",
+              "file_path": "slides/25-review/index.md",
+              "description": "Same layout as Intake slide. Heading 'Phase 3 — Review'. Terminal (/cpa-tax-prep:review 2025) + FileExplorer on left, loop diagram on right: Read Section → Present to User → User Confirms/Corrects → Update final/ → Repeat. MIRROR slides/23-intake/index.md layout, change content to Review specifics. Use different accent color for visual distinction.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/23-intake/index.md", "purpose": "Loop diagram pattern to mirror" },
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "143-173", "purpose": "Review phase details" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "74", "purpose": "Review diagram spec" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["3.1.3"],
+              "actions": [
+                { "id": "3.4.1.1", "command": "CREATE FILE slides/25-review/index.md: MIRROR slides/23-intake/index.md layout. MAKE heading 'Phase 3 — Review'. Terminal: lines=[{command:'/cpa-tax-prep:review 2025', output:'Loading extracted data...\\nStarting section-by-section review...'}]. FileExplorer: dir='25-review/filetree/tax-2025'. Loop diagram: 'Read Section' → 'Present to User' → 'User Confirms/Corrects' → 'Update final/' → arrow back. REPLACE Intake accent colors with Review-specific colors.", "file": "slides/25-review/index.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "3.4.2",
+              "title": "Rebuild index.md with 3 new phase slides",
+              "file_path": "index.md",
+              "description": "Run npm run build:slides to include slides 22, 23, 25.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": []
+              },
+              "depends_on": ["3.2.1", "3.3.1", "3.4.1"],
+              "actions": [
+                { "id": "3.4.2.1", "command": "RUN npm run build:slides", "file": "index.md", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Complex Phase Slides (Extract + Package)",
+      "goal": "Create the two architecturally complex slides with parallel subagent diagrams. Extract shows orchestrator spawning parallel tax-extract subagents. Package shows parallel tax-package subagents feeding into a deterministic Python pipeline.",
+      "prerequisites": [3],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "references/tax-prep/ARCHITECTURE.md", "status": "exists", "description": "Detailed ASCII diagrams of Extract and Package phases" },
+            { "path": "slides/23-intake/index.md", "status": "exists", "description": "Reference for phase slide layout pattern" }
+          ],
+          "tree": "slides/\n├── ...\n├── 22-initialize/\n├── 23-intake/\n├── 25-review/\n└── 99-conclusion-lets-connect/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/24-extract/index.md", "status": "new", "description": "Extract phase slide with parallel subagent diagram" },
+            { "path": "slides/24-extract/assets/filetree/", "status": "new", "description": "Directory with extractions/ and raw/" },
+            { "path": "slides/26-package/index.md", "status": "new", "description": "Package phase slide with pipeline diagram" },
+            { "path": "slides/26-package/assets/filetree/", "status": "new", "description": "Directory with output/ folder" },
+            { "path": "index.md", "status": "modified", "description": "Updated with 2 new slides" }
+          ],
+          "tree": "slides/\n├── ...\n├── 22-initialize/\n├── 23-intake/\n├── 24-extract/\n├── 25-review/\n├── 26-package/\n└── 99-conclusion-lets-connect/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Visual verification in dev server",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev — verify parallel subagent diagrams render on Extract and Package",
+          "Verify file tree shows correct directory state per phase",
+          "Verify full progressive growth sequence across all 5 phase slides"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "4.1",
+          "title": "Create Extract + Package FileTree Assets",
+          "objective": "Create filetree assets for Extract (extractions/ + raw/) and Package (output/ with sections/*.json, tax_data.json, xlsx, summary).",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.1.1",
+              "title": "Create Extract phase filetree assets",
+              "file_path": "slides/24-extract/assets/filetree/tax-2025/",
+              "description": "Directory after Extract completes. Shows: intake.md (populated), extractions/ with 3 per-file markdown outputs (YAML front matter + transactions), raw/ with 3 aggregated category files. ~7 files.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "86-139", "purpose": "Extract phase file outputs and aggregation" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "4.1.1.1", "command": "CREATE FILE write-up/intake.md: Populated intake (reuse pattern from 3.1.2.2)", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/intake.md", "status": "pending" },
+                { "id": "4.1.1.2", "command": "CREATE FILE write-up/extractions/business-2025-01.md: YAML front matter + extracted transactions (~15 lines)", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/extractions/business-2025-01.md", "status": "pending" },
+                { "id": "4.1.1.3", "command": "CREATE FILE write-up/extractions/business-2025-02.md: Same pattern, Feb 2025", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/extractions/business-2025-02.md", "status": "pending" },
+                { "id": "4.1.1.4", "command": "CREATE FILE write-up/extractions/personal-2025-01.md: Same pattern, personal acct", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/extractions/personal-2025-01.md", "status": "pending" },
+                { "id": "4.1.1.5", "command": "CREATE FILE write-up/raw/Income 2025.md: Aggregated income (~10 lines)", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/raw/Income 2025.md", "status": "pending" },
+                { "id": "4.1.1.6", "command": "CREATE FILE write-up/raw/Expenses Business 2025.md: Aggregated expenses (~12 lines)", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/raw/Expenses Business 2025.md", "status": "pending" },
+                { "id": "4.1.1.7", "command": "CREATE FILE write-up/raw/Personal Deductions 2025.md: Aggregated deductions (~10 lines)", "file": "slides/24-extract/assets/filetree/tax-2025/write-up/raw/Personal Deductions 2025.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "4.1.2",
+              "title": "Create Package phase filetree assets",
+              "file_path": "slides/26-package/assets/filetree/tax-2025/",
+              "description": "Directory showing final output. Includes: final/ with 3 reviewed files, output/sections/ with 3 JSON files, output/2025_tax_data.json (merged), output/2025 CPA Tax Package.txt (xlsx placeholder), output/2025 CPA Summary.md. ~9 files.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "177-247", "purpose": "Package phase output structure" }
+                ],
+                "related_files": []
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "4.1.2.1", "command": "CREATE FILE write-up/final/Income 2025.md: Reviewed income (~10 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/final/Income 2025.md", "status": "pending" },
+                { "id": "4.1.2.2", "command": "CREATE FILE write-up/final/Expenses Business 2025.md: Reviewed expenses (~12 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/final/Expenses Business 2025.md", "status": "pending" },
+                { "id": "4.1.2.3", "command": "CREATE FILE write-up/final/Personal Deductions 2025.md: Reviewed deductions (~10 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/final/Personal Deductions 2025.md", "status": "pending" },
+                { "id": "4.1.2.4", "command": "CREATE FILE write-up/output/sections/income.json: JSON section (~15 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/output/sections/income.json", "status": "pending" },
+                { "id": "4.1.2.5", "command": "CREATE FILE write-up/output/sections/business_expenses.json: JSON section (~15 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/output/sections/business_expenses.json", "status": "pending" },
+                { "id": "4.1.2.6", "command": "CREATE FILE write-up/output/sections/personal_deductions.json: JSON section (~15 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/output/sections/personal_deductions.json", "status": "pending" },
+                { "id": "4.1.2.7", "command": "CREATE FILE write-up/output/2025_tax_data.json: Merged JSON with meta block (~20 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/output/2025_tax_data.json", "status": "pending" },
+                { "id": "4.1.2.8", "command": "CREATE FILE write-up/output/2025 CPA Tax Package.txt: Placeholder noting xlsx with 8 tabs (~5 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/output/2025 CPA Tax Package.txt", "status": "pending" },
+                { "id": "4.1.2.9", "command": "CREATE FILE write-up/output/2025 CPA Summary.md: One-page CPA overview (~20 lines)", "file": "slides/26-package/assets/filetree/tax-2025/write-up/output/2025 CPA Summary.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "title": "Create Extract Slide",
+          "objective": "Terminal + FileExplorer + HEAVY parallel subagent CSS diagram showing orchestrator spawning tax-extract subagents.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.2.1",
+              "title": "Create Extract phase slide with parallel subagent diagram",
+              "file_path": "slides/24-extract/index.md",
+              "description": "HEAVY diagram slide. Heading 'Phase 2 — Extract'. Layout: FileExplorer on left, parallel subagent CSS diagram on right. Diagram: Orchestrator box → 3 parallel tax-extract subagent boxes (Business Jan, Business Feb, Personal Jan) → extractions/ → aggregation → raw/. Built with Tailwind CSS. Use v-click progressive reveal.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "86-139", "purpose": "Extract phase detailed diagram" },
+                  { "file": "slides/23-intake/index.md", "purpose": "Phase slide layout consistency" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "73", "purpose": "Extract diagram spec (HEAVY)" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["4.1.1"],
+              "actions": [
+                { "id": "4.2.1.1", "command": "CREATE FILE slides/24-extract/index.md: USE frontmatter theme ../ layout center clicks [TBD]. MAKE heading 'Phase 2 — Extract'. ADD two-column: FileExplorer left (dir='24-extract/filetree/tax-2025'), diagram right. Diagram: Top 'Orchestrator' card (border-blue-600) → Middle 3 parallel 'tax-extract' cards (border-green-600) labeled per PDF → Bottom-mid 'extractions/' → Bottom 'Aggregate → raw/' card. USE v-click, USE Tailwind bg-white border-{color}-600 border-1 rounded-lg.", "file": "slides/24-extract/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "title": "Create Package Slide",
+          "objective": "Terminal + FileExplorer + HEAVY pipeline CSS diagram showing parallel subagents → JSON → Python scripts → final output.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "4.3.1",
+              "title": "Create Package phase slide with pipeline diagram",
+              "file_path": "slides/26-package/index.md",
+              "description": "HEAVY diagram slide. Heading 'Phase 4 — Package'. Layout: FileExplorer on left, pipeline CSS diagram on right. Two stages: Stage 1 (parallel) 3 tax-package subagent boxes → section JSONs. Stage 2 (sequential) merge_sections.py → build_xlsx.py → validate_xlsx.py → final output. Built with Tailwind CSS. Use v-click progressive reveal.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "references/tax-prep/ARCHITECTURE.md", "lines": "177-247", "purpose": "Package phase detailed diagram" },
+                  { "file": "slides/24-extract/index.md", "purpose": "Parallel subagent diagram pattern" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "75", "purpose": "Package diagram spec (HEAVY)" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["4.1.2"],
+              "actions": [
+                { "id": "4.3.1.1", "command": "CREATE FILE slides/26-package/index.md: USE frontmatter theme ../ layout center clicks [TBD]. MAKE heading 'Phase 4 — Package'. ADD two-column: FileExplorer left (dir='26-package/filetree/tax-2025'), diagram right. Stage 1: 3 'tax-package' cards (border-purple-600) → section JSONs. Stage 2: 'merge_sections.py' (border-blue-600) → 'build_xlsx.py' (border-green-600) → 'validate_xlsx.py' (border-orange-600). Final: 'tax_data.json + xlsx + summary' card (border-amber-600 border-2). USE v-click, USE Tailwind.", "file": "slides/26-package/index.md", "status": "pending" }
+              ]
+            },
+            {
+              "id": "4.3.2",
+              "title": "Rebuild index.md with Extract and Package slides",
+              "file_path": "index.md",
+              "description": "Run npm run build:slides to include slides 24, 26.",
+              "status": "pending",
+              "context": {
+                "read_before": [],
+                "related_files": []
+              },
+              "depends_on": ["4.2.1", "4.3.1"],
+              "actions": [
+                { "id": "4.3.2.1", "command": "RUN npm run build:slides", "file": "index.md", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Key Results + Final Assembly",
+      "goal": "Complete the presentation with Key Results slide (adaptability, low cost, time savings) and full integration verification. Template selection based on visual balance with existing slides.",
+      "prerequisites": [4],
+      "status": "pending",
+      "file_context": {
+        "beginning": {
+          "files": [
+            { "path": "slide-templates/column-cards/slide.md", "status": "exists", "description": "Candidate template for Key Results" },
+            { "path": "slide-templates/icon-list-content/slide.md", "status": "exists", "description": "Candidate template for Key Results" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n├── 21-system-overview/\n├── 22-initialize/\n├── 23-intake/\n├── 24-extract/\n├── 25-review/\n├── 26-package/\n└── 99-conclusion-lets-connect/"
+        },
+        "ending": {
+          "files": [
+            { "path": "slides/27-key-results/index.md", "status": "new", "description": "Key Results slide" },
+            { "path": "index.md", "status": "modified", "description": "Final slide ordering with all 8 new slides" }
+          ],
+          "tree": "slides/\n├── ...\n├── 20-why-it-matters/\n├── 21-system-overview/\n├── 22-initialize/\n├── 23-intake/\n├── 24-extract/\n├── 25-review/\n├── 26-package/\n├── 27-key-results/\n└── 99-conclusion-lets-connect/"
+        }
+      },
+      "testing_strategy": {
+        "approach": "Full deck visual verification",
+        "verification_steps": [
+          "npm run build:slides",
+          "npm run dev — verify all 8 new slides render correctly",
+          "Verify slide ordering matches video segment flow",
+          "Verify all slides follow conventions (bordered cards, Title Case, no light grey text)"
+        ]
+      },
+      "task_groups": [
+        {
+          "id": "5.1",
+          "title": "Create Key Results Slide",
+          "objective": "Create the closing content slide using column-cards template. Three cards: Adaptable, No Extra Cost, 30 Minutes. Sign-off: Own the build, own the outcome.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "5.1.1",
+              "title": "Create Key Results slide with column-cards",
+              "file_path": "slides/27-key-results/index.md",
+              "description": "Create Key Results slide using column-cards template pattern. 3 cards with progressive reveal: (1) Adaptable — system grows with your changing situation, add new doc types with one command. (2) No Extra Cost — uses existing Claude subscription, no SaaS fees. (3) 30 Minutes — replaces hours of manual work + weeks of back-and-forth. Include 'Own the build, own the outcome.' sign-off at bottom.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "slides/01-column-cards/index.md", "purpose": "Column-cards template usage reference" },
+                  { "file": "slide-templates/column-cards/description.md", "purpose": "Template variable documentation" },
+                  { "file": "agents/sessions/2026-03-13_tax-prep_ox5g4c/spec.md", "lines": "28", "purpose": "Key Results content requirements" }
+                ],
+                "related_files": ["slide-templates/column-cards/slide.md"]
+              },
+              "depends_on": [],
+              "actions": [
+                { "id": "5.1.1.1", "command": "CREATE FILE slides/27-key-results/index.md: MIRROR slides/01-column-cards/index.md structure. USE frontmatter theme ../ layout center clicks 3. MAKE title 'Why This Is Different'. Card 1 (green): icon=refresh, title='Adaptable', subtitle='Grows With You', points=['Adapts to your changing situation year-over-year', 'Add new document types with one command', 'YOUR system, YOUR rules']. Card 2 (blue): icon=currency, title='No Extra Cost', subtitle='Uses What You Have', points=['Runs on your existing Claude subscription', 'No monthly SaaS fees', 'You own the code']. Card 3 (orange): icon=clock, title='30 Minutes', subtitle='Not Hours, Not Weeks', points=['Replaces hours of manual organizing', 'Eliminates weeks of CPA back-and-forth', '~30 minutes of your involvement']. ADD sign-off: 'Own the build, own the outcome.' (text-lg font-bold text-gray-700 text-center mt-4).", "file": "slides/27-key-results/index.md", "status": "pending" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "title": "Final Assembly + Verification",
+          "objective": "Rebuild index.md with all 8 new slides in correct order. Verify complete presentation renders.",
+          "status": "pending",
+          "tasks": [
+            {
+              "id": "5.2.1",
+              "title": "Final index.md rebuild and verification",
+              "file_path": "index.md",
+              "description": "Run npm run build:slides to regenerate index.md with all 8 new slides (20-27) in correct order. Verify ordering matches video segment flow: Why It Matters → System Overview → Initialize → Intake → Extract → Review → Package → Key Results.",
+              "status": "pending",
+              "context": {
+                "read_before": [
+                  { "file": "scripts/build.ts", "purpose": "Build script reference" }
+                ],
+                "related_files": []
+              },
+              "depends_on": ["5.1.1"],
+              "actions": [
+                { "id": "5.2.1.1", "command": "RUN npm run build:slides", "file": "index.md", "status": "pending" },
+                { "id": "5.2.1.2", "command": "VERIFY slide ordering in index.md: 20, 21, 22, 23, 24, 25, 26, 27", "file": "index.md", "status": "pending" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -145,6 +145,38 @@ When creating or editing slides, always follow these formatting standards:
 | Emphasis text | `font-bold` + uppercase the word |
 | Colored accent | `text-{color}-600 font-bold` |
 
+### HTML Block Structure (Slidev + Vue Reactivity)
+
+**Critical rule: keep sibling HTML blocks "touching" — no blank lines between them.**
+
+Slidev uses a markdown parser that treats blank lines as paragraph breaks. When you separate two `<div>` blocks with a blank line, the parser wraps each in its own `<p>`, which breaks Vue directive reactivity inside them (e.g. `:class="$clicks >= 1 ? ... : ..."` stops updating on click). The fix is simple: put adjacent sibling divs directly next to each other with no blank line between them.
+
+**Do this:**
+```html
+<div class="grid grid-cols-2 gap-6">
+  <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="...">Card A</div>
+  <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="...">Card B</div>
+</div>
+<div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="...">Footer callout</div>
+```
+
+**Not this** (blank lines break `$clicks` reactivity):
+```html
+<div class="grid grid-cols-2 gap-6">
+  <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="...">Card A</div>
+
+  <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="...">Card B</div>
+</div>
+
+<div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="...">Footer callout</div>
+```
+
+Guidelines:
+- No blank lines between sibling `<div>`s, especially when ANY of them use `$clicks`, `v-if`, `:class`, or other Vue bindings
+- Blank lines ARE fine before/after the outermost block, and between HTML and frontmatter
+- Use HTML comments (`<!-- ... -->`) for labels instead of blank-line separators
+- Indentation inside a block is fine — only the empty lines between blocks cause the issue
+
 ## Development Workflow
 
 1. Choose a template: `npm run list:templates`

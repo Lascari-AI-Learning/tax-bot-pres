@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, onMounted, watch, nextTick } from 'vue'
 import { codeToHtml } from 'shiki'
 import FileTreeItem from './FileTreeItem.vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   dir: string
   title?: string
   showWorkingDir?: boolean
-}>()
+  expandDepth?: number
+  defaultFile?: string
+  folderState?: Record<string, boolean>
+}>(), {
+  expandDepth: -1,
+  folderState: () => ({})
+})
 
 // Load all files from slides/**/assets/filetree/** using a broad glob
 // We use 'as: 'raw' to get the content string
@@ -67,10 +73,15 @@ const fileTree = computed(() => {
 
     const parts = relativePath.split('/')
     let currentLevel = tree
+    let dirPath = targetDirFull
 
     parts.forEach((part, i) => {
       const isFile = i === parts.length - 1
       const existingNode = currentLevel.find(n => n.name === part)
+
+      if (!isFile) {
+        dirPath = dirPath + '/' + part
+      }
 
       if (existingNode) {
         if (!isFile) {
@@ -79,7 +90,7 @@ const fileTree = computed(() => {
       } else {
         const newNode: FileNode = {
           name: part,
-          path: path,
+          path: isFile ? path : dirPath,
           type: isFile ? 'file' : 'directory',
           children: isFile ? undefined : [],
           content: isFile ? content : undefined
@@ -106,32 +117,72 @@ const fileTree = computed(() => {
   return tree
 })
 
-onMounted(() => {
-  const findFirstFile = (nodes: FileNode[]): FileNode | null => {
+const initTree = () => {
+  if (fileTree.value.length === 0) return
+
+  // Reset state
+  expandedFolders.value = new Set()
+  selectedFile.value = null
+
+  const hasFolderState = Object.keys(props.folderState).length > 0
+
+  // Walk tree and determine expand state for each folder
+  const resolveExpand = (nodes: FileNode[], currentDepth: number) => {
+    nodes.forEach(node => {
+      if (node.type === 'directory') {
+        // Check explicit folderState first (by folder name)
+        if (hasFolderState && node.name in props.folderState) {
+          if (props.folderState[node.name]) {
+            expandedFolders.value.add(node.path)
+          }
+          // Explicit false means stay collapsed — skip expandDepth
+        } else if (!hasFolderState) {
+          // No folderState provided — fall back to expandDepth
+          if (props.expandDepth === -1 || currentDepth < props.expandDepth) {
+            expandedFolders.value.add(node.path)
+          }
+        }
+        // When folderState is provided but folder not listed, default to collapsed
+        // Always recurse children to check their folderState
+        if (node.children) resolveExpand(node.children, currentDepth + 1)
+      }
+    })
+  }
+  resolveExpand(fileTree.value, 0)
+
+  // Select default file or first visible file
+  const findFileByName = (nodes: FileNode[], name: string): FileNode | null => {
     for (const node of nodes) {
-      if (node.type === 'file') return node
+      if (node.type === 'file' && node.name === name) return node
       if (node.children) {
-        const found = findFirstFile(node.children)
+        const found = findFileByName(node.children, name)
         if (found) return found
       }
     }
     return null
   }
-
-  if (fileTree.value.length > 0) {
-    const first = findFirstFile(fileTree.value)
-    if (first) handleFileClick(first)
-
-    const expandAll = (nodes: FileNode[]) => {
-      nodes.forEach(node => {
-        if (node.type === 'directory') {
-          expandedFolders.value.add(node.path)
-          if (node.children) expandAll(node.children)
-        }
-      })
+  const findFirstVisibleFile = (nodes: FileNode[]): FileNode | null => {
+    for (const node of nodes) {
+      if (node.type === 'file') return node
+      if (node.children && expandedFolders.value.has(node.path)) {
+        const found = findFirstVisibleFile(node.children)
+        if (found) return found
+      }
     }
-    expandAll(fileTree.value)
+    return null
   }
+  const target = props.defaultFile
+    ? findFileByName(fileTree.value, props.defaultFile)
+    : null
+  const first = target || findFirstVisibleFile(fileTree.value)
+  if (first) handleFileClick(first)
+}
+
+onMounted(initTree)
+
+// Re-initialize when dir changes (Slidev may reuse component across slides)
+watch(() => props.dir, () => {
+  nextTick(initTree)
 })
 
 const handleFileClick = async (node: FileNode) => {

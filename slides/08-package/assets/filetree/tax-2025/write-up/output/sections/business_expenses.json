@@ -1,0 +1,10 @@
+{
+  "section": "business_expenses",
+  "categories": {
+    "software": 5063.76,
+    "office_supplies": 1073.64,
+    "vehicle_mileage": 2814.00
+  },
+  "total": 8951.40,
+  "flags": ["ASK CPA: Standard mileage vs actual expenses"]
+}

@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "year": 2025,
+    "generated_at": "2025-03-15T14:30:00Z",
+    "sections_count": 7,
+    "flags": [
+      "ASK CPA: Standard mileage vs actual expenses",
+      "NOTE: Confirm mileage rate with CPA"
+    ]
+  },
+  "sections": {
+    "income": {"total": 153542.00},
+    "business_expenses": {"total": 8951.40},
+    "personal_deductions": {"total": 11295.00},
+    "home_office": {"total": 4377.00},
+    "estimated_taxes": {"total": 13400.00},
+    "health_insurance": {"total": 5820.00},
+    "retirement": {"total": 12500.00}
+  }
+}
