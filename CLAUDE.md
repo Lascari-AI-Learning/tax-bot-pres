@@ -11,8 +11,8 @@ This is a Slidev presentation about Claude Code. Slidev is a Vue.js-based presen
 ## Common Commands
 
 ```bash
-# Install dependencies (uses pnpm)
-npm run install
+# Install dependencies
+npm install
 
 # Start development server (http://localhost:3030)
 npm run dev
@@ -188,5 +188,5 @@ Guidelines:
 
 ## Deployment
 - Configured for both Netlify and Vercel
-- Build command: `pnpm build`
+- Build command: `npm run build`
 - Output directory: `dist`
