@@ -15,6 +15,14 @@ src: ./slides/02-turbotax-reality-check/index.md
 ---
 
 ---
+src: ./slides/02a-the-problem/index.md
+---
+
+---
+src: ./slides/02b-workflow-overview/index.md
+---
+
+---
 src: ./slides/03-system-overview/index.md
 ---
 
@@ -27,11 +35,39 @@ src: ./slides/05-intake/index.md
 ---
 
 ---
+src: ./slides/05a-interview-loop/index.md
+---
+
+---
+src: ./slides/05b-intake-result/index.md
+---
+
+---
 src: ./slides/06-extract/index.md
 ---
 
 ---
+src: ./slides/06a-extract-orchestrate/index.md
+---
+
+---
+src: ./slides/06b-extract-result/index.md
+---
+
+---
 src: ./slides/07-review/index.md
+---
+
+---
+src: ./slides/07a-review-loop/index.md
+---
+
+---
+src: ./slides/07b-review-result/index.md
+---
+
+---
+src: ./slides/07c-package-intro/index.md
 ---
 
 ---

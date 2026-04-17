@@ -1,43 +1,40 @@
 ---
 theme: ../
 layout: default
-clicks: 2
+clicks: 3
 ---
 
-<div class="flex flex-col h-full p-2">
-  <div class="flex-1 min-h-0 relative">
-    <div
-      class="h-full flex items-center justify-center transition-all duration-500"
-      :class="$clicks < 1 ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'"
-    >
-      <div class="w-full max-w-5xl">
-        <MotionCanvas src="/animations/07-review.js" />
-      </div>
+<div class="flex flex-col h-full p-6">
+  <div class="text-4xl text-center mb-8 text-gray-900 font-bold">Phase 3 — Review Every Section</div>
+
+  <div class="grid grid-cols-3 gap-6 max-w-6xl mx-auto w-full">
+    <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="bg-white border-blue-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+      <p class="text-lg font-bold text-blue-600 mb-4">Read</p>
+      <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
+        <li>Loads Your <span class="font-bold">PERSONAL CONTEXT</span> From Intake</li>
+        <li>Opens The Final Document For This Section</li>
+        <li>Cross-References Supporting Extractions</li>
+      </ul>
     </div>
-    <div
-      class="max-w-2xl mx-auto transition-all duration-500"
-      :class="$clicks >= 1 && $clicks < 2 ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'"
-    >
-      <Terminal
-        :lines="[
-          { command: '/cpa-tax-prep:review 2025', output: 'Loading raw/ category files...\nFound 5 sections to review.\n\nSection 1: Income 2025\nHere is what I extracted for income:\n\n  Acme Corp (1099-NEC): $145,000\n  Stripe (side project): $8,200\n  Savings interest: $342\n  Total: $153,542\n\nDoes this look correct? Any adjustments?' }
-        ]"
-        title="claude — bash"
-        shell="bash"
-        :height="340"
-        :clicks="$clicks"
-      />
+    <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="bg-white border-amber-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+      <p class="text-lg font-bold text-amber-600 mb-4">Ask</p>
+      <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
+        <li>"What Is This <span class="font-bold">$1,247</span> From Home Depot?"</li>
+        <li>Flags <span class="font-bold">AMBIGUOUS</span> Transactions</li>
+        <li>Surfaces Items That Need <span class="font-bold">CPA INPUT</span></li>
+      </ul>
     </div>
-    <div
-      class="h-full transition-all duration-500"
-      :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'"
-    >
-      <FileExplorer
-        v-if="$clicks >= 2"
-        dir="07-review/filetree/tax-2025"
-        :folderState="{ 'source-documents': false, 'write-up': true, 'extractions': false, 'raw': false, 'final': true }"
-        defaultFile="Income 2025.md"
-      />
+    <div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="bg-white border-emerald-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+      <p class="text-lg font-bold text-emerald-600 mb-4">Update</p>
+      <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
+        <li>Your Answer Goes <span class="font-bold">DIRECTLY</span> Into The File</li>
+        <li>Moves To The Next Flagged Item</li>
+        <li>Section Complete → Next Section</li>
+      </ul>
     </div>
   </div>
 </div>
+
+<!--
+As we saw on the last slide, extract surfaced flagged items — ambiguous transactions, things paid from the wrong account, items that need CPA input. Now the review phase goes through each section with full context: your personal situation from intake, the final document being reviewed, and the supporting extractions. It asks you about each flagged item, you answer, and it updates the file directly. Then it moves to the next one.
+-->

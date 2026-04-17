@@ -1,40 +1,31 @@
 ---
 theme: ../
-layout: center
-clicks: 5
+layout: default
+clicks: 2
 ---
 
-<div class="text-4xl text-center mb-2 text-gray-900 font-bold">Why It Matters</div>
-<div class="text-lg text-center mb-6 text-gray-700">Two Problems, One Playbook</div>
+<div class="text-4xl text-center mb-8 text-gray-900 font-bold">What We're Going To Talk About Today</div>
 
-<div class="grid grid-cols-2 gap-6 mb-6">
-  <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0 pointer-events-none'" class="bg-white border-blue-600 border-2 rounded-lg p-5 transition-opacity duration-300">
-    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">The Surface Problem</div>
-    <p class="text-xl font-bold text-gray-900 mb-3">Taxes Are <span class="text-blue-600">MESSY</span> And High-Stakes</p>
-    <ul class="text-sm text-gray-900 space-y-2">
-      <li :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="transition-opacity duration-300">Multiple Income Streams, Not A Simple W-2</li>
-      <li :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="transition-opacity duration-300">Situational Deductions Templates <span class="font-bold">MISS</span></li>
-      <li :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="transition-opacity duration-300">Audit Risk Means You Need <span class="font-bold">TRACEABILITY</span></li>
+<div class="grid grid-cols-2 gap-10">
+  <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0 pointer-events-none'" class="bg-white border-purple-600 border-2 rounded-lg px-8 pt-4 pb-8 transition-opacity duration-300">
+    <p class="text-xl font-bold text-gray-900 mb-6">How To <span class="text-purple-600">DECOMPOSE</span> A Real Problem Into An Agentic System</p>
+    <ul class="text-base text-gray-900 space-y-4 leading-relaxed">
+      <li>What Are The <span class="font-bold">STEPS</span> You Need To Do?</li>
+      <li>What <span class="font-bold">AGENTS</span> Do You Need To Do This?</li>
+      <li>How Does The <span class="font-bold">PROCESS</span> Flow?</li>
+      <li>How To Represent This In A <span class="font-bold">FILE SYSTEM</span>?</li>
     </ul>
   </div>
-  <div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0 pointer-events-none'" class="bg-white border-purple-600 border-2 rounded-lg p-5 transition-opacity duration-300">
-    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">The Real Lesson</div>
-    <p class="text-xl font-bold text-gray-900 mb-3">How To <span class="text-purple-600">DECOMPOSE</span> A Real Problem Into An Agentic System</p>
-    <ul class="text-sm text-gray-900 space-y-2">
-      <li :class="$clicks >= 4 ? 'opacity-100' : 'opacity-0'" class="transition-opacity duration-300">Gather The Data — What Does The System Actually Need?</li>
-      <li :class="$clicks >= 4 ? 'opacity-100' : 'opacity-0'" class="transition-opacity duration-300">Design The Flow — Phases, Handoffs, Checkpoints</li>
-      <li :class="$clicks >= 4 ? 'opacity-100' : 'opacity-0'" class="transition-opacity duration-300">Decide Where <span class="font-bold">SUB-AGENTS</span> Belong</li>
+  <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0 pointer-events-none'" class="bg-white border-blue-600 border-2 rounded-lg px-8 pt-4 pb-8 transition-opacity duration-300">
+    <p class="text-xl font-bold text-gray-900 mb-6">Taxes Are <span class="text-blue-600">MESSY</span>, High-Stakes, And Everyone Has To Do Them</p>
+    <ul class="text-base text-gray-900 space-y-4 leading-relaxed">
+      <li><span class="font-bold">MULTIPLE INCOME STREAMS</span>, Accounts, And Moving Parts To Pull Together</li>
+      <li>Done Right, You Can <span class="font-bold">SAVE A LOT OF MONEY</span></li>
+      <li>If Audited, You Need <span class="font-bold">TRACEABILITY</span> To Justify Or Correct</li>
     </ul>
   </div>
-</div>
-<div :class="$clicks >= 5 ? 'opacity-100' : 'opacity-0 pointer-events-none'" class="grid grid-cols-5 gap-4 transition-opacity duration-300">
-  <div></div>
-  <div class="col-span-3 bg-white border-orange-600 border-2 rounded-lg p-4 text-lg text-gray-900 font-bold text-center">
-    <p>Taxes Are The Example — The Playbook Is <span class="text-orange-600 text-xl">YOURS TO REUSE</span></p>
-  </div>
-  <div></div>
 </div>
 
 <!--
-Frame it as: the tax angle gets the audience's attention (everyone has taxes, high stakes, real nuance). But the transferable skill is decomposition — how to take any messy real-world workflow and stage it into an agent system with clear data gathering, phase design, and sub-agent boundaries. Taxes just happen to be a good stress test because the cost of being wrong is real.
+Frame it as: the real lesson is how to decompose a messy real-world problem into an agentic system — steps, agents, processes, and how it all lives in a file system. Taxes are a great stress test because there's a lot to pull together — multiple income streams, multiple accounts, lots of moving parts — and it applies to anyone, not just entrepreneurs. Do it right and you save real money. Do it poorly and, if you get audited, you need traceability to justify what you did or correct it.
 -->

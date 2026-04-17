@@ -133,7 +133,7 @@ When creating or editing slides, always follow these formatting standards:
 ### Text & Typography
 - **Title Case everything** — capitalize the first letter of each word in headings, labels, card titles, and bullet points
 - **Bold + capitalize for emphasis** — when a word or phrase needs to stand out, make it both bold and capitalized (e.g., `<span class="font-bold">IMPORTANT CONCEPT</span>`)
-- **Avoid light grey text** — do not use `text-gray-300` or `text-gray-400`. The lightest acceptable text color is `text-gray-500`, and only for small labels/captions. Body text should be `text-gray-900` or `text-gray-700`
+- **NO gray text** — do not use any `text-gray-*` classes lighter than `text-gray-900`. All text must be fully readable. Use `text-gray-900` for all body text and labels.
 
 ### Quick Reference
 | Element | Classes |
@@ -141,7 +141,7 @@ When creating or editing slides, always follow these formatting standards:
 | Standard card | `bg-white border-{color}-600 border-1 rounded-lg p-4` |
 | Emphasized card | `bg-white border-{color}-600 border-2 rounded-lg p-4` |
 | Body text | `text-sm text-gray-900` |
-| Small label | `text-xs font-semibold text-gray-500 uppercase tracking-wide` |
+| Small label | `text-xs font-semibold text-gray-900 uppercase tracking-wide` |
 | Emphasis text | `font-bold` + uppercase the word |
 | Colored accent | `text-{color}-600 font-bold` |
 
