@@ -1,7 +1,7 @@
 ---
 theme: ../
 layout: default
-clicks: 4
+clicks: 3
 ---
 
 <div class="text-4xl text-center mb-8 text-gray-900 font-bold">The Real Takeaways</div>
@@ -55,10 +55,6 @@ clicks: 4
       <li><span class="font-bold">YOU OWN</span> The Code And The Outcome</li>
     </ul>
   </div>
-</div>
-<div :class="$clicks >= 4 ? 'opacity-100' : 'opacity-0'" class="mt-8 bg-white border-amber-500 border-2 rounded-lg px-6 py-4 text-center transition-opacity duration-300">
-  <p class="text-2xl font-bold text-gray-900">Taxes Were The Stress Test. <span class="text-amber-600">Decomposition Is The Skill.</span></p>
-  <p class="text-sm text-gray-900 mt-2 uppercase tracking-wide font-semibold">Own The Build, Own The Outcome.</p>
 </div>
 
 <!--
