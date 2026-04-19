@@ -1,13 +1,12 @@
 ---
 theme: ../
 layout: default
-clicks: 3
 ---
 
 <div class="flex flex-col h-full p-6">
   <div class="text-4xl text-center mb-8 text-gray-900 font-bold">Phase 4 — Package For Filing</div>
   <div class="grid grid-cols-3 gap-6 max-w-6xl mx-auto w-full">
-    <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="bg-white border-blue-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+    <div class="bg-white border-blue-600 border-1 rounded-lg p-6">
       <p class="text-lg font-bold text-blue-600 mb-4">Package</p>
       <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
         <li>Each Final Section → Its Own <span class="font-bold">JSON BLOCK</span></li>
@@ -15,7 +14,7 @@ clicks: 3
         <li>Falls Back To <span class="font-bold">MARKDOWN</span> If XLSX Isn't Available</li>
       </ul>
     </div>
-    <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="bg-white border-amber-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+    <div class="bg-white border-amber-600 border-1 rounded-lg p-6">
       <p class="text-lg font-bold text-amber-600 mb-4">Build</p>
       <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
         <li>Runs A <span class="font-bold">MERGE SCRIPT</span> To Combine All Section JSONs</li>
@@ -23,7 +22,7 @@ clicks: 3
         <li>Deterministic, Reproducible, Yours To Edit</li>
       </ul>
     </div>
-    <div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="bg-white border-emerald-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+    <div class="bg-white border-emerald-600 border-1 rounded-lg p-6">
       <p class="text-lg font-bold text-emerald-600 mb-4">Validate</p>
       <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
         <li>Inspects The Generated Script For <span class="font-bold">CORRECTNESS</span></li>

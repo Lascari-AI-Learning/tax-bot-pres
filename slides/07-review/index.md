@@ -1,14 +1,13 @@
 ---
 theme: ../
 layout: default
-clicks: 3
 ---
 
 <div class="flex flex-col h-full p-6">
   <div class="text-4xl text-center mb-8 text-gray-900 font-bold">Phase 3 — Review Every Section</div>
 
   <div class="grid grid-cols-3 gap-6 max-w-6xl mx-auto w-full">
-    <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="bg-white border-blue-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+    <div class="bg-white border-blue-600 border-1 rounded-lg p-6">
       <p class="text-lg font-bold text-blue-600 mb-4">Read</p>
       <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
         <li>Loads Your <span class="font-bold">PERSONAL CONTEXT</span> From Intake</li>
@@ -16,7 +15,7 @@ clicks: 3
         <li>Cross-References Supporting Extractions</li>
       </ul>
     </div>
-    <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="bg-white border-amber-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+    <div class="bg-white border-amber-600 border-1 rounded-lg p-6">
       <p class="text-lg font-bold text-amber-600 mb-4">Ask</p>
       <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
         <li>"What Is This <span class="font-bold">$1,247</span> From Home Depot?"</li>
@@ -24,7 +23,7 @@ clicks: 3
         <li>Surfaces Items That Need <span class="font-bold">CPA INPUT</span></li>
       </ul>
     </div>
-    <div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="bg-white border-emerald-600 border-1 rounded-lg p-6 transition-opacity duration-300">
+    <div class="bg-white border-emerald-600 border-1 rounded-lg p-6">
       <p class="text-lg font-bold text-emerald-600 mb-4">Update</p>
       <ul class="text-sm text-gray-900 space-y-3 list-disc list-inside">
         <li>Your Answer Goes <span class="font-bold">DIRECTLY</span> Into The File</li>
