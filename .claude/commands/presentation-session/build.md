@@ -91,15 +91,15 @@ title: {slide title}
 {if animated}clicks: {max click count}{/if}
 ---
 
-{slide content following CLAUDE.md formatting rules}
+{slide content following the slidev skill's Slide Formatting Rules}
 ```
 
-## Formatting Rules (from CLAUDE.md)
+## Formatting Rules (from the slidev skill)
 
 - **Cards**: Always wrap content in `bg-white border-{color}-600 border-1 rounded-lg p-4`
 - **Title Case**: Capitalize first letter of each word in headings/labels
 - **Bold emphasis**: Use `<span class="font-bold">KEYWORD</span>` for emphasis
-- **No light grey text**: Use `text-gray-500` minimum, prefer `text-gray-900`
+- **No gray text**: Use `text-gray-900` for all text
 
 ## Animation Patterns
 

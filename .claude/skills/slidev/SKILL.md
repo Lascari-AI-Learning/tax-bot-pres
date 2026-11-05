@@ -191,6 +191,62 @@ These patterns can be combined — e.g., an element that appears at click 1 (opa
 
 See **[Animation Patterns](references/animation-patterns.md)** for full code examples, decision guide, and implementation checklist.
 
+## Slide Formatting Rules
+
+When creating or editing slides, always follow these formatting standards:
+
+### Cards & Borders
+- **Always wrap content in a card with a visible border** — use `bg-white border-{color}-600 border-1 rounded-lg p-4`
+- Use `border-2` for emphasized or important callouts
+- Accent colors: `blue-600`, `green-600`, `purple-600`, `orange-600`, `amber-600`, `red-600`
+
+### Text & Typography
+- **Title Case everything** — capitalize the first letter of each word in headings, labels, card titles, and bullet points
+- **Bold + capitalize for emphasis** — when a word or phrase needs to stand out, make it both bold and capitalized (e.g., `<span class="font-bold">IMPORTANT CONCEPT</span>`)
+- **NO gray text** — do not use any `text-gray-*` classes lighter than `text-gray-900`. All text must be fully readable. Use `text-gray-900` for all body text and labels.
+
+### Quick Reference
+| Element | Classes |
+|---|---|
+| Standard card | `bg-white border-{color}-600 border-1 rounded-lg p-4` |
+| Emphasized card | `bg-white border-{color}-600 border-2 rounded-lg p-4` |
+| Body text | `text-sm text-gray-900` |
+| Small label | `text-xs font-semibold text-gray-900 uppercase tracking-wide` |
+| Emphasis text | `font-bold` + uppercase the word |
+| Colored accent | `text-{color}-600 font-bold` |
+
+### HTML Block Structure (Slidev + Vue Reactivity)
+
+**Critical rule: keep sibling HTML blocks "touching" — no blank lines between them.**
+
+Slidev uses a markdown parser that treats blank lines as paragraph breaks. When you separate two `<div>` blocks with a blank line, the parser wraps each in its own `<p>`, which breaks Vue directive reactivity inside them (e.g. `:class="$clicks >= 1 ? ... : ..."` stops updating on click). The fix is simple: put adjacent sibling divs directly next to each other with no blank line between them.
+
+**Do this:**
+```html
+<div class="grid grid-cols-2 gap-6">
+  <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="...">Card A</div>
+  <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="...">Card B</div>
+</div>
+<div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="...">Footer callout</div>
+```
+
+**Not this** (blank lines break `$clicks` reactivity):
+```html
+<div class="grid grid-cols-2 gap-6">
+  <div :class="$clicks >= 1 ? 'opacity-100' : 'opacity-0'" class="...">Card A</div>
+
+  <div :class="$clicks >= 2 ? 'opacity-100' : 'opacity-0'" class="...">Card B</div>
+</div>
+
+<div :class="$clicks >= 3 ? 'opacity-100' : 'opacity-0'" class="...">Footer callout</div>
+```
+
+Guidelines:
+- No blank lines between sibling `<div>`s, especially when ANY of them use `$clicks`, `v-if`, `:class`, or other Vue bindings
+- Blank lines ARE fine before/after the outermost block, and between HTML and frontmatter
+- Use HTML comments (`<!-- ... -->`) for labels instead of blank-line separators
+- Indentation inside a block is fine — only the empty lines between blocks cause the issue
+
 ## References
 
 - **[Template Structure](references/templates.md)** - Folder structure and templates.json schema
